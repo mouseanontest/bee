@@ -8,8 +8,8 @@ class MainScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('background', 'background.png');
-    this.load.image('bee', 'bee.png');
+    this.load.image('background', 'images/background.png');
+    this.load.image('bee', 'images/bee.png');
   }
 
   create() {
