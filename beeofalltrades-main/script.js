@@ -431,7 +431,7 @@ class Player2ReadySceneCopy extends Phaser.Scene {
       this.add.image(400, 300, 'background').setScale(0.5);
       this.add.text(400, 300, 'Get ready Player 2', { color: '#000000' }).setOrigin(0.5);
       this.time.delayedCall(3000, () => {
-          this.scene.start('Player2Scene');
+          //put stuff here
       });
   }
 }
