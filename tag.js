@@ -77,10 +77,13 @@ var cursors;
 var keys;
 var space;
 
+var graphics
 var guiTimer
 var temp;
 
 var cooldown = 0;
+
+var plats = []
 function preload()
 {
     this.load.image('background', 'images/background.png');
@@ -92,6 +95,7 @@ function preload()
 
 function create()
 {
+    graphics = this.add.graphics();
     //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
    let background = this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0, 0);
 
@@ -193,13 +197,19 @@ function update()
 function createPlatforms(scene)
 {
     platforms = scene.physics.add.staticGroup();
-
+    platforms.scaleXY(0.1, 0.1)
     //basePlatform is the floor of the game
     let basePlatform = platforms.create(game.scale.width/2, game.scale.height-30, 'platform');
     basePlatform.setScale(3, 1).refreshBody(); //scales the base platform in the x axis to cover the entire floor
 
-    platforms.create(250, 350, 'platform'); //creates the upper left platform
-    platforms.create(950, 500, 'platform'); //creates the bottom right platform
+    plats.push(platforms.create(250, 350, 'platform')); //creates the upper left platform
+    plats.push(platforms.create(950, 500, 'platform'));//creates the bottom right platform
+
+    plats[0].setScale(0.5);
+    let bounds = plats[0].getBounds();
+    graphics.clear();
+    graphics.lineStyle(1, 0xff0000);
+    graphics.strokeRectShape(bounds);
 }
 
 function jump1(event)
