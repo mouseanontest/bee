@@ -20,6 +20,8 @@ class Player extends Phaser.Physics.Arcade.Sprite
 {
     totalJumps = 2;
     currentJumps = 0;
+    gui;
+    arrow;
     constructor(scene, x, y)
     {
         super(scene, x, y, 'player');
@@ -60,17 +62,20 @@ var game = new Phaser.Game(config);
 
 //Game Objects
 var platforms;
-var player;
+var player1;
+var player2;
 var pentagons = [];
 var totalPentagons = 12;
+
+
+var P1it = true;
+var P2it = false;
 
 //Keyboard controls
 var cursors;
 var keys;
 var space;
 
-var gui;
-var guiTimer;
 
 function preload()
 {
@@ -78,6 +83,7 @@ function preload()
     this.load.image('platform', 'images/platform.png');
     this.load.image('player', 'images/bee.png');
     this.load.image('pentagon', 'images/pentagon.png');
+    this.load.image('arrow', 'images/tagArrow.png');
 }
 
 function create()
@@ -96,11 +102,19 @@ function create()
    player2.setScale(0.25)
    this.physics.add.collider(player2, platforms);
 
+   this.physics.add.collider(player1, player2, tagCheck, null, this);
+
+   player1.arrow = this.physics.add.image(0, 0, 'arrow');
+   player1.arrow.setScale(0.25);
+
+   player2.arrow = this.physics.add.image(0, 0, 'arrow');
+   player2.arrow.setScale(0.25);
+    
    //Create the pentagon interactables
    for (var i = 0; i < totalPentagons; i++)
    {
        let myPentagon = new Pentagon(this, Phaser.Math.Between(0, game.scale.width), Phaser.Math.Between(0, game.scale.height-80));
-       myPentagon.setScale(0.1)
+       myPentagon.setScale(0.05)
        this.physics.add.collider(myPentagon, platforms);
        pentagons.push(myPentagon);
    }
@@ -115,23 +129,23 @@ function create()
    cursors.up.on('down', jump1); //calls jump function when space is pressed
    wRizz.on('down', jump2); 
 
-   gui = this.add.text(16, 16, '', {fontSize: '32px', fill: '#000'});
+   player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 28px Arial"});
+   player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 28px Arial"});
 }
 
-function createPlatforms(scene)
-{
-    platforms = scene.physics.add.staticGroup();
-
-    //basePlatform is the floor of the game
-    let basePlatform = platforms.create(game.scale.width/2, game.scale.height-30, 'platform');
-    basePlatform.setScale(3, 1).refreshBody(); //scales the base platform in the x axis to cover the entire floor
-
-    platforms.create(250, 350, 'platform'); //creates the upper left platform
-    platforms.create(950, 500, 'platform'); //creates the bottome right platform
-}
 
 function update()
 {
+    //arrow upkeep
+    player1.arrow.setPosition(player1.body.x + player1.width / 8, player1.body.y - 20);
+    player2.arrow.setPosition(player2.body.x + player2.width / 8, player2.body.y - 20);
+
+    player1.arrow.setVisible(P1it);
+    player2.arrow.setVisible(P2it);
+    //gui upkeep
+    player1.gui.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 30);
+    player2.gui.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 30);
+    
     //Handle player movements
     player1.upkeep();
     player2.upkeep();
@@ -156,6 +170,19 @@ function update()
         player2.setVelocityX(400);
     }
 
+}
+
+
+function createPlatforms(scene)
+{
+    platforms = scene.physics.add.staticGroup();
+
+    //basePlatform is the floor of the game
+    let basePlatform = platforms.create(game.scale.width/2, game.scale.height-30, 'platform');
+    basePlatform.setScale(3, 1).refreshBody(); //scales the base platform in the x axis to cover the entire floor
+
+    platforms.create(250, 350, 'platform'); //creates the upper left platform
+    platforms.create(950, 500, 'platform'); //creates the bottome right platform
 }
 
 function jump1(event)
@@ -187,13 +214,37 @@ function jump2(event)
 function eatPentagon(player, pentagon)
 {
     pentagon.disableBody(true, true); //remove that particular pentagon from the game (physics and visibility)
-    gui.setText('Yum yum!');
-    guiTimer = this.time.delayedCall(1000, removeText, [], this);
 }
 
-//Reset the gui text to be empty after the guiTimer elapses
-function removeText()
-{
-    gui.setText('');
+
+function tagCheck(){
+    if(P1it){
+        P1it = false;
+        setTimeout(P2it = true, 1000)
+        // setTimer2(3);
+    }else if(P2it){
+        P2it = false;
+        setTimeout(P1it = true, 1000)
+        // setTimer1(3);
+    }
 }
 
+// function setTimer1(time){
+//     player1.gui.setText(time);
+//     if(time>0){
+//         setTimeout(setTimer1(time-1), 10000000);
+//     }else{
+//         P1it = true;
+//         player1.gui.setText('');
+//     } 
+// }
+
+// function setTimer2(time){
+//     player2.gui.setText(time);
+//     if(time>0){
+//         setTimeout(setTimer2(time-1), 10000000);
+//     }else{
+//         P2it = true;
+//         player2.gui.setText('');
+//     } 
+// }
