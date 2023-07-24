@@ -6,7 +6,9 @@ let player2Score = 0;
 let music;
 let player1_temp_score = 0;
 
-class TitleScene
+class TitleScene extends Phaser.scene {
+    
+}
 
 class FBStartScene extends Phaser.Scene {
     constructor() {
@@ -445,7 +447,7 @@ const config={
   height:600,
   scene:[FBStartScene,FBPlayer1ReadyScene,FBMainScene,FBPlayer2ReadyScene,FBPlayer2Scene,NextMinigameReadyScene,
   TBMinigameScene,TBMinigameScene2,TBMinigameScene3, TBReadyScene2]
-  };
+};
   
   const game=new Phaser.Game(config);
   
