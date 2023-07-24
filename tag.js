@@ -29,6 +29,19 @@ class Player extends Phaser.Physics.Arcade.Sprite
         this.setCollideWorldBounds(true);
         this.setGravityY(3000); //We will set gravity *per object* rather than for the scene!
     }
+    upkeep(){
+        
+        //Player will not move in the x-axis unless a movement key is being pressed
+        this.setVelocityX(0);
+
+        //Player has "drag" on the x-axis meaning they slide a bit after an input
+        this.setDragX(1000);
+
+        //This will reset the number of jumps available to the player whenever the player lands
+        if (this.body.touching.down) {
+            this.currentJumps = 0;
+        }
+    }
 }
 
 class Pentagon extends Phaser.Physics.Arcade.Sprite
@@ -74,9 +87,14 @@ function create()
 
    //Create the platforms and the player character set to collide with the platforms
    createPlatforms(this);
-   player = new Player(this, 400, 400);
-   player.setScale(0.5)
-   this.physics.add.collider(player, platforms);
+
+   player1 = new Player(this, 400, 400);
+   player1.setScale(0.25)
+   this.physics.add.collider(player1, platforms);
+
+   player2 = new Player(this, 400, 400);
+   player2.setScale(0.25)
+   this.physics.add.collider(player2, platforms);
 
    //Create the pentagon interactables
    for (var i = 0; i < totalPentagons; i++)
@@ -87,13 +105,15 @@ function create()
        pentagons.push(myPentagon);
    }
 
-   this.physics.add.overlap(player, pentagons, eatPentagon, null, this);
+   this.physics.add.overlap(player1, pentagons, eatPentagon, null, this);
+   this.physics.add.overlap(player2, pentagons, eatPentagon, null, this);
 
    //Set up user input
    cursors = this.input.keyboard.createCursorKeys();
    keys = this.input.keyboard.addKeys('A, D');
-   up = this.input.keyboard.addKey(Phaser.Input.Keyboard.key.UP);
-   up.on('down', jump); //calls jump function when space is pressed
+   wRizz = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+   cursors.up.on('down', jump1); //calls jump function when space is pressed
+   wRizz.on('down', jump2); 
 
    gui = this.add.text(16, 16, '', {fontSize: '32px', fill: '#000'});
 }
@@ -112,40 +132,54 @@ function createPlatforms(scene)
 
 function update()
 {
-    //Player will not move in the x-axis unless a movement key is being pressed
-    player.setVelocityX(0);
-
-    //Player has "drag" on the x-axis meaning they slide a bit after an input
-    player.setDragX(1000);
-
-    //This will reset the number of jumps available to the player whenever the player lands
-    if (player.body.touching.down) {
-        player.currentJumps = 0;
-    }
-
     //Handle player movements
-    if (cursors.left.isDown || keys.A.isDown)
+    player1.upkeep();
+    player2.upkeep();
+    if (cursors.left.isDown)
     {
-        player.setVelocityX(-400);
+        player1.setVelocityX(-400);
     }
 
-    if (cursors.right.isDown || keys.D.isDown)
+    if (keys.A.isDown)
     {
-        player.setVelocityX(400);
+        player2.setVelocityX(-400);
+    }
+
+    
+    if (cursors.right.isDown)
+    {
+        player1.setVelocityX(400);
+    }
+
+    if (keys.D.isDown)
+    {
+        player2.setVelocityX(400);
     }
 
 }
 
-function jump(event)
+function jump1(event)
 {
-    if (player.body.touching.down) {
+    if (player1.body.touching.down) {
       //If the player is on the ground, the player can jump
-      player.setVelocityY(-1100);
-      player.currentJumps++;
-    } else if (player.currentJumps < player.totalJumps) {
+      player1.setVelocityY(-1100);
+      player1.currentJumps++;
+    } else if (player1.currentJumps < player1.totalJumps) {
       //If the player is not on the ground but has an available air jump, use that jump
-      player.setVelocityY(-800);
-      player.currentJumps++;
+      player1.setVelocityY(-800);
+      player1.currentJumps++;
+    }
+}
+function jump2(event)
+{
+    if (player2.body.touching.down) {
+      //If the player is on the ground, the player can jump
+      player2.setVelocityY(-1100);
+      player2.currentJumps++;
+    } else if (player2.currentJumps < player2.totalJumps) {
+      //If the player is not on the ground but has an available air jump, use that jump
+      player2.setVelocityY(-800);
+      player2.currentJumps++;
     }
 }
 
