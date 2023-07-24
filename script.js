@@ -6,6 +6,8 @@ let player2Score = 0;
 let music;
 let player1_temp_score = 0;
 
+class TitleScene
+
 class FBStartScene extends Phaser.Scene {
     constructor() {
         super({ key: 'FBStartScene' });
@@ -122,7 +124,7 @@ class FBPlayer2Scene extends Phaser.Scene{
             }
             // Add code here to handle the end of the game
             // Transition to the next minigame
-            this.scene.start('DBReadyScene');
+            this.scene.start('TBReadyScene');
         });
 
          setTimeout(()=>{
@@ -134,23 +136,23 @@ class FBPlayer2Scene extends Phaser.Scene{
     }
 }
 
-class DBReadyScene extends Phaser.Scene{
+class DTBReadyScene extends Phaser.Scene{
     constructor(){
-        super({key:'DBReadyScene'});
+        super({key:'TBReadyScene'});
     }
 
     create(){
         this.add.image(400,300,'background').setScale(.5);
         this.add.text(400,300,'Get ready Player 1',{color:'#000000'}).setOrigin(.5);
         this.time.delayedCall(3000,()=>{
-            this.scene.start('DBMinigameScene');
+            this.scene.start('TBMinigameScene');
         });
     }
 }
 
-class DBMinigameScene extends Phaser.Scene{
+class TBMinigameScene extends Phaser.Scene{
     constructor(){
-        super({key:'DBMinigameScene'});
+        super({key:'TBMinigameScene'});
     }
 
     preload(){
@@ -187,7 +189,7 @@ class DBMinigameScene extends Phaser.Scene{
        rect1.setInteractive();
        rect1.on('pointerdown', () => {
            console.log('incorrect');
-           this.scene.start('DBReadyScene2');
+           this.scene.start('TBReadyScene2');
        });
   
        let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -198,7 +200,7 @@ class DBMinigameScene extends Phaser.Scene{
         rect2.setInteractive();
         rect2.on('pointerdown', () => {
             console.log('incorrect');
-            this.scene.start('DBReadyScene2');
+            this.scene.start('TBReadyScene2');
         });
   
         let rect3 = this.add.rectangle(rightX,bottomY1,rectWidth,rectHeight,0xffc51a);
@@ -210,8 +212,8 @@ class DBMinigameScene extends Phaser.Scene{
          rect3.on('pointerdown', () => {
              console.log('correct');
              player1_temp_score++;
-             // Transition to the DBMinigameScene2 when the correct rectangle is clicked
-             this.scene.start('DBMinigameScene2');
+             // Transition to the TBMinigameScene2 when the correct rectangle is clicked
+             this.scene.start('TBMinigameScene2');
          });
   
          let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -222,7 +224,7 @@ class DBMinigameScene extends Phaser.Scene{
           rect4.setInteractive();
           rect4.on('pointerdown', () => {
               console.log('incorrect');
-              this.scene.start('DBReadyScene2');
+              this.scene.start('TBReadyScene2');
           });
   
           // Add a new rectangle to the upper half of the screen
@@ -240,9 +242,9 @@ class DBMinigameScene extends Phaser.Scene{
   
 }
 
-class DBMinigameScene2 extends Phaser.Scene{
+class TBMinigameScene2 extends Phaser.Scene{
   constructor(){
-      super({key:'DBMinigameScene2'});
+      super({key:'TBMinigameScene2'});
   }
 
   preload(){
@@ -279,7 +281,7 @@ class DBMinigameScene2 extends Phaser.Scene{
      rect1.setInteractive();
      rect1.on('pointerdown', () => {
          console.log('incorrect');
-         this.scene.start('DBReadyScene2');
+         this.scene.start('TBReadyScene2');
      });
 
      let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -291,8 +293,8 @@ class DBMinigameScene2 extends Phaser.Scene{
       rect2.on('pointerdown', () => {
           console.log('correct');
           player1_temp_score++;
-          // Transition to the DBMinigameScene3 when the correct rectangle is clicked
-          this.scene.start('DBMinigameScene3');
+          // Transition to the TBMinigameScene3 when the correct rectangle is clicked
+          this.scene.start('TBMinigameScene3');
       });
 
       let rect3 = this.add.rectangle(rightX,bottomY1,rectWidth,rectHeight,0xffc51a);
@@ -303,7 +305,7 @@ class DBMinigameScene2 extends Phaser.Scene{
        rect3.setInteractive();
        rect3.on('pointerdown', () => {
            console.log('incorrect');
-           this.scene.start('DBReadyScene2');
+           this.scene.start('TBReadyScene2');
        });
 
        let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -314,7 +316,7 @@ class DBMinigameScene2 extends Phaser.Scene{
         rect4.setInteractive();
         rect4.on('pointerdown', () => {
             console.log('incorrect');
-            this.scene.start('DBReadyScene2');
+            this.scene.start('TBReadyScene2');
         });
 
         // Add a new rectangle to the upper half of the screen
@@ -332,9 +334,9 @@ class DBMinigameScene2 extends Phaser.Scene{
 
 }
 
-class DBMinigameScene3 extends Phaser.Scene{
+class TBMinigameScene3 extends Phaser.Scene{
   constructor(){
-      super({key:'DBMinigameScene3'});
+      super({key:'TBMinigameScene3'});
   }
 
   preload(){
@@ -371,7 +373,7 @@ class DBMinigameScene3 extends Phaser.Scene{
        rect1.setInteractive();
        rect1.on('pointerdown', () => {
            console.log('incorrect');
-           this.scene.start('DBReadyScene2');
+           this.scene.start('TBReadyScene2');
        });
 
        let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -382,7 +384,7 @@ class DBMinigameScene3 extends Phaser.Scene{
         rect2.setInteractive();
         rect2.on('pointerdown', () => {
             console.log('incorrect');
-            this.scene.start('DBReadyScene2');
+            this.scene.start('TBReadyScene2');
         });
 
         let rect3 = this.add.rectangle(rightX,bottomY1,rectWidth,rectHeight,0xffc51a);
@@ -393,7 +395,7 @@ class DBMinigameScene3 extends Phaser.Scene{
          rect3.setInteractive();
          rect3.on('pointerdown', () => {
              console.log('incorrect');
-             this.scene.start('DBReadyScene2');
+             this.scene.start('TBReadyScene2');
          });
 
          let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -405,7 +407,7 @@ class DBMinigameScene3 extends Phaser.Scene{
           rect4.on('pointerdown', () => {
               console.log('correct');
               player1_temp_score++;
-              this.scene.start('DBReadyScene2');
+              this.scene.start('TBReadyScene2');
           });
 
           // Add a new rectangle to the upper half of the screen
@@ -422,9 +424,9 @@ class DBMinigameScene3 extends Phaser.Scene{
   }
 }
 
-class DBReadyScene2 extends Phaser.Scene {
+class TBReadyScene2 extends Phaser.Scene {
   constructor() {
-      super({ key: 'DBReadyScene2' });
+      super({ key: 'TBReadyScene2' });
   }
 
   create() {
@@ -442,7 +444,7 @@ const config={
   width:800,
   height:600,
   scene:[FBStartScene,FBPlayer1ReadyScene,FBMainScene,FBPlayer2ReadyScene,FBPlayer2Scene,NextMinigameReadyScene,
-  DBMinigameScene,DBMinigameScene2,DBMinigameScene3, DBReadyScene2]
+  TBMinigameScene,TBMinigameScene2,TBMinigameScene3, TBReadyScene2]
   };
   
   const game=new Phaser.Game(config);
