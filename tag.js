@@ -105,8 +105,7 @@ function create()
 
    player2 = new Player(this, 400, 400);
    player2.setScale(0.25)
-   player2.setTint(0x4040ff)
-
+   player2.setTint(0x5050ff)
    this.physics.add.collider(player2, platforms);
 
    this.physics.add.collider(player1, player2, tag, null, this);
@@ -149,9 +148,17 @@ function update()
     //arrow upkeep
     player1.arrow.setPosition(player1.body.x + player1.width / 8, player1.body.y - 20);
     player2.arrow.setPosition(player2.body.x + player2.width / 8, player2.body.y - 20);
+    if(cooldown<1){
+        player1.gui.setVisible(false)
+        player2.gui.setVisible(false)
 
-    // player1.arrow.setVisible(P1it);
-    // player2.arrow.setVisible(P2it);
+        player1.arrow.setVisible(P1it);
+        player2.arrow.setVisible(P2it);
+    }else{
+        player1.arrow.setVisible(false);
+        player2.arrow.setVisible(false);
+
+    }
     //gui upkeep
     player1.gui.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 30);
     player2.gui.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 30);
