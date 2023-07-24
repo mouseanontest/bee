@@ -453,7 +453,6 @@ class TBReadyScene2 extends Phaser.Scene {
   }
 }
 
-
 const config={
   type:Phaser.AUTO,
   width:800,
