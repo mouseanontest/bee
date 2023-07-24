@@ -6,9 +6,9 @@ let player2Score = 0;
 let music;
 let player1_temp_score = 0;
 
-class StartScene extends Phaser.Scene {
+class FBStartScene extends Phaser.Scene {
     constructor() {
-        super({ key: 'StartScene' });
+        super({ key: 'FBStartScene' });
     }
 
     preload() {
@@ -22,30 +22,30 @@ class StartScene extends Phaser.Scene {
         const pentagon = this.add.image(400, 300, 'pentagon').setInteractive().setScale(0.23);
         this.add.text(400, 300, 'Bee of all trades', { color: '#000000' }).setOrigin(0.5).setScale(0.8);
         pentagon.on('pointerdown', () => {
-            this.scene.start('Player1ReadyScene');
+            this.scene.start('FBPlayer1ReadyScene');
         });
         music = this.sound.add('music');
         music.play({ loop: true });
     }
 }
 
-class Player1ReadyScene extends Phaser.Scene {
+class FBPlayer1ReadyScene extends Phaser.Scene {
     constructor() {
-        super({ key: 'Player1ReadyScene' });
+        super({ key: 'FBPlayer1ReadyScene' });
     }
 
     create() {
         this.add.image(400, 300, 'background').setScale(0.5);
         this.add.text(400, 300, 'Get ready Player 1', { color: '#000000' }).setOrigin(0.5);
         this.time.delayedCall(3000, () => {
-            this.scene.start('MainScene');
+            this.scene.start('FBMainScene');
         });
     }
 }
 
-class MainScene extends Phaser.Scene {
+class FBMainScene extends Phaser.Scene {
     constructor() {
-        super({ key: 'MainScene' });
+        super({ key: 'FBMainScene' });
     }
 
     preload() {
@@ -61,7 +61,7 @@ class MainScene extends Phaser.Scene {
         bee.on('pointerdown', () => {
             endTime = new Date();
             reactionTime = (endTime - startTime) /1000;
-            this.scene.start('Player2ReadyScene', { player1ReactionTime: reactionTime });
+            this.scene.start('FBPlayer2ReadyScene', { player1ReactionTime: reactionTime });
         });
 
          setTimeout(() => {
@@ -73,9 +73,9 @@ class MainScene extends Phaser.Scene {
     }
 }
 
-class Player2ReadyScene extends Phaser.Scene{
+class FBPlayer2ReadyScene extends Phaser.Scene{
     constructor(){
-        super({key:'Player2ReadyScene'});
+        super({key:'FBPlayer2ReadyScene'});
     }
 
     init(data){
@@ -86,14 +86,14 @@ class Player2ReadyScene extends Phaser.Scene{
         this.add.image(400,300,'background').setScale(.5);
         this.add.text(400,300,'Get ready Player 2',{color:'#000000'}).setOrigin(.5);
         this.time.delayedCall(3000,()=>{
-            this.scene.start('Player2Scene',{player1ReactionTime:this.player1ReactionTime});
+            this.scene.start('FBPlayer2Scene',{player1ReactionTime:this.player1ReactionTime});
         });
     }
 }
 
-class Player2Scene extends Phaser.Scene{
+class FBPlayer2Scene extends Phaser.Scene{
     constructor(){
-        super({key:'Player2Scene'});
+        super({key:'FBPlayer2Scene'});
     }
 
     init(data){
@@ -122,7 +122,7 @@ class Player2Scene extends Phaser.Scene{
             }
             // Add code here to handle the end of the game
             // Transition to the next minigame
-            this.scene.start('NextMinigameReadyScene');
+            this.scene.start('DBReadyScene');
         });
 
          setTimeout(()=>{
@@ -134,23 +134,23 @@ class Player2Scene extends Phaser.Scene{
     }
 }
 
-class NextMinigameReadyScene extends Phaser.Scene{
+class DBReadyScene extends Phaser.Scene{
     constructor(){
-        super({key:'NextMinigameReadyScene'});
+        super({key:'DBReadyScene'});
     }
 
     create(){
         this.add.image(400,300,'background').setScale(.5);
         this.add.text(400,300,'Get ready Player 1',{color:'#000000'}).setOrigin(.5);
         this.time.delayedCall(3000,()=>{
-            this.scene.start('NextMinigameScene');
+            this.scene.start('DBMinigameScene');
         });
     }
 }
 
-class NextMinigameScene extends Phaser.Scene{
+class DBMinigameScene extends Phaser.Scene{
     constructor(){
-        super({key:'NextMinigameScene'});
+        super({key:'DBMinigameScene'});
     }
 
     preload(){
@@ -187,7 +187,7 @@ class NextMinigameScene extends Phaser.Scene{
        rect1.setInteractive();
        rect1.on('pointerdown', () => {
            console.log('incorrect');
-           this.scene.start('Player2ReadySceneCopy');
+           this.scene.start('DBReadyScene2');
        });
   
        let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -198,7 +198,7 @@ class NextMinigameScene extends Phaser.Scene{
         rect2.setInteractive();
         rect2.on('pointerdown', () => {
             console.log('incorrect');
-            this.scene.start('Player2ReadySceneCopy');
+            this.scene.start('DBReadyScene2');
         });
   
         let rect3 = this.add.rectangle(rightX,bottomY1,rectWidth,rectHeight,0xffc51a);
@@ -210,8 +210,8 @@ class NextMinigameScene extends Phaser.Scene{
          rect3.on('pointerdown', () => {
              console.log('correct');
              player1_temp_score++;
-             // Transition to the NextMinigame2Scene when the correct rectangle is clicked
-             this.scene.start('NextMinigame2Scene');
+             // Transition to the DBMinigameScene2 when the correct rectangle is clicked
+             this.scene.start('DBMinigameScene2');
          });
   
          let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -222,7 +222,7 @@ class NextMinigameScene extends Phaser.Scene{
           rect4.setInteractive();
           rect4.on('pointerdown', () => {
               console.log('incorrect');
-              this.scene.start('Player2ReadySceneCopy');
+              this.scene.start('DBReadyScene2');
           });
   
           // Add a new rectangle to the upper half of the screen
@@ -240,9 +240,9 @@ class NextMinigameScene extends Phaser.Scene{
   
 }
 
-class NextMinigame2Scene extends Phaser.Scene{
+class DBMinigameScene2 extends Phaser.Scene{
   constructor(){
-      super({key:'NextMinigame2Scene'});
+      super({key:'DBMinigameScene2'});
   }
 
   preload(){
@@ -279,7 +279,7 @@ class NextMinigame2Scene extends Phaser.Scene{
      rect1.setInteractive();
      rect1.on('pointerdown', () => {
          console.log('incorrect');
-         this.scene.start('Player2ReadySceneCopy');
+         this.scene.start('DBReadyScene2');
      });
 
      let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -291,8 +291,8 @@ class NextMinigame2Scene extends Phaser.Scene{
       rect2.on('pointerdown', () => {
           console.log('correct');
           player1_temp_score++;
-          // Transition to the NextMinigame3Scene when the correct rectangle is clicked
-          this.scene.start('NextMinigame3Scene');
+          // Transition to the DBMinigameScene3 when the correct rectangle is clicked
+          this.scene.start('DBMinigameScene3');
       });
 
       let rect3 = this.add.rectangle(rightX,bottomY1,rectWidth,rectHeight,0xffc51a);
@@ -303,7 +303,7 @@ class NextMinigame2Scene extends Phaser.Scene{
        rect3.setInteractive();
        rect3.on('pointerdown', () => {
            console.log('incorrect');
-           this.scene.start('Player2ReadySceneCopy');
+           this.scene.start('DBReadyScene2');
        });
 
        let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -314,7 +314,7 @@ class NextMinigame2Scene extends Phaser.Scene{
         rect4.setInteractive();
         rect4.on('pointerdown', () => {
             console.log('incorrect');
-            this.scene.start('Player2ReadySceneCopy');
+            this.scene.start('DBReadyScene2');
         });
 
         // Add a new rectangle to the upper half of the screen
@@ -332,9 +332,9 @@ class NextMinigame2Scene extends Phaser.Scene{
 
 }
 
-class NextMinigame3Scene extends Phaser.Scene{
+class DBMinigameScene3 extends Phaser.Scene{
   constructor(){
-      super({key:'NextMinigame3Scene'});
+      super({key:'DBMinigameScene3'});
   }
 
   preload(){
@@ -371,7 +371,7 @@ class NextMinigame3Scene extends Phaser.Scene{
        rect1.setInteractive();
        rect1.on('pointerdown', () => {
            console.log('incorrect');
-           this.scene.start('Player2ReadySceneCopy');
+           this.scene.start('DBReadyScene2');
        });
 
        let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -382,7 +382,7 @@ class NextMinigame3Scene extends Phaser.Scene{
         rect2.setInteractive();
         rect2.on('pointerdown', () => {
             console.log('incorrect');
-            this.scene.start('Player2ReadySceneCopy');
+            this.scene.start('DBReadyScene2');
         });
 
         let rect3 = this.add.rectangle(rightX,bottomY1,rectWidth,rectHeight,0xffc51a);
@@ -393,7 +393,7 @@ class NextMinigame3Scene extends Phaser.Scene{
          rect3.setInteractive();
          rect3.on('pointerdown', () => {
              console.log('incorrect');
-             this.scene.start('Player2ReadySceneCopy');
+             this.scene.start('DBReadyScene2');
          });
 
          let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -405,7 +405,7 @@ class NextMinigame3Scene extends Phaser.Scene{
           rect4.on('pointerdown', () => {
               console.log('correct');
               player1_temp_score++;
-              this.scene.start('Player2ReadySceneCopy');
+              this.scene.start('DBReadyScene2');
           });
 
           // Add a new rectangle to the upper half of the screen
@@ -422,9 +422,9 @@ class NextMinigame3Scene extends Phaser.Scene{
   }
 }
 
-class Player2ReadySceneCopy extends Phaser.Scene {
+class DBReadyScene2 extends Phaser.Scene {
   constructor() {
-      super({ key: 'Player2ReadySceneCopy' });
+      super({ key: 'DBReadyScene2' });
   }
 
   create() {
@@ -441,8 +441,8 @@ const config={
   type:Phaser.AUTO,
   width:800,
   height:600,
-  scene:[StartScene,Player1ReadyScene,MainScene,Player2ReadyScene,Player2Scene,NextMinigameReadyScene,
-  NextMinigameScene,NextMinigame2Scene,NextMinigame3Scene, Player2ReadySceneCopy]
+  scene:[FBStartScene,FBPlayer1ReadyScene,FBMainScene,FBPlayer2ReadyScene,FBPlayer2Scene,NextMinigameReadyScene,
+  DBMinigameScene,DBMinigameScene2,DBMinigameScene3, DBReadyScene2]
   };
   
   const game=new Phaser.Game(config);
