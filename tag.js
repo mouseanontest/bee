@@ -76,7 +76,8 @@ var cursors;
 var keys;
 var space;
 
-
+var guiTimer
+var temp;
 function preload()
 {
     this.load.image('background', 'images/background.png');
@@ -218,33 +219,36 @@ function eatPentagon(player, pentagon)
 
 
 function tagCheck(){
+    temp = this.time.delayedCall(1000, setTimer2, 10-1, this)
     if(P1it){
+        console.log(this)
         P1it = false;
-        setTimeout(P2it = true, 1000)
-        // setTimer2(3);
+        setTimer2.bind(this, 3);
     }else if(P2it){
+        console.log(this)
         P2it = false;
-        setTimeout(P1it = true, 1000)
-        // setTimer1(3);
+        setTimer1.bind(this, 3);
     }
 }
 
-// function setTimer1(time){
-//     player1.gui.setText(time);
-//     if(time>0){
-//         setTimeout(setTimer1(time-1), 10000000);
-//     }else{
-//         P1it = true;
-//         player1.gui.setText('');
-//     } 
-// }
+function setTimer1(timer){
+    player1.gui.setText(timer);
+    if(timer>0){
+        temp = this.time.delayedCall(1000, setTimer1.bind(this), timer-1, this)
+    }else{
+        P1it = true;
+        player1.gui.setText('');
+    } 
+}
 
-// function setTimer2(time){
-//     player2.gui.setText(time);
-//     if(time>0){
-//         setTimeout(setTimer2(time-1), 10000000);
-//     }else{
-//         P2it = true;
-//         player2.gui.setText('');
-//     } 
-// }
+function setTimer2(timer){
+    console.log(this)
+    player2.gui.setText(timer);
+    if(timer>0){
+        temp = this.time.delayedCall(1000, setTimer2.bind(this), timer-1, this)
+    }else{
+        
+        P2it = true;
+        player2.gui.setText('');
+    } 
+}
