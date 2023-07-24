@@ -6,8 +6,21 @@ let player2Score = 0;
 let music;
 let player1_temp_score = 0;
 
-class TitleScene extends Phaser.scene {
-    
+class TitleScene extends Phaser.Scene {
+    constructor() {
+        super({key: 'TitleScene'});
+    }
+
+    preload() {
+        this.load.image('background', 'images/background.png');
+    }
+
+    create() {
+        this.add.image(400, 300, 'background').setScale(0.5);
+        let FBButton = this.add.rectangle(137,107,150,40,0x000000);
+        const FBStartButton = this.add.text(100,100,'Fast Bee').setInteractive();
+        FBStartButton.on('pointerdown', () => this.scene.start('FBStartScene'));
+    }
 }
 
 class FBStartScene extends Phaser.Scene {
@@ -126,7 +139,7 @@ class FBPlayer2Scene extends Phaser.Scene{
             }
             // Add code here to handle the end of the game
             // Transition to the next minigame
-            this.scene.start('TBReadyScene');
+            this.scene.start('TitleScene');
         });
 
          setTimeout(()=>{
@@ -138,7 +151,7 @@ class FBPlayer2Scene extends Phaser.Scene{
     }
 }
 
-class DTBReadyScene extends Phaser.Scene{
+class TBReadyScene extends Phaser.Scene{
     constructor(){
         super({key:'TBReadyScene'});
     }
@@ -445,9 +458,9 @@ const config={
   type:Phaser.AUTO,
   width:800,
   height:600,
-  scene:[FBStartScene,FBPlayer1ReadyScene,FBMainScene,FBPlayer2ReadyScene,FBPlayer2Scene,NextMinigameReadyScene,
+  scene:[TitleScene,FBStartScene,FBPlayer1ReadyScene,FBMainScene,FBPlayer2ReadyScene,FBPlayer2Scene,TBReadyScene,
   TBMinigameScene,TBMinigameScene2,TBMinigameScene3, TBReadyScene2]
 };
   
-  const game=new Phaser.Game(config);
+const game=new Phaser.Game(config);
   
