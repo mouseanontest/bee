@@ -17,6 +17,7 @@ class TitleScene extends Phaser.Scene {
 
     create() {
         this.add.image(400, 300, 'background').setScale(0.5);
+        let FBButton = this.add.rectangle(137,107,150,40,0x000000);
         const FBStartButton = this.add.text(100,100,'Fast Bee').setInteractive();
         FBStartButton.on('pointerdown', () => this.scene.start('FBStartScene'));
     }
@@ -138,7 +139,7 @@ class FBPlayer2Scene extends Phaser.Scene{
             }
             // Add code here to handle the end of the game
             // Transition to the next minigame
-            this.scene.start('TBReadyScene');
+            this.scene.start('TitleScene');
         });
 
          setTimeout(()=>{
