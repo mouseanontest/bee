@@ -32,7 +32,8 @@ class Player extends Phaser.Physics.Arcade.Sprite
         this.setGravityY(3000); //We will set gravity *per object* rather than for the scene!
     }
     upkeep(){
-        
+        //set gui
+        this.gui.setText(cooldown);
         //Player will not move in the x-axis unless a movement key is being pressed
         this.setVelocityX(0);
 
@@ -78,6 +79,8 @@ var space;
 
 var guiTimer
 var temp;
+
+var cooldown = 0;
 function preload()
 {
     this.load.image('background', 'images/background.png');
@@ -97,13 +100,16 @@ function create()
 
    player1 = new Player(this, 400, 400);
    player1.setScale(0.25)
+   player1.setTint(0xaa3030)
    this.physics.add.collider(player1, platforms);
 
    player2 = new Player(this, 400, 400);
    player2.setScale(0.25)
+   player2.setTint(0x4040ff)
+
    this.physics.add.collider(player2, platforms);
 
-   this.physics.add.collider(player1, player2, tagCheck, null, this);
+   this.physics.add.collider(player1, player2, tag, null, this);
 
    player1.arrow = this.physics.add.image(0, 0, 'arrow');
    player1.arrow.setScale(0.25);
@@ -132,6 +138,9 @@ function create()
 
    player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 28px Arial"});
    player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 28px Arial"});
+
+   player1.arrow.setVisible(P1it);
+   player2.arrow.setVisible(P2it);
 }
 
 
@@ -141,8 +150,8 @@ function update()
     player1.arrow.setPosition(player1.body.x + player1.width / 8, player1.body.y - 20);
     player2.arrow.setPosition(player2.body.x + player2.width / 8, player2.body.y - 20);
 
-    player1.arrow.setVisible(P1it);
-    player2.arrow.setVisible(P2it);
+    // player1.arrow.setVisible(P1it);
+    // player2.arrow.setVisible(P2it);
     //gui upkeep
     player1.gui.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 30);
     player2.gui.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 30);
@@ -183,7 +192,7 @@ function createPlatforms(scene)
     basePlatform.setScale(3, 1).refreshBody(); //scales the base platform in the x axis to cover the entire floor
 
     platforms.create(250, 350, 'platform'); //creates the upper left platform
-    platforms.create(950, 500, 'platform'); //creates the bottome right platform
+    platforms.create(950, 500, 'platform'); //creates the bottom right platform
 }
 
 function jump1(event)
@@ -217,38 +226,61 @@ function eatPentagon(player, pentagon)
     pentagon.disableBody(true, true); //remove that particular pentagon from the game (physics and visibility)
 }
 
-
-function tagCheck(){
-    temp = this.time.delayedCall(1000, setTimer2, 10-1, this)
-    if(P1it){
-        console.log(this)
-        P1it = false;
-        setTimer2.bind(this, 3);
-    }else if(P2it){
-        console.log(this)
-        P2it = false;
-        setTimer1.bind(this, 3);
+function tag(){
+    if(cooldown<1){
+        P1it = !P1it;
+        P2it = !P2it;
+        player1.gui.setVisible(P1it)
+        player2.gui.setVisible(P2it)
+        cooldown = 3;
+        for(let i = 1;i < 4;i++){
+            temp = this.time.delayedCall(i*1000, help, null, this);
+            
+        }
     }
 }
-
-function setTimer1(timer){
-    player1.gui.setText(timer);
-    if(timer>0){
-        temp = this.time.delayedCall(1000, setTimer1.bind(this), timer-1, this)
+function help(){
+    if(cooldown>0){
+        cooldown--;
     }else{
-        P1it = true;
-        player1.gui.setText('');
-    } 
+        cooldown = 0;
+        player1.gui.setVisible(false)
+        player2.gui.setVisible(false)
+        player1.arrow.visible = P1it
+        player2.arrow.visible = P2it
+    }
 }
+// function tagCheck(){
+//     if(P1it){
+//         console.log(this)
+//         P1it = false;
+//         console.log(3);
+//         for(let i = 1;i < 4;i++){
+//             temp = this.time.delayedCall(i*1000, console.log, 3-i, this) 
+            
+//         }
+//     }else if(P2it){
+//         console.log(this)
+//         P2it = false;
+//         setTimer1(3);
+//     }
+// }
 
-function setTimer2(timer){
-    console.log(this)
-    player2.gui.setText(timer);
-    if(timer>0){
-        temp = this.time.delayedCall(1000, setTimer2.bind(this), timer-1, this)
-    }else{
+// function setTimer1(timer){
+//     if(timer>0){
+//         player1.gui.setText(timer);
+//     }else{
+//         P1it = true;
+//         player1.gui.setText('');
+//     } 
+// }
+
+// function setTimer2(timer){
+//     if(timer>0){
+//         player2.gui.setText(timer);
+//     }else{
         
-        P2it = true;
-        player2.gui.setText('');
-    } 
-}
+//         P2it = true;
+//         player2.gui.setText('');
+//     } 
+// }
