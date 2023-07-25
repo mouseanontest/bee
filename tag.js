@@ -83,7 +83,9 @@ var temp;
 
 var cooldown = 0;
 
-var plats = []
+var basicPlats = [];
+var speedPlats = [];
+var jumpPlats = [];
 function preload()
 {
     this.load.image('background', 'images/background.png');
