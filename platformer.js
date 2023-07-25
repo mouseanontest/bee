@@ -1,6 +1,7 @@
 let player1
 let player2
 let playersDead=0
+let multiplier=0
 
 var config = {
     type: Phaser.AUTO,
@@ -45,13 +46,13 @@ function create(){
     }
 
     createPlatforms(this)
-    player1=new Player(this, 300,100)
-    player2=new Player(this,400,100)
+    player1=new Player(this, 300, 100)
+    player2=new Player(this, 400, 100)
 
     this.physics.add.collider(player1, platforms)
     this.physics.add.collider(player2, platforms)
 
-    this.cameras.main.setBounds(0,0, 2400, 600)
+    camera=this.cameras.main.setBounds(0,0, 4800, 600)
 
     cursors = this.input.keyboard.createCursorKeys()
     keys = this.input.keyboard.addKeys('W, A, D')
@@ -69,11 +70,10 @@ function update(){
     let maxSpd=350
     let accel=80
     let decel=70
-
-    this.cameras.main.scrollX+=.5
-
-    if (player1.body.x-this.cameras.main.scrollX<25) killPlayer(player1)
-    if (player2.body.x-this.cameras.main.scrollX<25) killPlayer(player2)
+    moveCam(camera)
+    console.log(camera.scrollX)
+    if (player1.body.x-camera.scrollX<25) killPlayer(player1)
+    if (player2.body.x-camera.scrollX<25) killPlayer(player2)
 
     if (player1.canMove){
         if (keys.A.isDown){
@@ -94,6 +94,11 @@ function update(){
             player2.setVelocityX(appr(decel, 0, player2.body.velocity.x))
         }
     }    
+}
+
+function moveCam(camera){
+    camera.scrollX=multiplier**1.07*2
+    multiplier++
 }
 
 function jump(event){
