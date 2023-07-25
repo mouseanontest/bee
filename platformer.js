@@ -49,7 +49,7 @@ function create(){
 
     this.cameras.main.setSize(1600, 600)
     camera=this.cameras.add(0, 0, 800, 600)
-    camera.ignore(background)
+    camera.ignore(background)  
 
     cursors = this.input.keyboard.createCursorKeys()
     keys = this.input.keyboard.addKeys('W, A, D')
@@ -72,7 +72,7 @@ function update(){
     let accel=80
     let decel=70
 
-    camera.scrollX = (player1.body.x)|0;
+    camera.scrollX = (player1.body.x)|0
 
     if (cursors.left.isDown){
         player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
