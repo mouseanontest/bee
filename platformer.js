@@ -1,5 +1,6 @@
 let player1
 let player2
+let playersDead=0
 
 var config = {
     type: Phaser.AUTO,
@@ -24,6 +25,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setScale(.5)
         scene.physics.add.existing(this)
         this.setGravityY(3000)
+        this.score=0
+        this.canMove=true
     }
 }
 
@@ -37,22 +40,18 @@ function preload(){
 }
 
 function create(){
-    // this.add.image(-500, -500, 'background').setOrigin(0)
-    // this.add.image(646,-500,'background').setOrigin(0)
-    // this.add.image(1792,-500,'background').setOrigin(0)
     for (let i=0; i<5; i++){
         this.add.image(-500+1146*i, -500, 'background').setOrigin(0)
     }
 
     createPlatforms(this)
-    player1=new Player(this, 100,100)
-    player2=new Player(this,200,100)
+    player1=new Player(this, 300,100)
+    player2=new Player(this,400,100)
 
     this.physics.add.collider(player1, platforms)
     this.physics.add.collider(player2, platforms)
 
     this.cameras.main.setBounds(0,0, 2400, 600)
-    this.cameras.main.startFollow(player1)
 
     cursors = this.input.keyboard.createCursorKeys()
     keys = this.input.keyboard.addKeys('W, A, D')
@@ -62,7 +61,7 @@ function create(){
 
 function createPlatforms(scene){
     platforms = scene.physics.add.staticGroup()
-    let basePlatform = platforms.create(0, game.scale.height-50, 'platform').setOrigin(0,0);
+    let basePlatform = platforms.create(0, game.scale.height-50, 'platform').setOrigin(0);
     basePlatform.setScale(10, 1).refreshBody()
 }
 
@@ -71,26 +70,30 @@ function update(){
     let accel=80
     let decel=70
 
+    this.cameras.main.scrollX+=.5
 
-    if (cursors.left.isDown){
-        player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
-    } else if (cursors.right.isDown){
-        player2.setVelocityX(appr(accel, maxSpd, player2.body.velocity.x))
-    } else {
-        player2.setVelocityX(appr(decel, 0, player2.body.velocity.x))
+    if (player1.body.x-this.cameras.main.scrollX<25) killPlayer(player1)
+    if (player2.body.x-this.cameras.main.scrollX<25) killPlayer(player2)
+
+    if (player1.canMove){
+        if (keys.A.isDown){
+            player1.setVelocityX(appr(accel, -1*maxSpd, player1.body.velocity.x))
+        } else if (keys.D.isDown){
+            player1.setVelocityX(appr(accel, maxSpd, player1.body.velocity.x))
+        } else {
+            player1.setVelocityX(appr(decel, 0, player1.body.velocity.x))
+        }
     }
 
-    if (keys.A.isDown){
-        player1.setVelocityX(appr(accel, -1*maxSpd, player1.body.velocity.x))
-    } else if (keys.D.isDown){
-        player1.setVelocityX(appr(accel, maxSpd, player1.body.velocity.x))
-    } else {
-        player1.setVelocityX(appr(decel, 0, player1.body.velocity.x))
-    }
-}
-
-function drawBG(){
-    scene.add.image(-500+1146*floor(player.body.x/1150), -500, 'background').setOrigin(0)
+    if (player2.canMove){
+        if (cursors.left.isDown){
+            player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
+        } else if (cursors.right.isDown){
+            player2.setVelocityX(appr(accel, maxSpd, player2.body.velocity.x))
+        } else {
+            player2.setVelocityX(appr(decel, 0, player2.body.velocity.x))
+        }
+    }    
 }
 
 function jump(event){
@@ -99,6 +102,13 @@ function jump(event){
     } else if (cursors.up.isDown && player2.body.touching.down){
         player2.setVelocityY(-1000)
     }
+}
+
+function killPlayer(player){
+    player.score=player.body.x
+    player.disableBody(true, true)
+    player.canMove=false
+    playersDead++
 }
 
 function appr(inc, val, num){
