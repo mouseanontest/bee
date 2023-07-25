@@ -24,6 +24,8 @@ class Player extends Phaser.Physics.Arcade.Sprite
     arrow;
     speed = 0;
     jump = 0;
+    onJump = false;
+    onSpeed = false;
     constructor(scene, x, y)
     {
         super(scene, x, y, 'player');
@@ -45,17 +47,6 @@ class Player extends Phaser.Physics.Arcade.Sprite
         //This will reset the number of jumps available to the player whenever the player lands
         if (this.body.touching.down) {
             this.currentJumps = 0;
-        }
-    }
-    tempoChange(type){
-        if(type === "speed"){
-            this.speed = 100;
-        }
-        else if (type === "jump"){
-            this.jump = -100;
-        }else{
-            this.speed = 0;
-            this.jump = 0;
         }
     }
 }
@@ -123,13 +114,15 @@ function create()
    player1.setScale(0.15)
    player1.setTint(0xaa3030)
    this.physics.add.collider(player1, basicPlatforms);
-   this.physics.add.collider(player1, speedPlatforms);
+   this.physics.add.collider(player1, speedPlatforms, function(){player1.onSpeed = true}, null, this);
+   this.physics.add.collider(player1, jumpPlatforms, function(){player1.onJump = true}, null, this);
 
    player2 = new Player(this, 400, 400);
    player2.setScale(0.15)
    player2.setTint(0x5050ff)
-   this.physics.add.collider(player2, basicPlatforms, player2.tempoChange, null, this);
-   this.physics.add.collider(player2, speedPlatforms, player2.tempoChange, null, this);
+   this.physics.add.collider(player2, basicPlatforms);
+   this.physics.add.collider(player2, speedPlatforms, function(){player2.onSpeed = true}, null, this);
+   this.physics.add.collider(player2, jumpPlatforms, function(){player2.onJump = true}, null, this);
 
    this.physics.add.collider(player1, player2, tag, null, this);
 
@@ -168,6 +161,32 @@ function create()
 
 function update()
 {
+    if(player1.onSpeed){
+        player1.speed = 100;
+    }else{
+        player1.speed = 0;
+    }
+
+    if(player1.onJump){
+        player1.jump = -100;
+    }else{
+        player1.jump = 0
+    }
+
+
+    if(player2.onSpeed){
+        player2.speed = 100;
+    }else{
+        player2.speed = 0;
+    }
+
+    if(player2.onJump){
+        player2.jump = -100;
+    }else{
+        player2.jump = 0
+    }
+
+
     //arrow upkeep
     player1.arrow.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 15);
     player2.arrow.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 15);
@@ -209,27 +228,31 @@ function update()
     {
         player2.setVelocityX(400 + player2.speed);
     }
+    player1.onSpeed = false
+    player1.onJump = false
 
+    player2.onSpeed = false
+    player2.onJump = false
 }
 
 
 function createPlatforms(scene)
 {
-    basicPlatforms = scene.physics.add.staticGroup({
-        tint: 0xffff00
-    });
+    basicPlatforms = scene.physics.add.staticGroup();
     speedPlatforms = scene.physics.add.staticGroup();
+    jumpPlatforms = scene.physics.add.staticGroup();
     //basePlatform is the floor of the game
-    let basePlatform = basicPlatforms.create(game.scale.width/2, game.scale.height-30, 'platform');
-    basePlatform.setScale(1.5, 0.4).refreshBody(); //scales the base platform in the x axis to cover the entire floor
+    basicArray.push(basicPlatforms.create(game.scale.width/2, game.scale.height-30, 'platform'));
+    basicArray[0].setScale(1.5, 0.4).refreshBody(); //scales the base platform in the x axis to cover the entire floor
 
-    basicArray.push(basicPlatforms.create(250, 350, 'platform')) //creates the upper left platform
-    speedArray.push(speedPlatforms.create(400, 500, 'platform'))//creates the bottom right platform
+    speedArray.push(speedPlatforms.create(250, 350, 'platform')) //creates the upper left platform
+    jumpArray.push(jumpPlatforms.create(400, 475, 'platform'))//creates the bottom right platform
 
-    basicArray[0].setScale(0.5).refreshBody();
-    speedArray[0].setScale(0.5, 0.25).refreshBody();
+    jumpArray[0].setScale(0.5, 0.25).refreshBody();
+    speedArray[0].setScale(0.5).refreshBody();
     speedPlatforms.setTint(0xffa500);
-    basicPlatforms.setTint(0xffffff);
+    basicPlatforms.setTint(0xf0f0f0);
+    jumpPlatforms.setTint(0xa0a0ff);
 }
 
 function jump1(event)
