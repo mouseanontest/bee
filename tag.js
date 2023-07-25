@@ -105,8 +105,6 @@ function create()
 {
     // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
 
-    this.cameras.main.setZoom(1);
-
     //unused
     graphics = this.add.graphics();
     //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
@@ -138,8 +136,8 @@ function create()
    player2.arrow.setScale(0.15);
    
    //camera stuff
-   this.cameras.main.setBounds(0, 0, 800, 600);
-   this.cameras.main.startFollow(player1, true);
+//    this.cameras.main.setBounds(0, 0, 800, 600);
+   this.cameras.main.setZoom(2);
     
    //Create the pentagon interactables
    for (var i = 0; i < totalPentagons; i++)
@@ -217,7 +215,12 @@ function update()
     player1.gui.setPosition(player1.body.x + player1.width / 8 - 16, player1.body.y - 25);
     player2.gui.setPosition(player2.body.x + player2.width / 8 - 16, player2.body.y - 25);
     
-    //Handle player movements
+    //camera
+    this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
+    this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
+    console.log(this.cameras.main.x)
+    console.log(this.cameras.main.y)
+    //Handle player movement
     player1.upkeep();
     player2.upkeep();
     
