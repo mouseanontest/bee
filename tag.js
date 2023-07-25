@@ -213,11 +213,11 @@ function jump1(event)
 {
     if (player1.body.touching.down) {
       //If the player is on the ground, the player can jump
-      player1.setVelocityY(-800);
+      player1.setVelocityY(-900);
       player1.currentJumps++;
     } else if (player1.currentJumps < player1.totalJumps) {
       //If the player is not on the ground but has an available air jump, use that jump
-      player1.setVelocityY(-500);
+      player1.setVelocityY(-700);
       player1.currentJumps++;
     }
 }
@@ -225,11 +225,11 @@ function jump2(event)
 {
     if (player2.body.touching.down) {
       //If the player is on the ground, the player can jump
-      player2.setVelocityY(-800);
+      player2.setVelocityY(-900);
       player2.currentJumps++;
     } else if (player2.currentJumps < player2.totalJumps) {
       //If the player is not on the ground but has an available air jump, use that jump
-      player2.setVelocityY(-500);
+      player2.setVelocityY(-700);
       player2.currentJumps++;
     }
 }
