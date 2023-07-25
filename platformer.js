@@ -24,7 +24,6 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this)
         this.setScale(.5)
         scene.physics.add.existing(this)
-        this.setCollideWorldBounds(true)
         this.setGravityY(3000)
     }
 }
@@ -39,7 +38,7 @@ function preload(){
 }
 
 function create(){
-    this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0,0)
+    let background=this.add.image(0, 0, 'background').setOrigin(0)
     
     createPlatforms(this)
     player1=new Player(this, 100,100)
@@ -50,6 +49,7 @@ function create(){
 
     this.cameras.main.setSize(1600, 600)
     camera=this.cameras.add(0, 0, 800, 600)
+    camera.ignore(background)
 
     cursors = this.input.keyboard.createCursorKeys()
     keys = this.input.keyboard.addKeys('W, A, D')
@@ -60,7 +60,7 @@ function create(){
 function createPlatforms(scene){
     platforms = scene.physics.add.staticGroup()
 
-    let basePlatform = platforms.create(game.scale.width/2, game.scale.height-30, 'platform');
+    let basePlatform = platforms.create(0, game.scale.height-50, 'platform').setOrigin(0,0);
     basePlatform.setScale(3, 1).refreshBody()
 
     // platforms.create(250, 350, 'platform')
