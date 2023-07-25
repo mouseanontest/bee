@@ -2,8 +2,8 @@
 
 var config = {
     type: Phaser.AUTO,
-    width: 1200,
-    height: 700,
+    width: 800,
+    height: 600,
     physics: {
         default: 'arcade',
     },
@@ -103,22 +103,22 @@ function create()
    createPlatforms(this);
 
    player1 = new Player(this, 400, 400);
-   player1.setScale(0.25)
+   player1.setScale(0.15)
    player1.setTint(0xaa3030)
    this.physics.add.collider(player1, platforms);
 
    player2 = new Player(this, 400, 400);
-   player2.setScale(0.25)
+   player2.setScale(0.15)
    player2.setTint(0x5050ff)
    this.physics.add.collider(player2, platforms);
 
    this.physics.add.collider(player1, player2, tag, null, this);
 
    player1.arrow = this.physics.add.image(0, 0, 'arrow');
-   player1.arrow.setScale(0.25);
+   player1.arrow.setScale(0.15)
 
    player2.arrow = this.physics.add.image(0, 0, 'arrow');
-   player2.arrow.setScale(0.25);
+   player2.arrow.setScale(0.15);
     
    //Create the pentagon interactables
    for (var i = 0; i < totalPentagons; i++)
@@ -139,8 +139,8 @@ function create()
    cursors.up.on('down', jump1); //calls jump function when space is pressed
    wRizz.on('down', jump2); 
 
-   player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 28px Arial"});
-   player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 28px Arial"});
+   player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 24px Arial"});
+   player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 24px Arial"});
 
    player1.arrow.setVisible(P1it);
    player2.arrow.setVisible(P2it);
@@ -150,8 +150,8 @@ function create()
 function update()
 {
     //arrow upkeep
-    player1.arrow.setPosition(player1.body.x + player1.width / 8, player1.body.y - 20);
-    player2.arrow.setPosition(player2.body.x + player2.width / 8, player2.body.y - 20);
+    player1.arrow.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 15);
+    player2.arrow.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 15);
     if(cooldown<1){
         player1.gui.setVisible(false)
         player2.gui.setVisible(false)
@@ -164,8 +164,8 @@ function update()
 
     }
     //gui upkeep
-    player1.gui.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 30);
-    player2.gui.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 30);
+    player1.gui.setPosition(player1.body.x + player1.width / 8 - 16, player1.body.y - 25);
+    player2.gui.setPosition(player2.body.x + player2.width / 8 - 16, player2.body.y - 25);
     
     //Handle player movements
     player1.upkeep();
@@ -200,27 +200,24 @@ function createPlatforms(scene)
     platforms.scaleXY(0.1, 0.1)
     //basePlatform is the floor of the game
     let basePlatform = platforms.create(game.scale.width/2, game.scale.height-30, 'platform');
-    basePlatform.setScale(3, 1).refreshBody(); //scales the base platform in the x axis to cover the entire floor
+    basePlatform.setScale(1.5, 0.4).refreshBody(); //scales the base platform in the x axis to cover the entire floor
 
     plats.push(platforms.create(250, 350, 'platform')); //creates the upper left platform
-    plats.push(platforms.create(950, 500, 'platform'));//creates the bottom right platform
+    plats.push(platforms.create(400, 500, 'platform'));//creates the bottom right platform
 
-    plats[0].setScale(0.5);
-    let bounds = plats[0].getBounds();
-    graphics.clear();
-    graphics.lineStyle(1, 0xff0000);
-    graphics.strokeRectShape(bounds);
+    plats[0].setScale(0.5).refreshBody();
+    plats[1].setScale(0.5, 0.25).refreshBody();
 }
 
 function jump1(event)
 {
     if (player1.body.touching.down) {
       //If the player is on the ground, the player can jump
-      player1.setVelocityY(-1100);
+      player1.setVelocityY(-800);
       player1.currentJumps++;
     } else if (player1.currentJumps < player1.totalJumps) {
       //If the player is not on the ground but has an available air jump, use that jump
-      player1.setVelocityY(-800);
+      player1.setVelocityY(-500);
       player1.currentJumps++;
     }
 }
@@ -228,11 +225,11 @@ function jump2(event)
 {
     if (player2.body.touching.down) {
       //If the player is on the ground, the player can jump
-      player2.setVelocityY(-1100);
+      player2.setVelocityY(-800);
       player2.currentJumps++;
     } else if (player2.currentJumps < player2.totalJumps) {
       //If the player is not on the ground but has an available air jump, use that jump
-      player2.setVelocityY(-800);
+      player2.setVelocityY(-500);
       player2.currentJumps++;
     }
 }
@@ -267,37 +264,3 @@ function help(){
         player2.arrow.visible = P2it
     }
 }
-// function tagCheck(){
-//     if(P1it){
-//         console.log(this)
-//         P1it = false;
-//         console.log(3);
-//         for(let i = 1;i < 4;i++){
-//             temp = this.time.delayedCall(i*1000, console.log, 3-i, this) 
-            
-//         }
-//     }else if(P2it){
-//         console.log(this)
-//         P2it = false;
-//         setTimer1(3);
-//     }
-// }
-
-// function setTimer1(timer){
-//     if(timer>0){
-//         player1.gui.setText(timer);
-//     }else{
-//         P1it = true;
-//         player1.gui.setText('');
-//     } 
-// }
-
-// function setTimer2(timer){
-//     if(timer>0){
-//         player2.gui.setText(timer);
-//     }else{
-        
-//         P2it = true;
-//         player2.gui.setText('');
-//     } 
-// }
