@@ -1,6 +1,5 @@
 let player1
 let player2
-let camera
 
 var config = {
     type: Phaser.AUTO,
@@ -31,15 +30,20 @@ class Player extends Phaser.Physics.Arcade.Sprite{
 var game=new Phaser.Game(config)
 
 function preload(){
-    this.load.image('background', 'images/background.png')
+    this.load.image('background', 'images/scrollingPerhaps.png')
     this.load.image('pentagon', 'images/pentagon.png')
     this.load.image('bee', 'images/bee.png')
     this.load.image('platform', 'images/platform.png')
 }
 
 function create(){
-    let background=this.add.image(0, 0, 'background').setOrigin(0)
-    
+    // this.add.image(-500, -500, 'background').setOrigin(0)
+    // this.add.image(646,-500,'background').setOrigin(0)
+    // this.add.image(1792,-500,'background').setOrigin(0)
+    for (let i=0; i<5; i++){
+        this.add.image(-500+1146*i, -500, 'background').setOrigin(0)
+    }
+
     createPlatforms(this)
     player1=new Player(this, 100,100)
     player2=new Player(this,200,100)
@@ -47,9 +51,8 @@ function create(){
     this.physics.add.collider(player1, platforms)
     this.physics.add.collider(player2, platforms)
 
-    this.cameras.main.setSize(1600, 600)
-    camera=this.cameras.add(0, 0, 800, 600)
-    camera.ignore(background)  
+    this.cameras.main.setBounds(0,0, 2400, 600)
+    this.cameras.main.startFollow(player1)
 
     cursors = this.input.keyboard.createCursorKeys()
     keys = this.input.keyboard.addKeys('W, A, D')
@@ -59,12 +62,8 @@ function create(){
 
 function createPlatforms(scene){
     platforms = scene.physics.add.staticGroup()
-
     let basePlatform = platforms.create(0, game.scale.height-50, 'platform').setOrigin(0,0);
-    basePlatform.setScale(3, 1).refreshBody()
-
-    // platforms.create(250, 350, 'platform')
-    // platforms.create(950, 500, 'platform') 
+    basePlatform.setScale(10, 1).refreshBody()
 }
 
 function update(){
@@ -72,7 +71,6 @@ function update(){
     let accel=80
     let decel=70
 
-    camera.scrollX = (player1.body.x)|0
 
     if (cursors.left.isDown){
         player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
@@ -89,6 +87,10 @@ function update(){
     } else {
         player1.setVelocityX(appr(decel, 0, player1.body.velocity.x))
     }
+}
+
+function drawBG(){
+    scene.add.image(-500+1146*floor(player.body.x/1150), -500, 'background').setOrigin(0)
 }
 
 function jump(event){
