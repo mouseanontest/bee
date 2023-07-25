@@ -229,7 +229,7 @@ function update()
     if(!zoomControlY){
         zoomControlY = zoomControlX
     }
-    this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.875);
+    this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
     if(this.cameras.main.zoom<1){
         this.cameras.main.setZoom(1) 
     }
