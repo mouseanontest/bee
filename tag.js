@@ -22,6 +22,8 @@ class Player extends Phaser.Physics.Arcade.Sprite
     currentJumps = 0;
     gui;
     arrow;
+    speed = 0;
+    jump = 0;
     constructor(scene, x, y)
     {
         super(scene, x, y, 'player');
@@ -29,7 +31,7 @@ class Player extends Phaser.Physics.Arcade.Sprite
         scene.physics.add.existing(this);
         this.setScale(2);
         this.setCollideWorldBounds(true);
-        this.setGravityY(3000); //We will set gravity *per object* rather than for the scene!
+        this.setGravityY(2500); //We will set gravity *per object* rather than for the scene!
     }
     upkeep(){
         //set gui
@@ -43,6 +45,17 @@ class Player extends Phaser.Physics.Arcade.Sprite
         //This will reset the number of jumps available to the player whenever the player lands
         if (this.body.touching.down) {
             this.currentJumps = 0;
+        }
+    }
+    tempoChange(type){
+        if(type === "speed"){
+            this.speed = 100;
+        }
+        else if (type === "jump"){
+            this.jump = -100;
+        }else{
+            this.speed = 0;
+            this.jump = 0;
         }
     }
 }
@@ -62,7 +75,9 @@ class Pentagon extends Phaser.Physics.Arcade.Sprite
 var game = new Phaser.Game(config);
 
 //Game Objects
-var platforms;
+var basicPlatforms;
+var speedPlatforms;
+var jumpPlatforms;
 var player1;
 var player2;
 var pentagons = [];
@@ -83,9 +98,9 @@ var temp;
 
 var cooldown = 0;
 
-var basicPlats = [];
-var speedPlats = [];
-var jumpPlats = [];
+var basicArray = [];
+var jumpArray = [];
+var speedArray = [];
 function preload()
 {
     this.load.image('background', 'images/background.png');
@@ -107,12 +122,14 @@ function create()
    player1 = new Player(this, 400, 400);
    player1.setScale(0.15)
    player1.setTint(0xaa3030)
-   this.physics.add.collider(player1, platforms);
+   this.physics.add.collider(player1, basicPlatforms);
+   this.physics.add.collider(player1, speedPlatforms);
 
    player2 = new Player(this, 400, 400);
    player2.setScale(0.15)
    player2.setTint(0x5050ff)
-   this.physics.add.collider(player2, platforms);
+   this.physics.add.collider(player2, basicPlatforms, player2.tempoChange, null, this);
+   this.physics.add.collider(player2, speedPlatforms, player2.tempoChange, null, this);
 
    this.physics.add.collider(player1, player2, tag, null, this);
 
@@ -127,7 +144,7 @@ function create()
    {
        let myPentagon = new Pentagon(this, Phaser.Math.Between(0, game.scale.width), Phaser.Math.Between(0, game.scale.height-80));
        myPentagon.setScale(0.05)
-       this.physics.add.collider(myPentagon, platforms);
+       this.physics.add.collider(myPentagon, basicPlatforms);
        pentagons.push(myPentagon);
    }
 
@@ -174,23 +191,23 @@ function update()
     player2.upkeep();
     if (cursors.left.isDown)
     {
-        player1.setVelocityX(-400);
+        player1.setVelocityX(-400 - player1.speed);
     }
 
     if (keys.A.isDown)
     {
-        player2.setVelocityX(-400);
+        player2.setVelocityX(-400 - player2.speed);
     }
 
     
     if (cursors.right.isDown)
     {
-        player1.setVelocityX(400);
+        player1.setVelocityX(400 + player1.speed);
     }
 
     if (keys.D.isDown)
     {
-        player2.setVelocityX(400);
+        player2.setVelocityX(400 + player2.speed);
     }
 
 }
@@ -198,28 +215,32 @@ function update()
 
 function createPlatforms(scene)
 {
-    platforms = scene.physics.add.staticGroup();
-    platforms.scaleXY(0.1, 0.1)
+    basicPlatforms = scene.physics.add.staticGroup({
+        tint: 0xffff00
+    });
+    speedPlatforms = scene.physics.add.staticGroup();
     //basePlatform is the floor of the game
-    let basePlatform = platforms.create(game.scale.width/2, game.scale.height-30, 'platform');
+    let basePlatform = basicPlatforms.create(game.scale.width/2, game.scale.height-30, 'platform');
     basePlatform.setScale(1.5, 0.4).refreshBody(); //scales the base platform in the x axis to cover the entire floor
 
-    plats.push(platforms.create(250, 350, 'platform')); //creates the upper left platform
-    plats.push(platforms.create(400, 500, 'platform'));//creates the bottom right platform
+    basicArray.push(basicPlatforms.create(250, 350, 'platform')) //creates the upper left platform
+    speedArray.push(speedPlatforms.create(400, 500, 'platform'))//creates the bottom right platform
 
-    plats[0].setScale(0.5).refreshBody();
-    plats[1].setScale(0.5, 0.25).refreshBody();
+    basicArray[0].setScale(0.5).refreshBody();
+    speedArray[0].setScale(0.5, 0.25).refreshBody();
+    speedPlatforms.setTint(0xffa500);
+    basicPlatforms.setTint(0xffffff);
 }
 
 function jump1(event)
 {
     if (player1.body.touching.down) {
       //If the player is on the ground, the player can jump
-      player1.setVelocityY(-900);
+      player1.setVelocityY(-800 + player1.jump);
       player1.currentJumps++;
     } else if (player1.currentJumps < player1.totalJumps) {
       //If the player is not on the ground but has an available air jump, use that jump
-      player1.setVelocityY(-700);
+      player1.setVelocityY(-500);
       player1.currentJumps++;
     }
 }
@@ -227,11 +248,11 @@ function jump2(event)
 {
     if (player2.body.touching.down) {
       //If the player is on the ground, the player can jump
-      player2.setVelocityY(-900);
+      player2.setVelocityY(-800 + player2.jump);
       player2.currentJumps++;
     } else if (player2.currentJumps < player2.totalJumps) {
       //If the player is not on the ground but has an available air jump, use that jump
-      player2.setVelocityY(-700);
+      player2.setVelocityY(-500);
       player2.currentJumps++;
     }
 }
