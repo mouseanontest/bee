@@ -103,6 +103,11 @@ function preload()
 
 function create()
 {
+    // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
+
+    this.cameras.main.setZoom(1);
+
+    //unused
     graphics = this.add.graphics();
     //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
    let background = this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0, 0);
@@ -131,6 +136,10 @@ function create()
 
    player2.arrow = this.physics.add.image(0, 0, 'arrow');
    player2.arrow.setScale(0.15);
+   
+   //camera stuff
+   this.cameras.main.setBounds(0, 0, 800, 600);
+   this.cameras.main.startFollow(player1, true);
     
    //Create the pentagon interactables
    for (var i = 0; i < totalPentagons; i++)
