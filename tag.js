@@ -105,7 +105,6 @@ function create()
 {
     // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
 
-    this.cameras.main.setZoom(1);
 
     //unused
     graphics = this.add.graphics();
@@ -237,6 +236,7 @@ function update()
     {
         player2.setVelocityX(400 + player2.speed);
     }
+    
     player1.onSpeed = false
     player1.onJump = false
 
