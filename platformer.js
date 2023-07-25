@@ -40,11 +40,17 @@ function preload(){
 
 function create(){
     this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0,0)
+    
     createPlatforms(this)
     player1=new Player(this, 100,100)
     player2=new Player(this,200,100)
-    this.physics.add.collider(player1, platforms);
-    this.physics.add.collider(player2, platforms);
+
+    this.physics.add.collider(player1, platforms)
+    this.physics.add.collider(player2, platforms)
+
+    this.cameras.main.setSize(1600, 600)
+    camera=this.cameras.add(0, 0, 800, 600)
+
     cursors = this.input.keyboard.createCursorKeys()
     keys = this.input.keyboard.addKeys('W, A, D')
     keys.W.on('down', jump)
@@ -53,8 +59,10 @@ function create(){
 
 function createPlatforms(scene){
     platforms = scene.physics.add.staticGroup()
+
     let basePlatform = platforms.create(game.scale.width/2, game.scale.height-30, 'platform');
     basePlatform.setScale(3, 1).refreshBody()
+
     // platforms.create(250, 350, 'platform')
     // platforms.create(950, 500, 'platform') 
 }
@@ -63,6 +71,8 @@ function update(){
     let maxSpd=350
     let accel=80
     let decel=70
+
+    camera.scrollX = (player1.body.x)|0;
 
     if (cursors.left.isDown){
         player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
@@ -79,8 +89,6 @@ function update(){
     } else {
         player1.setVelocityX(appr(decel, 0, player1.body.velocity.x))
     }
-
-
 }
 
 function jump(event){
