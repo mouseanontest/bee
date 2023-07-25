@@ -1,4 +1,4 @@
-
+let frames=0
 
 var config = {
     type: Phaser.AUTO,
@@ -170,31 +170,34 @@ function create()
 
 function update()
 {
+    frames++   
     if(player1.onSpeed){
-        player1.speed = 100;
+        player1.speed = 250;
     }else{
         player1.speed = 0;
     }
 
     if(player1.onJump){
-        player1.jump = -100;
+        player1.jump = -250;
     }else{
         player1.jump = 0
     }
 
 
     if(player2.onSpeed){
-        player2.speed = 100;
+        player2.speed = 250;
     }else{
         player2.speed = 0;
     }
 
     if(player2.onJump){
-        player2.jump = -100;
+        player2.jump = -200;
     }else{
         player2.jump = 0
     }
 
+    player1.speed += 50*P1it
+    player2.speed += 50*P2it
 
     //arrow upkeep
     player1.arrow.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 15);
@@ -217,6 +220,8 @@ function update()
     //Handle player movements
     player1.upkeep();
     player2.upkeep();
+    
+
     if (cursors.left.isDown)
     {
         player1.setVelocityX(-400 - player1.speed);
@@ -237,11 +242,15 @@ function update()
     {
         player2.setVelocityX(400 + player2.speed);
     }
-    player1.onSpeed = false
-    player1.onJump = false
-
-    player2.onSpeed = false
-    player2.onJump = false
+    if(!player1.body.touching.down){
+        player1.onSpeed = false
+        player1.onJump = false
+    }
+    if(!player2.body.touching.down){
+        player2.onSpeed = false
+        player2.onJump = false
+    }   
+    
 }
 
 
