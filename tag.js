@@ -198,7 +198,7 @@ function update()
 
     player1.speed += 50*P1it
     player2.speed += 50*P2it
-
+//yes
     //arrow upkeep
     player1.arrow.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 15);
     player2.arrow.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 15);
