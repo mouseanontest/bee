@@ -2,6 +2,9 @@ let player1
 let player2
 let playersDead=0
 let multiplier=0
+let bees=[]
+let movingBees=[]
+let frames=0
 
 var config = {
     type: Phaser.AUTO,
@@ -28,6 +31,21 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.setGravityY(3000)
         this.score=0
         this.canMove=true
+        this.setOrigin(0)
+    }
+    killPlayer(){
+        this.score=this.body.x
+        this.canMove=false
+        playersDead++
+    }
+}
+
+class WallBee extends Phaser.GameObjects.Sprite{
+    constructor(scene, x, y){
+        super(scene, x, y, 'beevil')
+        scene.add.existing(this)
+        this.setScale(.6)
+        this.setOrigin(0)
     }
 }
 
@@ -36,18 +54,21 @@ var game=new Phaser.Game(config)
 function preload(){
     this.load.image('background', 'images/scrollingPerhaps.png')
     this.load.image('pentagon', 'images/pentagon.png')
-    this.load.image('bee', 'images/bee.png')
+    this.load.image('bee', 'images/playerBee.png')
+    //ask alex for new platformer sprite
     this.load.image('platform', 'images/platform.png')
+    //ask alex for new beevil sprites
+    this.load.image('beevil', 'images/beevil.png')
 }
 
 function create(){
     for (let i=0; i<5; i++){
-        this.add.image(-500+1146*i, -500, 'background').setOrigin(0)
+        this.add.image(-500+1146*i, -500, 'background').setOrigin(0).scrollFactorX=.5
     }
 
     createPlatforms(this)
-    player1=new Player(this, 300, 100)
-    player2=new Player(this, 400, 100)
+    player1=new Player(this, 600, 400).setTint(0xaa3030)
+    player2=new Player(this, 600, 400).setTint(0x5050ff)
 
     this.physics.add.collider(player1, platforms)
     this.physics.add.collider(player2, platforms)
@@ -58,6 +79,15 @@ function create(){
     keys = this.input.keyboard.addKeys('W, A, D')
     keys.W.on('down', jump)
     cursors.up.on('down', jump)
+
+    //make bees
+    for (let i=0; i<10; i++){
+        bees.push(new WallBee(this, -50, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
+    }
+    for (let i=0; i<10; i++){
+        movingBees.push(new WallBee(this, 70*Math.random()-80, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
+        movingBees.push(new WallBee(this, 90*Math.random()-100, game.scale.height*Math.random()-100).setScrollFactor(0))
+    }
 }
 
 function createPlatforms(scene){
@@ -67,18 +97,24 @@ function createPlatforms(scene){
 }
 
 function update(){
+    frames++
+
     let maxSpd=350
     let accel=80
     let decel=70
-    moveCam(camera)
-    console.log(camera.scrollX)
-    if (player1.body.x-camera.scrollX<25) killPlayer(player1)
-    if (player2.body.x-camera.scrollX<25) killPlayer(player2)
+
+    //maybe sigmoid in the future
+    camera.scrollX=2*(multiplier**1.1)
+    multiplier++
+
+    if (player1.body.x-camera.scrollX<10) player1.killPlayer()
+    if (player2.body.x-camera.scrollX<10) player2.killPlayer()
+
 
     if (player1.canMove){
-        if (keys.A.isDown){
+        if (cursors.left.isDown){
             player1.setVelocityX(appr(accel, -1*maxSpd, player1.body.velocity.x))
-        } else if (keys.D.isDown){
+        } else if (cursors.right.isDown){
             player1.setVelocityX(appr(accel, maxSpd, player1.body.velocity.x))
         } else {
             player1.setVelocityX(appr(decel, 0, player1.body.velocity.x))
@@ -86,34 +122,27 @@ function update(){
     }
 
     if (player2.canMove){
-        if (cursors.left.isDown){
+        if (keys.A.isDown){
             player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
-        } else if (cursors.right.isDown){
+        } else if (keys.D.isDown){
             player2.setVelocityX(appr(accel, maxSpd, player2.body.velocity.x))
         } else {
             player2.setVelocityX(appr(decel, 0, player2.body.velocity.x))
         }
-    }    
-}
+    }
 
-function moveCam(camera){
-    camera.scrollX=multiplier**1.07*2
-    multiplier++
+    for(let i=0; i<movingBees.length; i++){
+        movingBees[i].x+=(3*Math.sin((i+frames)%60*Math.PI/30))
+    }
+    
 }
 
 function jump(event){
-    if (keys.W.isDown && player1.body.touching.down){
+    if (cursors.up.isDown && player1.body.touching.down){
         player1.setVelocityY(-1000)
-    } else if (cursors.up.isDown && player2.body.touching.down){
+    } else if (keys.W.isDown && player2.body.touching.down){
         player2.setVelocityY(-1000)
     }
-}
-
-function killPlayer(player){
-    player.score=player.body.x
-    player.disableBody(true, true)
-    player.canMove=false
-    playersDead++
 }
 
 function appr(inc, val, num){
