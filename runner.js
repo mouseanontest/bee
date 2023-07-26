@@ -43,6 +43,9 @@ var p2Jump;
 var gui;
 var guiTimer;
 
+//Gameplay values
+var difficulty;
+
 function preload()
 {
     this.load.image('sky', 'images/honeycombBG.png');
@@ -56,6 +59,9 @@ function preload()
 
 function create()
 {
+
+    difficulty = 1;
+
     //Set the background image
     let bgImage = this.add.image(600, 350, 'sky')
     bgImage.setScale(1);
@@ -81,9 +87,9 @@ function create()
 
 function spawnObstacles(scene){
     //objectHazard is a collidable obstacle
-    let objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(100, 150), 'obstacle1');
+    let objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(100, 150), 'obstacle'+Phaser.Math.Between(1, 2));
     objectHazard.setScale(1).refreshBody();
-    objectHazard.setVelocityX(-550);
+    objectHazard.setVelocityX(difficulty * -550);
     objectHazard.setPushable(false);
     
     //Spawns a new obstacle every 1-3 seconds
@@ -93,8 +99,10 @@ function spawnObstacles(scene){
 function update()
 {
     //Adds player drag
-    player1.setDragX(1000);
+    player1.setDragX(10000);
     player2.setDragX(1000);
+    difficulty = difficulty + 0.0005;
+    console.log(difficulty);
 }
 
 //Jump events for players
