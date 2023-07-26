@@ -81,11 +81,6 @@ function LaunchTagGame(){
     //Keyboard controls
     var cursors;
     var keys;
-    var space;
-
-    var graphics
-    var guiTimer
-    var temp;
 
     var cooldown = 0;
 
@@ -217,6 +212,27 @@ function LaunchTagGame(){
         player1.gui.setPosition(player1.body.x + player1.width / 8 - 16, player1.body.y - 25);
         player2.gui.setPosition(player2.body.x + player2.width / 8 - 16, player2.body.y - 25);
         
+        //camera
+        this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
+        this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
+        
+        zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
+        zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
+        if(!zoomControlX){
+            zoomControlX = zoomControlY
+        }
+        if(!zoomControlY){
+            zoomControlY = zoomControlX
+        }
+        this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
+        if(this.cameras.main.zoom<1){
+            this.cameras.main.setZoom(1) 
+        }
+        if(this.cameras.main.zoom>3){
+            this.cameras.main.setZoom(3)
+        }
+        console.log(this.cameras.main.x)
+        console.log(this.cameras.main.y)
         //Handle player movement
         player1.upkeep();
         player2.upkeep();
@@ -249,28 +265,7 @@ function LaunchTagGame(){
         if(!player2.body.touching.down){
             player2.onSpeed = false
             player2.onJump = false
-        } 
-        //camera
-        this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
-        this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
-        
-        zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
-        zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
-        if(!zoomControlX){
-            zoomControlX = zoomControlY
-        }
-        if(!zoomControlY){
-            zoomControlY = zoomControlX
-        }
-        this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.65);
-        if(this.cameras.main.zoom<1){
-            this.cameras.main.setZoom(1) 
-        }
-        if(this.cameras.main.zoom>3){
-            this.cameras.main.setZoom(3)
-        }
-        console.log(this.cameras.main.x)
-        console.log(this.cameras.main.y)  
+        }   
         
     }
 
@@ -281,13 +276,13 @@ function LaunchTagGame(){
         speedPlatforms = scene.physics.add.staticGroup();
         jumpPlatforms = scene.physics.add.staticGroup();
         //basePlatform is the floor of the game
+        jumpArray.push(jumpPlatforms.create(600, game.scale.height-30, 'platform'))//creates the bottom right platform
         basicArray.push(basicPlatforms.create(game.scale.width/2, game.scale.height-30, 'platform'));
-        basicArray[0].setScale(1.5, 0.4).refreshBody(); //scales the base platform in the x axis to cover the entire floor
+        basicArray[0].setScale(1, 0.5).refreshBody(); //scales the base platform in the x axis to cover the entire floor
 
-        speedArray.push(speedPlatforms.create(250, 350, 'platform')) //creates the upper left platform
-        jumpArray.push(jumpPlatforms.create(400, 475, 'platform'))//creates the bottom right platform
+        speedArray.push(speedPlatforms.create(500, 350, 'platform')) //creates the upper left platform
 
-        jumpArray[0].setScale(0.5, 0.25).refreshBody();
+        jumpArray[0].setScale(0.5, 0.5).refreshBody();
         speedArray[0].setScale(0.5).refreshBody();
         speedPlatforms.setTint(0xffa500);
         basicPlatforms.setTint(0xf0f0f0);
