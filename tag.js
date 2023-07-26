@@ -26,6 +26,7 @@ function LaunchTagGame(){
         jump = 0;
         onJump = false;
         onSpeed = false;
+        onBasic = false;
         constructor(scene, x, y)
         {
             super(scene, x, y, 'player');
@@ -100,24 +101,24 @@ function LaunchTagGame(){
     player1 = new Player(this, 300, 400);
     player1.setScale(0.1)
     player1.setTint(0xaa3030)
-    this.physics.add.collider(player1, basicPlatforms);
+    this.physics.add.collider(player1, basicPlatforms, function(){player1.onBasic = true}, null, this);
     this.physics.add.collider(player1, speedPlatforms, function(){player1.onSpeed = true}, null, this);
     this.physics.add.collider(player1, jumpPlatforms, function(){player1.onJump = true}, null, this);
 
     player2 = new Player(this, 700, 400);
     player2.setScale(0.1)
     player2.setTint(0x5050ff)
-    this.physics.add.collider(player2, basicPlatforms);
+    this.physics.add.collider(player2, basicPlatforms, function(){player2.onBasic = true}, null, this);
     this.physics.add.collider(player2, speedPlatforms, function(){player2.onSpeed = true}, null, this);
     this.physics.add.collider(player2, jumpPlatforms, function(){player2.onJump = true}, null, this);
 
     this.physics.add.collider(player1, player2, tag, null, this);
 
     player1.arrow = this.physics.add.image(0, 0, 'arrow');
-    player1.arrow.setScale(0.15)
+    player1.arrow.setScale(0.1)
 
     player2.arrow = this.physics.add.image(0, 0, 'arrow');
-    player2.arrow.setScale(0.15);
+    player2.arrow.setScale(0.1);
     
     //camera stuff
     this.cameras.main.setBounds(0, 0, 800, 600);
@@ -130,8 +131,8 @@ function LaunchTagGame(){
     cursors.up.on('down', jump1); //calls jump function when space is pressed
     wRizz.on('down', jump2); 
 
-    player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 24px Arial"});
-    player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 24px Arial"});
+    player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
+    player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
 
     player1.arrow.setVisible(P1it);
     player2.arrow.setVisible(P2it);
@@ -170,8 +171,8 @@ function LaunchTagGame(){
         player2.speed += 25*P2it
     //yes
         //arrow upkeep
-        player1.arrow.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 15);
-        player2.arrow.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 15);
+        player1.arrow.setPosition(player1.body.x + player1.width / 8 - 15, player1.body.y - 10);
+        player2.arrow.setPosition(player2.body.x + player2.width / 8 - 15, player2.body.y - 10);
         if(cooldown<1){
             player1.gui.setVisible(false)
             player2.gui.setVisible(false)
@@ -184,8 +185,8 @@ function LaunchTagGame(){
 
         }
         //gui upkeep
-        player1.gui.setPosition(player1.body.x + player1.width / 8 - 16, player1.body.y - 25);
-        player2.gui.setPosition(player2.body.x + player2.width / 8 - 16, player2.body.y - 25);
+        player1.gui.setPosition(player1.body.x + player1.width / 8 - 20, player1.body.y-18);
+        player2.gui.setPosition(player2.body.x + player2.width / 8 - 20, player2.body.y-18);
         
         //camera
         this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
@@ -236,15 +237,17 @@ function LaunchTagGame(){
             player2.flipX = false
             player2.setVelocityX(300 + player2.speed);
         }
-        if(!player1.body.touching.down){
+        
+        if(!player1.body.touching.down||player1.onBasic){
             player1.onSpeed = false
             player1.onJump = false
         }
-        if(!player2.body.touching.down){
+        if(!player2.body.touching.down||player2.onBasic){
             player2.onSpeed = false
             player2.onJump = false
         }   
-        
+        player2.onBasic = false
+        player1.onBasic = false
     }
 
 
@@ -268,6 +271,7 @@ function LaunchTagGame(){
         basicArray[1].setScale(0.25, 0.5).refreshBody();
         */
 
+        //bottom ground
         jumpArray.push(jumpPlatforms.create(37.5, game.scale.height, 'platform'));
         jumpArray[0].setScale(0.15, 0.25).refreshBody();
 
@@ -279,6 +283,14 @@ function LaunchTagGame(){
 
         basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+50, game.scale.height, 'platform'));
         basicArray[0].setScale(0.2, 0.25).refreshBody();
+
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+50*2+25, game.scale.height, 'platform'));
+        jumpArray[2].setScale(0.1, 0.25).refreshBody();
+
+        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+50*2+25*2+87.5, game.scale.height, 'platform'));
+        basicArray[1].setScale(0.35, 0.25).refreshBody();
+
+
 
         speedPlatforms.setTint(0xffa500);
         basicPlatforms.setTint(0xf0f0f0);
@@ -325,6 +337,8 @@ function LaunchTagGame(){
         }
     }
 
+    basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+50*2+25, game.scale.height, 'platform'));
+    basicArray[1].setScale(0.1, 0.25).refreshBody();
     function help(){
         if(cooldown>0){
             cooldown--;
