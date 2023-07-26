@@ -36,7 +36,6 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     killPlayer(){
         this.score=this.body.x
         this.canMove=false
-        // this.setVelocityY(-300)
         playersDead++
     }
 }
@@ -56,7 +55,9 @@ function preload(){
     this.load.image('background', 'images/scrollingPerhaps.png')
     this.load.image('pentagon', 'images/pentagon.png')
     this.load.image('bee', 'images/playerBee.png')
+    //ask alex for new platformer sprite
     this.load.image('platform', 'images/platform.png')
+    //ask alex for new beevil sprites
     this.load.image('beevil', 'images/beevil.png')
 }
 
@@ -106,8 +107,8 @@ function update(){
     camera.scrollX=2*(multiplier**1.1)
     multiplier++
 
-    if (player1.body.x-camera.scrollX<25) player1.killPlayer()
-    if (player2.body.x-camera.scrollX<25) player2.killPlayer()
+    if (player1.body.x-camera.scrollX<10) player1.killPlayer()
+    if (player2.body.x-camera.scrollX<10) player2.killPlayer()
 
 
     if (player1.canMove){
