@@ -13,7 +13,6 @@ const config = {
 const game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('blank', 'images/blanksquare.png')
     this.load.image('cell', 'images/cell.png');
     this.load.image('1', 'images/bee.png');
     this.load.image('2', 'images/bee2.png');
@@ -30,7 +29,6 @@ function createCellTexture() {
 function create() {
     this.add.image(400, 300, 'background').setScale(0.5); // add background image
     this.add.image(195, 150, 'cell').setScale(1);
-    this.add.images(0, 0, 'blank').setScale(1)
 
     const cellTexture = createCellTexture();
 
