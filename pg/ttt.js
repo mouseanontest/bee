@@ -1,10 +1,8 @@
 function LaunchTicTacToe(){
-
-
 const config = {
     type: Phaser.AUTO,
-    width: 400,
-    height: 300,
+    width: 1000,
+    height: 600,
     scene: {
         preload: preload,
         create: create
@@ -29,7 +27,7 @@ function createCellTexture() {
 }
 
 function create() {
-    this.add.image(400, 300, 'background').setScale(0.5); // add background image
+    this.add.image(1000, 600, 'background').setScale(0.5); // add background image
     this.add.image(195, 150, 'cell').setScale(1);
 
     const cellTexture = createCellTexture();
