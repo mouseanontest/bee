@@ -35,8 +35,8 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     }
     killPlayer(){
         this.score=this.body.x
-        this.disableBody(true, true)
         this.canMove=false
+        // this.setVelocityY(-300)
         playersDead++
     }
 }
@@ -55,7 +55,7 @@ var game=new Phaser.Game(config)
 function preload(){
     this.load.image('background', 'images/scrollingPerhaps.png')
     this.load.image('pentagon', 'images/pentagon.png')
-    this.load.image('bee', 'images/bee.png')
+    this.load.image('bee', 'images/playerBee.png')
     this.load.image('platform', 'images/platform.png')
     this.load.image('beevil', 'images/beevil.png')
 }
@@ -66,8 +66,8 @@ function create(){
     }
 
     createPlatforms(this)
-    player1=new Player(this, 300, 100)
-    player2=new Player(this, 400, 100)
+    player1=new Player(this, 600, 400).setTint(0xaa3030)
+    player2=new Player(this, 600, 400).setTint(0x5050ff)
 
     this.physics.add.collider(player1, platforms)
     this.physics.add.collider(player2, platforms)
@@ -102,16 +102,18 @@ function update(){
     let accel=80
     let decel=70
 
-    camera.scrollX=2*(multiplier**1.13)
+    //maybe sigmoid in the future
+    camera.scrollX=2*(multiplier**1.1)
     multiplier++
 
     if (player1.body.x-camera.scrollX<25) player1.killPlayer()
     if (player2.body.x-camera.scrollX<25) player2.killPlayer()
 
+
     if (player1.canMove){
-        if (keys.A.isDown){
+        if (cursors.left.isDown){
             player1.setVelocityX(appr(accel, -1*maxSpd, player1.body.velocity.x))
-        } else if (keys.D.isDown){
+        } else if (cursors.right.isDown){
             player1.setVelocityX(appr(accel, maxSpd, player1.body.velocity.x))
         } else {
             player1.setVelocityX(appr(decel, 0, player1.body.velocity.x))
@@ -119,16 +121,14 @@ function update(){
     }
 
     if (player2.canMove){
-        if (cursors.left.isDown){
+        if (keys.A.isDown){
             player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
-        } else if (cursors.right.isDown){
+        } else if (keys.D.isDown){
             player2.setVelocityX(appr(accel, maxSpd, player2.body.velocity.x))
         } else {
             player2.setVelocityX(appr(decel, 0, player2.body.velocity.x))
         }
     }
-
-    // movingBees.forEach(element => element.x+=100*Math.sin(frames%60*Math.PI/30))
 
     for(let i=0; i<movingBees.length; i++){
         movingBees[i].x+=(3*Math.sin((i+frames)%60*Math.PI/30))
@@ -137,9 +137,9 @@ function update(){
 }
 
 function jump(event){
-    if (keys.W.isDown && player1.body.touching.down){
+    if (cursors.up.isDown && player1.body.touching.down){
         player1.setVelocityY(-1000)
-    } else if (cursors.up.isDown && player2.body.touching.down){
+    } else if (keys.W.isDown && player2.body.touching.down){
         player2.setVelocityY(-1000)
     }
 }
