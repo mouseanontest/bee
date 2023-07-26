@@ -110,7 +110,7 @@ function launchRunnerGame() {
         objectHazard.setPushable(false);
         
         //Spawns a new obstacle every 1-3 seconds
-        scene.time.delayedCall(Phaser.Math.Between(1000, 2000), spawnObstacles, [scene], scene);
+        scene.time.delayedCall(Phaser.Math.Between(1000 - (difficulty * 500), 2000 - (difficulty * 500)), spawnObstacles, [scene], scene);
     }
     
     function update()
@@ -122,7 +122,7 @@ function launchRunnerGame() {
             difficulty = difficulty + 0.0005;
         }
         
-        if (objectHazard.x < -20) {
+        if (objectHazard.x < -100) {
             console.log("Object Destroyed");
             objectHazard.destroy();
         }
