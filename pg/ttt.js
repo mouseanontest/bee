@@ -27,10 +27,11 @@ function createCellTexture() {
 }
 
 function create() {
-    this.add.image(1000, 600, 'background').setScale(0.5); // add background image
-    this.add.image(195, 150, 'cell').setScale(1);
+    this.add.image(1000, 600, 'background').setScale(1.1); // add background image
+    this.add.image(475, 330, 'cell').setScale(1.75);
 
     const cellTexture = createCellTexture();
+    sprite.setInteractive('cell');
 
     // Add the 3x3 grid cells
     for (let i = 0; i < 3; i++) {
@@ -73,12 +74,13 @@ function checkWinner() {
     return null;
 }
 
+
 function handleClick() {
     if (!gameEnded) {
         const cellIndex = this.getData('index');
         if (!gameBoard[cellIndex]) {
             gameBoard[cellIndex] = currentPlayer;
-            this.setProperty(currentPlayer);
+            this.setTexture(currentPlayer);
             const winner = checkWinner();
             if (winner) {
                 if (winner === 'tie') {
