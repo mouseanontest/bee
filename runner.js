@@ -44,7 +44,8 @@ var gui;
 var guiTimer;
 
 //Gameplay values
-var difficulty;
+var difficulty = 1;
+var difficultyEnabled = false;
 
 function preload()
 {
@@ -52,15 +53,13 @@ function preload()
     this.load.image('player', 'images/playerBee.png');
     this.load.image('obstacle1', 'images/obstacles/obstacle1.png');
     this.load.image('obstacle2', 'images/obstacles/obstacle2.png');
-    this.load.image('obstacle3', 'images/obstacles/obstacle3.png');
-    this.load.image('obstacle4', 'images/obstacles/obstacle4.png');
-    this.load.image('obstacle5', 'images/obstacles/obstacle5.png');
+    this.load.image('obstacle3', 'images/obstacles/obstacle3var1.png');
+    this.load.image('obstacle4', 'images/obstacles/obstacle3var2.png');
+    this.load.image('obstacle5', 'images/obstacles/obstacle3var3.png');
 }
 
 function create()
 {
-
-    difficulty = 1;
 
     //Set the background image
     let bgImage = this.add.image(600, 350, 'sky')
@@ -71,6 +70,7 @@ function create()
    spawnObstacles(this);
    player1 = new Player(this, 400, 400);
    player2 = new Player(this, 400, 400);
+   //sets player colors
    player1.setTint(0x5050ff);
    player2.setTint(0xaa3030);
    this.physics.add.collider(player1, obstacles);
@@ -99,10 +99,11 @@ function spawnObstacles(scene){
 function update()
 {
     //Adds player drag
-    player1.setDragX(10000);
-    player2.setDragX(1000);
-    difficulty = difficulty + 0.0005;
-    console.log(difficulty);
+    player1.setDragX(1000 * difficulty);
+    player2.setDragX(1000 * difficulty);
+    if (difficultyEnabled === true) {
+        difficulty = difficulty + 0.0005;
+    }
 }
 
 //Jump events for players
