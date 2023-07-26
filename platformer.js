@@ -10,9 +10,9 @@ let nextX=0
 
 let obstacles=[
     [
-        {x:100, y:100, scl:.5, type: 'platH'},
-        {x:200, y:200, scl:.5, type: 'platV'}
-    ],
+        {x:100, y:450, scl:.5, type: 'platH'},
+        {x:500, y:350, scl:.5, type: 'platH'}
+    ],  
     [
         {x:100, y:300, scl:.5, type: 'platV'},
         {x:200, y:500, scl:.5, type: 'platH'}
@@ -39,7 +39,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     constructor(scene,x,y){
         super(scene,x,y,'bee')
         scene.add.existing(this)
-        this.setScale(.5)
+        this.setScale(.3)
         scene.physics.add.existing(this)
         this.setGravityY(3000)
         this.score=0
@@ -78,11 +78,7 @@ function create(){
     }
 
     platforms = this.physics.add.staticGroup()
-    createPlatforms([], 0)
-    createPlatforms([], 1)
-
-    createPlatforms(obstacles[0], 2)
-    createPlatforms(obstacles[1], 3)
+    createPlatforms(obstacles[0], 0)
 
     player1=new Player(this, 600, 400).setTint(0xaa3030)
     player2=new Player(this, 600, 400).setTint(0x5050ff)
@@ -102,8 +98,8 @@ function create(){
         bees.push(new WallBee(this, -60, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0).setDepth(1))
     }
     for (let i=0; i<10; i++){
-        movingBees.push(new WallBee(this, 90*Math.random()-100, game.scale.height*Math.random()-100).setScrollFactor(0).setDepth(3))
-        movingBees.push(new WallBee(this, 70*Math.random()-80, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0).setDepth(2))
+        movingBees.push(new WallBee(this, 90*Math.random()-100, game.scale.height*Math.random()-100).setScrollFactor(0).setDepth(2))
+        movingBees.push(new WallBee(this, 70*Math.random()-80, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0).setDepth(1))
     }
 }
 
@@ -115,15 +111,16 @@ function update(){
     let decel=70
 
     //maybe sigmoid in the future
-    camera.scrollX=2*(multiplier**1.1)
-    multiplier++
+    // camera.scrollX=2*(multiplier**1.1)
+    // multiplier++
+    camera.scrollX=player1.body.x-640
 
     if (player1.body.x-camera.scrollX<10) player1.killPlayer()
     if (player2.body.x-camera.scrollX<10) player2.killPlayer()
 
-    if (camera.scrollX>640*(nextX-2)){
-        createPlatforms(obstacles[Math.floor(Math.random()+.5)])
-    }
+    // if (camera.scrollX>1280*(nextX-1)){
+    //     createPlatforms(obstacles[Math.floor(Math.random()+.5)])
+    // }
 
     if (player1.canMove){
         if (cursors.left.isDown){
@@ -148,7 +145,6 @@ function update(){
     //bring bees in front of everything later
     for(let i=0; i<movingBees.length; i++){
         movingBees[i].x+=(3*Math.sin((i+frames)%60*Math.PI/30))
-        console.log(movingBees[i].depth)
     }
 }
 
@@ -161,9 +157,10 @@ function jump(event){
 }
 
 function createPlatforms(platformArray){
-    platforms.create(nextX*640, game.scale.height-45, 'platH').setOrigin(0).setScale(1, 1).refreshBody();
+    platforms.create(nextX*1280, game.scale.height-45, 'platH').setOrigin(0).setScale(1, 1).refreshBody();
+    platforms.create(nextX*1280+640, game.scale.height-45, 'platH').setOrigin(0).setScale(1, 1).refreshBody();
     platformArray.forEach(element => {
-        platforms.create(nextX*640+element['x'], element['y'], element['type']).setOrigin(0).setScale(element['scl'], element['scl']).refreshBody();
+        platforms.create(nextX*1280+element['x'], element['y'], element['type']).setOrigin(0).setScale(element['scl'], element['scl']).refreshBody();
     });
     nextX++
 }
