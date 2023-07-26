@@ -217,27 +217,6 @@ function update()
     player1.gui.setPosition(player1.body.x + player1.width / 8 - 16, player1.body.y - 25);
     player2.gui.setPosition(player2.body.x + player2.width / 8 - 16, player2.body.y - 25);
     
-    //camera
-    this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
-    this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
-    
-    zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
-    zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
-    if(!zoomControlX){
-        zoomControlX = zoomControlY
-    }
-    if(!zoomControlY){
-        zoomControlY = zoomControlX
-    }
-    this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
-    if(this.cameras.main.zoom<1){
-        this.cameras.main.setZoom(1) 
-    }
-    if(this.cameras.main.zoom>3){
-        this.cameras.main.setZoom(3)
-    }
-    console.log(this.cameras.main.x)
-    console.log(this.cameras.main.y)
     //Handle player movement
     player1.upkeep();
     player2.upkeep();
@@ -270,7 +249,28 @@ function update()
     if(!player2.body.touching.down){
         player2.onSpeed = false
         player2.onJump = false
-    }   
+    } 
+    //camera
+    this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
+    this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
+    
+    zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
+    zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
+    if(!zoomControlX){
+        zoomControlX = zoomControlY
+    }
+    if(!zoomControlY){
+        zoomControlY = zoomControlX
+    }
+    this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.65);
+    if(this.cameras.main.zoom<1){
+        this.cameras.main.setZoom(1) 
+    }
+    if(this.cameras.main.zoom>3){
+        this.cameras.main.setZoom(3)
+    }
+    console.log(this.cameras.main.x)
+    console.log(this.cameras.main.y)  
     
 }
 
