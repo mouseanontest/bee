@@ -33,7 +33,6 @@ var game = new Phaser.Game(config);
 var obstacles;
 var player1;
 var player2;
-var objectHazard;
 
 //Keyboard controls
 var cursors;
@@ -43,6 +42,9 @@ var p2Jump;
 //GUI elements
 var gui;
 var guiTimer;
+
+//Gameplay values
+var difficulty;
 
 function preload()
 {
@@ -57,6 +59,9 @@ function preload()
 
 function create()
 {
+
+    difficulty = 1;
+
     //Set the background image
     let bgImage = this.add.image(600, 350, 'sky')
     bgImage.setScale(1);
@@ -82,16 +87,9 @@ function create()
 
 function spawnObstacles(scene){
     //objectHazard is a collidable obstacle
-    let hazardType = Phaser.Math.Between(1, 3);
-    if (hazardType === 1) {
-        objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(100, 150), 'obstacle'+Phaser.Math.Between(1, 2));
-    } else if (hazardType === 2) {
-        objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(600, 650), 'obstacle'+Phaser.Math.Between(3, 4));
-    } else {
-        objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(400, 500), 'obstacle5');
-    }
+    let objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(100, 150), 'obstacle'+Phaser.Math.Between(1, 2));
     objectHazard.setScale(1).refreshBody();
-    objectHazard.setVelocityX(-550);
+    objectHazard.setVelocityX(difficulty * -550);
     objectHazard.setPushable(false);
     
     //Spawns a new obstacle every 1-3 seconds
@@ -101,8 +99,10 @@ function spawnObstacles(scene){
 function update()
 {
     //Adds player drag
-    player1.setDragX(1000);
+    player1.setDragX(10000);
     player2.setDragX(1000);
+    difficulty = difficulty + 0.0005;
+    console.log(difficulty);
 }
 
 //Jump events for players
