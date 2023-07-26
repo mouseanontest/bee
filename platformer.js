@@ -6,15 +6,16 @@ let bees=[]
 let movingBees=[]
 let frames=0
 let platforms
+let nextX=0
 
 let obstacles=[
     [
-        {x:100, y:100, sclX:1, sclY:1},
-        {x:200, y:200, sclX:1, sclY:1}
+        {x:100, y:100, scl:.5, type: 'platH'},
+        {x:200, y:200, scl:.5, type: 'platV'}
     ],
     [
-        {x:100, y:300, sclX:1, sclY:1},
-        {x:200, y:500, sclX:1, sclY:1}
+        {x:100, y:300, scl:.5, type: 'platV'},
+        {x:200, y:500, scl:.5, type: 'platH'}
     ]
 ]
 
@@ -66,9 +67,9 @@ var game=new Phaser.Game(config)
 function preload(){
     this.load.image('background', 'images/scrollingPerhaps.png')
     this.load.image('bee', 'images/playerBee.png')
-    //ask alex for new platformer sprite
-    this.load.image('platform', 'images/platform.png')
+    this.load.image('platH', 'images/honeycombplatform.png')
     this.load.image('beevil', 'images/beevil.png')
+    this.load.image('platV', 'images/honeycombPlatform2.png')
 }
 
 function create(){
@@ -78,7 +79,10 @@ function create(){
 
     platforms = this.physics.add.staticGroup()
     createPlatforms([], 0)
-    createPlatforms(obstacles[0], 1000)
+    createPlatforms([], 1)
+
+    createPlatforms(obstacles[0], 2)
+    createPlatforms(obstacles[1], 3)
 
     player1=new Player(this, 600, 400).setTint(0xaa3030)
     player2=new Player(this, 600, 400).setTint(0x5050ff)
@@ -86,7 +90,7 @@ function create(){
     this.physics.add.collider(player1, platforms)
     this.physics.add.collider(player2, platforms)
 
-    camera=this.cameras.main.setBounds(0,0, 4800, 600)
+    camera=this.cameras.main.setBounds(0,0, Number.MAX_SAFE_INTEGER, 600)
 
     cursors = this.input.keyboard.createCursorKeys()
     keys = this.input.keyboard.addKeys('W, A, D')
@@ -95,7 +99,7 @@ function create(){
 
     //make bees
     for (let i=0; i<10; i++){
-        bees.push(new WallBee(this, -50, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
+        bees.push(new WallBee(this, -60, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
     }
     for (let i=0; i<10; i++){
         movingBees.push(new WallBee(this, 90*Math.random()-100, game.scale.height*Math.random()-100).setScrollFactor(0))
@@ -117,6 +121,9 @@ function update(){
     if (player1.body.x-camera.scrollX<10) player1.killPlayer()
     if (player2.body.x-camera.scrollX<10) player2.killPlayer()
 
+    if (camera.scrollX>640*(nextX-2)){
+        createPlatforms(obstacles[Math.floor(Math.random()+.5)])
+    }
 
     if (player1.canMove){
         if (cursors.left.isDown){
@@ -138,10 +145,10 @@ function update(){
         }
     }
 
+    //bring bees in front of everything later
     for(let i=0; i<movingBees.length; i++){
         movingBees[i].x+=(3*Math.sin((i+frames)%60*Math.PI/30))
     }
-    
 }
 
 function jump(event){
@@ -152,11 +159,12 @@ function jump(event){
     }
 }
 
-function createPlatforms(platformArray, nextX){
-    platforms.create(nextX, game.scale.height-50, 'platform').setOrigin(0).setScale(3, 1).refreshBody();
+function createPlatforms(platformArray){
+    platforms.create(nextX*640, game.scale.height-45, 'platH').setOrigin(0).setScale(1, 1).refreshBody();
     platformArray.forEach(element => {
-        platforms.create(nextX+element['x'], element['y'], 'platform').setOrigin(0).setScale(element['sclX'], element['sclY']).refreshBody();
+        platforms.create(nextX*640+element['x'], element['y'], element['type']).setOrigin(0).setScale(element['scl'], element['scl']).refreshBody();
     });
+    nextX++
 }
 
 function appr(inc, val, num){
