@@ -5,6 +5,18 @@ let multiplier=0
 let bees=[]
 let movingBees=[]
 let frames=0
+let platforms
+
+let obstacles=[
+    [
+        {x:100, y:100, sclX:1, sclY:1},
+        {x:200, y:200, sclX:1, sclY:1}
+    ],
+    [
+        {x:100, y:300, sclX:1, sclY:1},
+        {x:200, y:500, sclX:1, sclY:1}
+    ]
+]
 
 var config = {
     type: Phaser.AUTO,
@@ -53,11 +65,9 @@ var game=new Phaser.Game(config)
 
 function preload(){
     this.load.image('background', 'images/scrollingPerhaps.png')
-    this.load.image('pentagon', 'images/pentagon.png')
     this.load.image('bee', 'images/playerBee.png')
     //ask alex for new platformer sprite
     this.load.image('platform', 'images/platform.png')
-    //ask alex for new beevil sprites
     this.load.image('beevil', 'images/beevil.png')
 }
 
@@ -66,7 +76,10 @@ function create(){
         this.add.image(-500+1146*i, -500, 'background').setOrigin(0).scrollFactorX=.5
     }
 
-    createPlatforms(this)
+    platforms = this.physics.add.staticGroup()
+    createPlatforms([], 0)
+    createPlatforms(obstacles[0], 1000)
+
     player1=new Player(this, 600, 400).setTint(0xaa3030)
     player2=new Player(this, 600, 400).setTint(0x5050ff)
 
@@ -85,15 +98,9 @@ function create(){
         bees.push(new WallBee(this, -50, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
     }
     for (let i=0; i<10; i++){
-        movingBees.push(new WallBee(this, 70*Math.random()-80, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
         movingBees.push(new WallBee(this, 90*Math.random()-100, game.scale.height*Math.random()-100).setScrollFactor(0))
+        movingBees.push(new WallBee(this, 70*Math.random()-80, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
     }
-}
-
-function createPlatforms(scene){
-    platforms = scene.physics.add.staticGroup()
-    let basePlatform = platforms.create(0, game.scale.height-50, 'platform').setOrigin(0);
-    basePlatform.setScale(10, 1).refreshBody()
 }
 
 function update(){
@@ -143,6 +150,13 @@ function jump(event){
     } else if (keys.W.isDown && player2.body.touching.down){
         player2.setVelocityY(-1000)
     }
+}
+
+function createPlatforms(platformArray, nextX){
+    platforms.create(nextX, game.scale.height-50, 'platform').setOrigin(0).setScale(3, 1).refreshBody();
+    platformArray.forEach(element => {
+        platforms.create(nextX+element['x'], element['y'], 'platform').setOrigin(0).setScale(element['sclX'], element['sclY']).refreshBody();
+    });
 }
 
 function appr(inc, val, num){
