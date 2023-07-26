@@ -73,7 +73,7 @@ function preload(){
 }
 
 function create(){
-    for (let i=0; i<5; i++){
+    for (let i=0; i<20; i++){
         this.add.image(-500+1146*i, -500, 'background').setOrigin(0).scrollFactorX=.5
     }
 
@@ -99,11 +99,11 @@ function create(){
 
     //make bees
     for (let i=0; i<10; i++){
-        bees.push(new WallBee(this, -60, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
+        bees.push(new WallBee(this, -60, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0).setDepth(1))
     }
     for (let i=0; i<10; i++){
-        movingBees.push(new WallBee(this, 90*Math.random()-100, game.scale.height*Math.random()-100).setScrollFactor(0))
-        movingBees.push(new WallBee(this, 70*Math.random()-80, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0))
+        movingBees.push(new WallBee(this, 90*Math.random()-100, game.scale.height*Math.random()-100).setScrollFactor(0).setDepth(3))
+        movingBees.push(new WallBee(this, 70*Math.random()-80, game.scale.height-i*game.scale.height/10-90).setScrollFactor(0).setDepth(2))
     }
 }
 
@@ -148,6 +148,7 @@ function update(){
     //bring bees in front of everything later
     for(let i=0; i<movingBees.length; i++){
         movingBees[i].x+=(3*Math.sin((i+frames)%60*Math.PI/30))
+        console.log(movingBees[i].depth)
     }
 }
 
