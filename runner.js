@@ -33,6 +33,7 @@ var game = new Phaser.Game(config);
 var obstacles;
 var player1;
 var player2;
+var objectHazard;
 
 //Keyboard controls
 var cursors;
@@ -81,7 +82,14 @@ function create()
 
 function spawnObstacles(scene){
     //objectHazard is a collidable obstacle
-    let objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(100, 150), 'obstacle1');
+    let hazardType = Phaser.Math.Between(1, 3);
+    if (hazardType === 1) {
+        objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(100, 150), 'obstacle'+Phaser.Math.Between(1, 2));
+    } else if (hazardType === 2) {
+        objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(600, 650), 'obstacle'+Phaser.Math.Between(3, 4));
+    } else {
+        objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(400, 500), 'obstacle5');
+    }
     objectHazard.setScale(1).refreshBody();
     objectHazard.setVelocityX(-550);
     objectHazard.setPushable(false);
