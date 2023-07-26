@@ -92,11 +92,14 @@ var cooldown = 0;
 var basicArray = [];
 var jumpArray = [];
 var speedArray = [];
+
+var zoomControlX;
+var zoomControlY;
 function preload()
 {
-    this.load.image('background', 'images/background.png');
+    this.load.image('background', 'images/honeycombBG.png');
     this.load.image('platform', 'images/platform.png');
-    this.load.image('player', 'images/bee.png');
+    this.load.image('player', 'images/playerBee.png');
     this.load.image('pentagon', 'images/pentagon.png');
     this.load.image('arrow', 'images/tagArrow.png');
 }
@@ -104,8 +107,6 @@ function preload()
 function create()
 {
     // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
-
-    this.cameras.main.setZoom(1);
 
     //unused
     graphics = this.add.graphics();
@@ -115,14 +116,14 @@ function create()
    //Create the platforms and the player character set to collide with the platforms
    createPlatforms(this);
 
-   player1 = new Player(this, 400, 400);
+   player1 = new Player(this, 300, 400);
    player1.setScale(0.15)
    player1.setTint(0xaa3030)
    this.physics.add.collider(player1, basicPlatforms);
    this.physics.add.collider(player1, speedPlatforms, function(){player1.onSpeed = true}, null, this);
    this.physics.add.collider(player1, jumpPlatforms, function(){player1.onJump = true}, null, this);
 
-   player2 = new Player(this, 400, 400);
+   player2 = new Player(this, 700, 400);
    player2.setScale(0.15)
    player2.setTint(0x5050ff)
    this.physics.add.collider(player2, basicPlatforms);
@@ -139,7 +140,6 @@ function create()
    
    //camera stuff
    this.cameras.main.setBounds(0, 0, 800, 600);
-   this.cameras.main.startFollow(player1, true);
     
    //Create the pentagon interactables
    for (var i = 0; i < totalPentagons; i++)
@@ -198,7 +198,7 @@ function update()
 
     player1.speed += 50*P1it
     player2.speed += 50*P2it
-
+//yes
     //arrow upkeep
     player1.arrow.setPosition(player1.body.x + player1.width / 8 - 8, player1.body.y - 15);
     player2.arrow.setPosition(player2.body.x + player2.width / 8 - 8, player2.body.y - 15);
@@ -217,7 +217,28 @@ function update()
     player1.gui.setPosition(player1.body.x + player1.width / 8 - 16, player1.body.y - 25);
     player2.gui.setPosition(player2.body.x + player2.width / 8 - 16, player2.body.y - 25);
     
-    //Handle player movements
+    //camera
+    this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
+    this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
+    
+    zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
+    zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
+    if(!zoomControlX){
+        zoomControlX = zoomControlY
+    }
+    if(!zoomControlY){
+        zoomControlY = zoomControlX
+    }
+    this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
+    if(this.cameras.main.zoom<1){
+        this.cameras.main.setZoom(1) 
+    }
+    if(this.cameras.main.zoom>3){
+        this.cameras.main.setZoom(3)
+    }
+    console.log(this.cameras.main.x)
+    console.log(this.cameras.main.y)
+    //Handle player movement
     player1.upkeep();
     player2.upkeep();
     
@@ -298,7 +319,6 @@ function jump2(event)
     }
 }
 
-//This function is called when a player overlaps with a pentagon
 function eatPentagon(player, pentagon)
 {
     pentagon.disableBody(true, true); //remove that particular pentagon from the game (physics and visibility)
@@ -317,6 +337,7 @@ function tag(){
         }
     }
 }
+
 function help(){
     if(cooldown>0){
         cooldown--;
