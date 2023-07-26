@@ -31,7 +31,6 @@ var game = new Phaser.Game(config);
 
 //Game Objects
 var obstacles;
-var pillar;
 var player1;
 var player2;
 
@@ -52,7 +51,6 @@ function preload()
 {
     this.load.image('sky', 'images/honeycombBG.png');
     this.load.image('player', 'images/playerBee.png');
-    this.load.image('bgPillar', 'images/honeycombPillar.png')
     this.load.image('obstacle1', 'images/obstacles/obstacle1.png');
     this.load.image('obstacle2', 'images/obstacles/obstacle2.png');
     this.load.image('obstacle3', 'images/obstacles/obstacle3var1.png');
@@ -69,8 +67,6 @@ function create()
 
    //Starts generating obstacles and adds players to the scene
    obstacles = this.physics.add.group();
-   pillar = this.physics.add.group();
-   spawnBgPillars(this);
    spawnObstacles(this);
    player1 = new Player(this, 400, 400);
    player2 = new Player(this, 400, 400);
@@ -98,14 +94,6 @@ function spawnObstacles(scene){
     
     //Spawns a new obstacle every 1-3 seconds
     scene.time.delayedCall(Phaser.Math.Between(1000, 3000), spawnObstacles, [scene], scene);
-}
-
-function spawnBgPillars(scene){
-    let pillarObject = pillar.create(game.scale.width+500, game.scale.height, 'bgPillar');
-    pillarObject.setScale(2).refreshBody();
-    pillarObject.setVelocityX((difficulty * -550) / 2);
-
-    scene.time.delayedCall(2000, spawnBgPillars, [scene], scene);
 }
 
 function update()
