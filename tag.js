@@ -29,6 +29,7 @@ function LaunchTagGame(){
         onBasic = false;
         offJump = true;
         offSpeed = true;
+
         constructor(scene, x, y)
         {
             super(scene, x, y, 'player');
@@ -36,8 +37,9 @@ function LaunchTagGame(){
             scene.physics.add.existing(this);
             this.setScale(2);
             this.setCollideWorldBounds(true);
-            this.setGravityY(1500); //We will set gravity *per object* rather than for the scene!
+            this.setGravityY(1500);
         }
+
         upkeep(){
             //set gui
             this.gui.setText(cooldown);
@@ -93,7 +95,7 @@ function LaunchTagGame(){
         // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
 
         //unused
-        graphics = this.add.graphics();
+    graphics = this.add.graphics();
         //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
     let background = this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0, 0);
 
@@ -125,7 +127,6 @@ function LaunchTagGame(){
     //camera stuff
     this.cameras.main.setBounds(0, 0, 800, 600);
         
-
     //Set up user input
     cursors = this.input.keyboard.createCursorKeys();
     keys = this.input.keyboard.addKeys('A, D');
@@ -280,20 +281,6 @@ function LaunchTagGame(){
         basicPlatforms = scene.physics.add.staticGroup();
         speedPlatforms = scene.physics.add.staticGroup();
         jumpPlatforms = scene.physics.add.staticGroup();
-        //basePlatform is the floor of the game
-
-        /* basicArray.push(basicPlatforms.create(game.scale.width/2, game.scale.height, 'platform'));
-        basicArray[0].setScale(2, 0.25).refreshBody();
-
-        speedArray.push(speedPlatforms.create(800, 500, 'platform'))
-        jumpArray.push(jumpPlatforms.create(600, 600, 'platform'))
-
-        basicArray.push(basicPlatforms.create(300, 500, 'platform'))
-
-        jumpArray[0].setScale(0.25, 0.5).refreshBody();
-        speedArray[0].setScale(0.5).refreshBody();
-        basicArray[1].setScale(0.25, 0.5).refreshBody();
-        */
 
         //bottom ground
         jumpArray.push(jumpPlatforms.create(37.5, game.scale.height, 'platform'));
@@ -377,11 +364,11 @@ function LaunchTagGame(){
         if (player1.body.touching.down) {
         //If the player is on the ground, the player can jump
         player1.setVelocityY(-400 + player1.jump);
-        player1.currentJumps++;
+        player1.currentJumps = 1;
         } else if (player1.currentJumps < player1.totalJumps) {
         //If the player is not on the ground but has an available air jump, use that jump
         player1.setVelocityY(-300);
-        player1.currentJumps++;
+        player1.currentJumps = 2;
         }
     }
     function jump2(event)
@@ -389,11 +376,11 @@ function LaunchTagGame(){
         if (player2.body.touching.down) {
         //If the player is on the ground, the player can jump
         player2.setVelocityY(-400 + player2.jump);
-        player2.currentJumps++;
+        player2.currentJumps = 1;
         } else if (player2.currentJumps < player2.totalJumps) {
         //If the player is not on the ground but has an available air jump, use that jump
         player2.setVelocityY(-300);
-        player2.currentJumps++;
+        player2.currentJumps = 2;
         }
     }
 
