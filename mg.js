@@ -20,25 +20,26 @@ let player1Score = 0;
 let player2Score = 0;
 let scoreTextPlayer1;
 let scoreTextPlayer2;
+let winText; // New variable to store the win text
 
 // Card images (replace with your own images)
 const cardImages = [
   'card1',
+  'card1', // Pair 1 (two cards with the same image key 'card1')
   'card2',
+  'card2', // Pair 2 (two cards with the same image key 'card2')
   'card3',
+  'card3', // Pair 3 (two cards with the same image key 'card3')
   'card4',
+  'card4', // Pair 4 (two cards with the same image key 'card4')
   'card5',
+  'card5', // Pair 5 (two cards with the same image key 'card5')
   'card6',
+  'card6', // Pair 6 (two cards with the same image key 'card6')
   'card7',
+  'card7', // Pair 7 (two cards with the same image key 'card7')
   'card8',
-  'card9',
-  'card10',
-  'card11',
-  'card12',
-  'card13',
-  'card14',
-  'card15',
-  'card16',
+  'card8', // Pair 8 (two cards with the same image key 'card8')
 ];
 
 // Shuffle the card images
@@ -57,21 +58,17 @@ function preload() {
   this.load.image('card3', 'images/beevil.png');
   this.load.image('card4', 'images/beeofalltradeslogo.png');
   this.load.image('card5', 'images/playerBee.png');
-  this.load.image('card6', 'images/beefilmStudiosLogo.png')
-  this.load.image('card9', 'image/bee.png');
-  this.load.image('card10', 'images/pentagon.png');
-  this.load.image('card11', 'images/beevil.png');
-  this.load.image('card12', 'images/beeofalltradeslogo.png');
-  this.load.image('card13', 'images/playerBee.png');
-  this.load.image('card14', 'images/beefilmStudiosLogo.png')
+  this.load.image('card6', 'images/beefilmStudiosLogo.png');
+  this.load.image('card7', 'images/beehive.png'); // Replace 'your_image7.png' with the correct filename for card 7
+  this.load.image('card8', 'images/honeyBottle.png'); // Replace 'your_image8.png' with the correct filename for card 8
 
   for (const cardImage of cardImages) {
-    this.load.image(cardImage, `images/.png`);
+    this.load.image(cardImage, `images/${cardImage}.png`);
   }
 }
 
 function create() {
-  // Add the background 
+  // Add the background
   this.add.image(0, 0, 'background').setScale(1.1);
 
   // Shuffle the card images
@@ -111,11 +108,10 @@ function create() {
   // Create and display score text for Player 2
   scoreTextPlayer2 = this.add.text(config.width - 200, 300, 'Player 2 Score: 0', { font: '24px Arial', fill: '#ffffff' });
 
-  // Set the scoreText variable to the Player 1 score text object
-  updateScoreTextPlayer1('Player 1 Score: 0');
-  updateScoreTextPlayer2('Player 2 Score: 0');
+  // Create and display the win text, but hide it initially
+  winText = this.add.text(config.width / 2, config.height / 2, '', { font: '48px Arial', fill: '#ffffff' }).setOrigin(0.5);
+  winText.setVisible(false);
 }
-
 
 function flipCard(card) {
   if (card.getData('flipped') || cardsFlipped >= 2) {
@@ -157,6 +153,9 @@ function checkMatch() {
 
       // Switch turns between players
       currentPlayer = currentPlayer === 'Player 1' ? 'Player 2' : 'Player 1';
+
+      // Check if all cards are flipped and display the winner
+      checkWin.call(this);
     }, 1000);
   }
 }
@@ -170,4 +169,3 @@ function updateScoreTextPlayer1(text) {
 function updateScoreTextPlayer2(text) {
   scoreTextPlayer2.setText(text);
 }
-
