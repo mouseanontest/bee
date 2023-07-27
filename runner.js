@@ -49,48 +49,91 @@ function launchRunnerGame() {
     var difficultyEnabled = true;
     var hazardType;
     var objectHazard;
+    var objectSkin;
+    var creatingObstacles = false;
+    var objIteration = 0;
     
     function preload()
     {
+        //Player and sky
         this.load.image('sky', 'images/honeycombBG.png');
         this.load.image('player', 'images/playerBee.png');
-        this.load.image('obstacle1', 'images/obstacles/obstacle1.png');
-        this.load.image('obstacle2', 'images/obstacles/obstacle2.png');
-        this.load.image('obstacle3', 'images/obstacles/obstacle3var1.png');
-        this.load.image('obstacle4', 'images/obstacles/obstacle3var2.png');
-        this.load.image('obstacle5', 'images/obstacles/obstacle3var3.png');
+        //Obstacles
+        this.load.image('obstacle1', 'images/runnerAssets/obstacles/obstacle1.png');
+        this.load.image('obstacle2', 'images/runnerAssets/obstacles/obstacle2.png');
+        this.load.image('obstacle3', 'images/runnerAssets/obstacles/obstacle3var1.png');
+        this.load.image('obstacle4', 'images/runnerAssets/obstacles/obstacle3var2.png');
+        this.load.image('obstacle5', 'images/runnerAssets/obstacles/obstacle3var3.png');
+        //Countdown (scrapped until further notice)
+        this.load.image('countdown1', 'images/runnerAssets/.countdown/countdown3.png');
+        this.load.image('countdown2', 'images/runnerAssets/.countdown/countdown2.png');
+        this.load.image('countdown3', 'images/runnerAssets/.countdown/countdown1.png');
+        this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
+        //Music
+        this.load.audio('music', 'audio/runner.mp3');
+        //this.load.audio('jumpSFX', 'audio/jump.flac');
     }
     
     function create()
     {
-    
+        //Begin music
+        music = this.sound.add('music');
+        //jumpSF = this.sound.add('jumpSFX');
+        music.play({ loop: true });
+
         //Set the background image
-        let bgImage = this.add.image(600, 350, 'sky')
+        let bgImage = this.add.image(600, 350, 'sky');
         bgImage.setScale(1);
     
-       //Starts generating obstacles and adds players to the scene
-       obstacles = this.physics.add.group();
-       spawnObstacles(this);
-       player1 = new Player(this, 400, 400);
+       //Adds players to the scene
+       player1 = new Player(this, 400, 500);
        player2 = new Player(this, 400, 400);
-       //sets player colors
+       //Sets player colors
        player1.setTint(0x5050ff);
        player2.setTint(0xaa3030);
-       this.physics.add.collider(player1, obstacles);
-       this.physics.add.collider(player2, obstacles);
-    
+       
+       //Disables player movement
+       player1.disableBody(true, false);
+       player2.disableBody(true, false);
+       this.time.delayedCall(5000, enablePlayers, [], this);
+       
        //Set up user input
        cursors = this.input.keyboard.createCursorKeys();
+       cursors.up.on('down', jumpP2); //calls p2Jump function when up key is pressed
        p1Jump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-       p1Jump.on('down', jumpP1); //calls jump function when space is pressed
-       cursors.up.on('down', jumpP2); //calls jump function when space is pressed
-    
+       p1Jump.on('down', jumpP2); //calls p1Jump function when W key is pressed
+       
        gui = this.add.text(500, 100, '', {fontSize: '32px', fill: '#000'});
+       
+       //Begins obstacle generation
+       obstacles = this.physics.add.group();
+       this.time.delayedCall(5000, spawnObstacles, [this], this);
     }
     
+    function enablePlayers() {
+        console.log("function called");
+        player1.enableBody();
+        player2.enableBody();
+        this.physics.add.collider(player1, obstacles);
+        this.physics.add.collider(player2, obstacles);
+    }
+
     function spawnObstacles(scene){
-        //objectHazard is a collidable obstacle
-        let hazardType = Phaser.Math.Between(1, 3);
+        creatingObstacles = true;
+        /*/
+        ObjectHazard is a collidable obstacle 
+        hazardType defines the type of obstacle that is generated
+        1- Top pillar
+        2- Bottom pillar
+        3- Box obstacle (3 variations)
+        It is possible for an unavoidable obstacle to be generated at higher difficulties as a result of top and bottom pillars generating in quick succession
+        but I'm lazy and it's not something that would be super noticable to the average player.
+        /*/
+        if(objIteration < 0) {
+            hazardType = 3;
+        } else {
+            hazardType = Phaser.Math.Between(1, 3);
+        }
         if (hazardType === 1) {
             objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(100, 150), 'obstacle1');
             objectHazard.setScale(Phaser.Math.Between(4, 6) * 0.1).refreshBody();
@@ -98,7 +141,11 @@ function launchRunnerGame() {
             objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(600, 650), 'obstacle2');
             objectHazard.setScale(Phaser.Math.Between(5, 7) * 0.1).refreshBody();
         } else {
-            let objectSkin = Phaser.Math.Between(3, 5);
+            if (objIteration > 0){
+                objectSkin = Phaser.Math.Between(3, 5);
+            } else {
+                objectSkin = 4;
+            }
             objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(200, 500), 'obstacle'+objectSkin);
             if (objectSkin < 5) {
                 objectHazard.setScale(Phaser.Math.Between(35, 50) * 0.01).refreshBody();
@@ -110,8 +157,11 @@ function launchRunnerGame() {
         objectHazard.setPushable(false);
         
         //Spawns a new obstacle every 1-3 seconds
-        scene.time.delayedCall(Phaser.Math.Between(1000 - (difficulty * 500), 2000 - (difficulty * 500)), spawnObstacles, [scene], scene);
+        scene.time.delayedCall(Phaser.Math.Between(1000 - (difficulty * 500), 2000 - (difficulty * 100)), spawnObstacles, [scene], scene);
+
+        objIteration++;
     }
+
     
     function update()
     {
@@ -119,12 +169,15 @@ function launchRunnerGame() {
         player1.setDragX(1000 * difficulty);
         player2.setDragX(1000 * difficulty);
         if (difficultyEnabled === true) {
-            difficulty = difficulty + 0.0005;
+            difficulty = difficulty + 0.00005;
         }
         
-        if (objectHazard.x < -100) {
-            console.log("Object Destroyed");
-            objectHazard.destroy();
+        //Removes old obstacles
+        if (creatingObstacles == true){
+            if (objectHazard.x < -100) {
+                console.log("Object Destroyed");
+                objectHazard.destroy();
+            }
         }
     }
     
@@ -132,10 +185,12 @@ function launchRunnerGame() {
     function jumpP1(event)
     {
         player1.setVelocityY(-800);
+        //jumpSF.play();
     }
     
     function jumpP2(event)
     {
         player2.setVelocityY(-800);
+        //jumpSF.play();
     }
 }

@@ -54,7 +54,7 @@ class MainScene extends Phaser.Scene {
 
     preload() {
         this.load.image('background', 'images/background.png');
-        this.load.image('bee', 'images/bee.png');
+        
     }
 
     create() {
@@ -106,7 +106,7 @@ class Player2Scene extends Phaser.Scene{
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create(){
@@ -162,7 +162,7 @@ class NextMinigameScene extends Phaser.Scene{
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create() {
@@ -173,8 +173,8 @@ class NextMinigameScene extends Phaser.Scene{
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
   
       
@@ -194,7 +194,7 @@ class NextMinigameScene extends Phaser.Scene{
        rect1.setInteractive();
        rect1.on('pointerdown', () => {
            console.log('incorrect');
-           this.scene.start('Player2ReadySceneCopy');
+           this.scene.start('NextMinigame2Scene');
        });
   
        let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -205,7 +205,7 @@ class NextMinigameScene extends Phaser.Scene{
         rect2.setInteractive();
         rect2.on('pointerdown', () => {
             console.log('incorrect');
-            this.scene.start('Player2ReadySceneCopy');
+            this.scene.start('NextMinigame2Scene');
         });
   
         let rect3 = this.add.rectangle(rightX,bottomY1,rectWidth,rectHeight,0xffc51a);
@@ -216,6 +216,7 @@ class NextMinigameScene extends Phaser.Scene{
          rect3.setInteractive();
          rect3.on('pointerdown', () => {
              console.log('correct');
+
              player1_temp_score++;
              
              this.scene.start('NextMinigame2Scene');
@@ -229,7 +230,7 @@ class NextMinigameScene extends Phaser.Scene{
           rect4.setInteractive();
           rect4.on('pointerdown', () => {
               console.log('incorrect');
-              this.scene.start('Player2ReadySceneCopy');
+              this.scene.start('NextMinigame2Scene');
           });
   
           
@@ -259,7 +260,7 @@ class NextMinigame2Scene extends Phaser.Scene{
 
   preload(){
       this.load.image('background','images/background.png');
-      this.load.image('bee','images/bee.png');
+      this.load.image('bee','beeofalltrades-response/images/bee.png');
   }
 
   create() {
@@ -270,8 +271,8 @@ class NextMinigame2Scene extends Phaser.Scene{
     const bee = this.add.image(400, 300, 'bee').setScale(0.4);
     bee.setDepth(1); 
     this.input.on('pointermove', (pointer) => {
-        bee.x = pointer.x;
-        bee.y = pointer.y;
+        
+        
     });
 
     
@@ -291,7 +292,7 @@ class NextMinigame2Scene extends Phaser.Scene{
      rect1.setInteractive();
      rect1.on('pointerdown', () => {
          console.log('incorrect');
-         this.scene.start('Player2ReadySceneCopy');
+         this.scene.start('NextMinigame3Scene');
      });
 
      let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -315,7 +316,7 @@ class NextMinigame2Scene extends Phaser.Scene{
        rect3.setInteractive();
        rect3.on('pointerdown', () => {
            console.log('incorrect');
-           this.scene.start('Player2ReadySceneCopy');
+           this.scene.start('NextMinigame3Scene');
        });
 
        let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -326,7 +327,7 @@ class NextMinigame2Scene extends Phaser.Scene{
         rect4.setInteractive();
         rect4.on('pointerdown', () => {
             console.log('incorrect');
-            this.scene.start('Player2ReadySceneCopy');
+            this.scene.start('NextMinigame3Scene');
         });
 
          
@@ -354,7 +355,7 @@ class NextMinigame3Scene extends Phaser.Scene{
 
   preload(){
       this.load.image('background','images/background.png');
-      this.load.image('bee','images/bee.png');
+      this.load.image('bee','beeofalltrades-response/images/bee.png');
   }
 
   create() {
@@ -365,8 +366,8 @@ class NextMinigame3Scene extends Phaser.Scene{
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
 
       
@@ -460,7 +461,7 @@ class NextMinigamePlayer2Scene1 extends Phaser.Scene {
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create() {
@@ -471,8 +472,8 @@ class NextMinigamePlayer2Scene1 extends Phaser.Scene {
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
   
       
@@ -515,22 +516,8 @@ class NextMinigamePlayer2Scene1 extends Phaser.Scene {
         rect2.on('pointerdown', () => {
             console.log('incorrect');
 
-            if (player1_temp_score > player2_temp_score) {
-              player1Score++;
-          } else if (player2_temp_score > player1_temp_score) {
-              player2Score++;
-          } else {
-              
-              if (Math.random() < 0.5) {
-                  player1Score++;
-              } else {
-                  player2Score++;
-              }
-          }
             
-            console.log(player1Score);
-           console.log(player2Score);
-            this.scene.start('EndScene');
+            this.scene.start('NextMinigamePlayer2Scene2');
         });
   
         let rect3 = this.add.rectangle(rightX,bottomY1,rectWidth,rectHeight,0xffc51a);
@@ -546,22 +533,8 @@ class NextMinigamePlayer2Scene1 extends Phaser.Scene {
          rect3.on('pointerdown', () => {
              
              console.log('incorrect');
-             if (player1_temp_score > player2_temp_score) {
-              player1Score++;
-          } else if (player2_temp_score > player1_temp_score) {
-              player2Score++;
-          } else {
-              
-              if (Math.random() < 0.5) {
-                  player1Score++;
-              } else {
-                  player2Score++;
-              }
-          }
-           //get ready player 1 scene
-           console.log(player1Score);
-           console.log(player2Score);
-           this.scene.start('EndScene');
+             
+           this.scene.start('NextMinigamePlayer2Scene2');
          });
   
          let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -575,22 +548,8 @@ class NextMinigamePlayer2Scene1 extends Phaser.Scene {
           rect4.setInteractive();
           rect4.on('pointerdown', () => {
               console.log('incorrect');
-              if (player1_temp_score > player2_temp_score) {
-                player1Score++;
-            } else if (player2_temp_score > player1_temp_score) {
-                player2Score++;
-            } else {
-                
-                if (Math.random() < 0.5) {
-                    player1Score++;
-                } else {
-                    player2Score++;
-                }
-            }
               
-              console.log(player1Score);
-           console.log(player2Score);
-              this.scene.start('EndScene');
+              this.scene.start('NextMinigamePlayer2Scene2');
           });
   
           
@@ -620,7 +579,7 @@ class NextMinigamePlayer2Scene2 extends Phaser.Scene {
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create() {
@@ -631,8 +590,8 @@ class NextMinigamePlayer2Scene2 extends Phaser.Scene {
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
   
       
@@ -653,22 +612,8 @@ class NextMinigamePlayer2Scene2 extends Phaser.Scene {
        rect1.on('pointerdown', () => {
            
         console.log('incorrect');
-        if (player1_temp_score > player2_temp_score) {
-          player1Score++;
-      } else if (player2_temp_score > player1_temp_score) {
-          player2Score++;
-      } else {
-          
-          if (Math.random() < 0.5) {
-              player1Score++;
-          } else {
-              player2Score++;
-          }
-      }
         
-        console.log(player1Score);
-           console.log(player2Score);
-        this.scene.start('EndScene');
+        this.scene.start('NextMinigamePlayer2Scene3');
        });
   
        let rect2 = this.add.rectangle(leftX, bottomY2, rectWidth, rectHeight, 0xffc51a);
@@ -693,22 +638,8 @@ class NextMinigamePlayer2Scene2 extends Phaser.Scene {
          rect3.on('pointerdown', () => {
              
              console.log('incorrect');
-             if (player1_temp_score > player2_temp_score) {
-              player1Score++;
-          } else if (player2_temp_score > player1_temp_score) {
-              player2Score++;
-          } else {
-              
-              if (Math.random() < 0.5) {
-                  player1Score++;
-              } else {
-                  player2Score++;
-              }
-          }
-           
-           console.log(player1Score);
-           console.log(player2Score);
-           this.scene.start('EndScene');
+             
+           this.scene.start('NextMinigamePlayer2Scene3');
          });
   
          let rect4 = this.add.rectangle(rightX,bottomY2,rectWidth,rectHeight,0xfff21e);
@@ -719,22 +650,8 @@ class NextMinigamePlayer2Scene2 extends Phaser.Scene {
           rect4.setInteractive();
           rect4.on('pointerdown', () => {
               console.log('incorrect');
-              if (player1_temp_score > player2_temp_score) {
-                player1Score++;
-            } else if (player2_temp_score > player1_temp_score) {
-                player2Score++;
-            } else {
-                
-                if (Math.random() < 0.5) {
-                    player1Score++;
-                } else {
-                    player2Score++;
-                }
-            }
               
-              console.log(player1Score);
-           console.log(player2Score);
-              this.scene.start('EndScene');
+              this.scene.start('NextMinigamePlayer2Scene3');
           });
   
           
@@ -765,7 +682,7 @@ class NextMinigamePlayer2Scene3 extends Phaser.Scene {
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create() {
@@ -776,8 +693,8 @@ class NextMinigamePlayer2Scene3 extends Phaser.Scene {
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
   
       
