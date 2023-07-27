@@ -3,7 +3,6 @@ let player2
 let playersDead=0
 let multiplier=130
 let oldMult=0
-let bees=[]
 let movingBees=[]
 let platforms
 let nextX=0
