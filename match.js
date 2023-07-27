@@ -85,10 +85,10 @@ function create() {
   }
 
   // Create and display score text for Player 1
-  scoreTextPlayer1 = this.add.text(config.width - 150, 50, 'Player 1 Score: 0', { font: '24px Arial', fill: '#ffffff' });
+  scoreTextPlayer1 = this.add.text(config.width - 200, 265, 'Player 1 Score: 0', { font: '24px Arial', fill: '#ffffff' });
 
   // Create and display score text for Player 2
-  scoreTextPlayer2 = this.add.text(config.width - 150, 100, 'Player 2 Score: 0', { font: '24px Arial', fill: '#ffffff' });
+  scoreTextPlayer2 = this.add.text(config.width - 200, 300, 'Player 2 Score: 0', { font: '24px Arial', fill: '#ffffff' });
 
   // Set the scoreText variable to the Player 1 score text object
   updateScoreTextPlayer1('Player 1 Score: 0');
