@@ -1,4 +1,4 @@
-// function LaunchTagGame(){
+function LaunchTagGame(){
 
     var config = {
         type: Phaser.AUTO,
@@ -460,4 +460,4 @@
             player2.arrow.visible = P2it
         }
     }
-// }
+}
