@@ -173,8 +173,8 @@ class NextMinigameScene extends Phaser.Scene{
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
   
       
@@ -270,8 +270,8 @@ class NextMinigame2Scene extends Phaser.Scene{
     const bee = this.add.image(400, 300, 'bee').setScale(0.4);
     bee.setDepth(1); 
     this.input.on('pointermove', (pointer) => {
-        bee.x = pointer.x;
-        bee.y = pointer.y;
+        
+        
     });
 
     
@@ -365,8 +365,8 @@ class NextMinigame3Scene extends Phaser.Scene{
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
 
       
@@ -471,8 +471,8 @@ class NextMinigamePlayer2Scene1 extends Phaser.Scene {
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
   
       
@@ -631,8 +631,8 @@ class NextMinigamePlayer2Scene2 extends Phaser.Scene {
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
   
       
@@ -776,8 +776,8 @@ class NextMinigamePlayer2Scene3 extends Phaser.Scene {
       const bee = this.add.image(400, 300, 'bee').setScale(0.4);
       bee.setDepth(1); 
       this.input.on('pointermove', (pointer) => {
-          bee.x = pointer.x;
-          bee.y = pointer.y;
+          
+          
       });
   
       
