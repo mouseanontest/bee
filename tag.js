@@ -65,7 +65,7 @@ function LaunchTagGame(){
     var jumpPlatforms;
     var player1;
     var player2;
-
+    var Asta
 
     var P1it = true;
     var P2it = false;
@@ -86,7 +86,8 @@ function LaunchTagGame(){
     var trackerX
     var trackerY
 
-    var go = true
+
+    var go = null
     var countdown;
     function preload()
     {
@@ -94,17 +95,20 @@ function LaunchTagGame(){
         this.load.image('platform', 'images/platform.png');
         this.load.image('player', 'images/playerBee.png');
         this.load.image('arrow', 'images/tagArrow.png');
+        this.load.image('Asta', 'images/tagGuide.png');
+        console.log("XD")
     }
 
     function create()
     {
-        // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
+        this.load.image('Asta', 'images/tagGuide.png');
+        /*
 
         //unused
     graphics = this.add.graphics();
         //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
     let background = this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0, 0);
-
+    
     //Create the platforms and the player character set to collide with the platforms
     createPlatforms(this);
 
@@ -149,12 +153,23 @@ function LaunchTagGame(){
 
     player1.arrow.setVisible(P1it);
     player2.arrow.setVisible(P2it);
-    gameEnd.call(this, 120);
+    */
+    Asta = this.add.image(this, game.scale.width/2, game.scale.height/2, "Asta");
+    
+    this.input.on('pointerdown', function (pointer)
+    {
+        if(go === null){
+            console.log('down');
+            go = true;
+            gameEnd.call(this, 75);
+            Asta.destroy()
+        }
+    }, this);
     }
 
 
     function update()
-    {   
+    {  
         if(go){
             frames++   
             if(player1.onSpeed){
