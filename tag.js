@@ -91,17 +91,17 @@ function LaunchTagGame(){
     var countdown;
     function preload()
     {
+        this.load.image('Asta', 'images/atsa.png');
         this.load.image('background', 'images/honeycombBG.png');
         this.load.image('platform', 'images/platform.png');
         this.load.image('player', 'images/playerBee.png');
         this.load.image('arrow', 'images/tagArrow.png');
-        this.load.image('Asta', 'images/tagGuide.png');
         console.log("XD")
     }
 
     function create()
     {
-        this.load.image('Asta', 'images/tagGuide.png');
+        this.load.image('Asta', 'images/atsa.png');
         /*
 
         //unused
