@@ -61,46 +61,44 @@ function launchRunnerGame() {
         this.load.image('obstacle3', 'images/runnerAssets/obstacles/obstacle3var1.png');
         this.load.image('obstacle4', 'images/runnerAssets/obstacles/obstacle3var2.png');
         this.load.image('obstacle5', 'images/runnerAssets/obstacles/obstacle3var3.png');
-        //Countdown
-        this.load.image('countdown1', 'images/runnerAssets/countdown/countdown1.png');
-        this.load.image('countdown2', 'images/runnerAssets/countdown/countdown2.png');
-        this.load.image('countdown3', 'images/runnerAssets/countdown/countdown3.png');
-        this.load.image('countdown4', 'images/runnerAssets/countdown/countdownFlap.png');
+        //Countdown (scrapped until further notice)
+        this.load.image('countdown1', 'images/runnerAssets/.countdown/countdown3.png');
+        this.load.image('countdown2', 'images/runnerAssets/.countdown/countdown2.png');
+        this.load.image('countdown3', 'images/runnerAssets/.countdown/countdown1.png');
+        this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
     }
     
     function create()
     {
 
         //Set the background image
-        let bgImage = this.add.image(600, 350, 'sky')
+        let bgImage = this.add.image(600, 350, 'sky');
         bgImage.setScale(1);
     
-       //Starts generating obstacles and adds players to the scene
-       obstacles = this.physics.add.group();
-       spawnObstacles(this);
+       //Adds players to the scene
        player1 = new Player(this, 400, 500);
        player2 = new Player(this, 400, 400);
-       //sets player colors
+       //Sets player colors
        player1.setTint(0x5050ff);
        player2.setTint(0xaa3030);
        this.physics.add.collider(player1, obstacles);
        this.physics.add.collider(player2, obstacles);
-
+       
        //Disables player movement
        player1.disableBody(true, false);
        player2.disableBody(true, false);
        
-       this.time.delayedCall(1000, function(){}, [], this);
-       this.time.delayedCall(1000, function(){}, [], this);
-       this.time.delayedCall(1000, function(){}, [], this);
-    
        //Set up user input
        cursors = this.input.keyboard.createCursorKeys();
        cursors.up.on('down', jumpP1); //calls p1Jump function when up key is pressed
        p2Jump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
        p2Jump.on('down', jumpP2); //calls p2Jump function when W key is pressed
-    
+       
        gui = this.add.text(500, 100, '', {fontSize: '32px', fill: '#000'});
+       
+       //Begins obstacle generation
+       obstacles = this.physics.add.group();
+       spawnObstacles(this);
     }
     
     function spawnObstacles(scene){
