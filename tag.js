@@ -216,7 +216,7 @@ function LaunchTagGame(){
                 zoomControlY = zoomControlX
             }
             this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
-            if(this.cameras.main.zoom<1){
+            if(this.cameras.main.zoom){
                 this.cameras.main.setZoom(1) 
             }
             if(this.cameras.main.zoom>3){
@@ -381,6 +381,8 @@ function LaunchTagGame(){
         basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, game.scale.height-250, 'platform'));
         basicArray[10].setScale(0.05, 0.4).refreshBody();
 
+        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, game.scale.height-125, 'platform'));
+        basicArray[11].setScale(0.1, 0.1).refreshBody();
 
 
 
