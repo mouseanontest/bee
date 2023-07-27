@@ -1,3 +1,5 @@
+function LaunchMemory(){
+
 const config = {
   type: Phaser.AUTO,
   width: 1000,
@@ -147,4 +149,5 @@ function updateScoreTextPlayer1(text) {
 // Helper function to update score text on the screen for Player 2
 function updateScoreTextPlayer2(text) {
   scoreTextPlayer2.setText(text);
+}
 }
