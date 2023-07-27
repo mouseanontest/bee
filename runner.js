@@ -49,6 +49,7 @@ function launchRunnerGame() {
     var difficultyEnabled = true;
     var hazardType;
     var objectHazard;
+    var creatingObstacles = false;
     
     function preload()
     {
@@ -66,10 +67,15 @@ function launchRunnerGame() {
         this.load.image('countdown2', 'images/runnerAssets/.countdown/countdown2.png');
         this.load.image('countdown3', 'images/runnerAssets/.countdown/countdown1.png');
         this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
+        //Music
+        this.load.audio('music', 'audio/runner.mp3');
     }
     
     function create()
     {
+        //Begin music
+        music = this.sound.add('music');
+        music.play({ loop: true });
 
         //Set the background image
         let bgImage = this.add.image(600, 350, 'sky');
@@ -81,12 +87,11 @@ function launchRunnerGame() {
        //Sets player colors
        player1.setTint(0x5050ff);
        player2.setTint(0xaa3030);
-       this.physics.add.collider(player1, obstacles);
-       this.physics.add.collider(player2, obstacles);
        
        //Disables player movement
        player1.disableBody(true, false);
        player2.disableBody(true, false);
+       this.time.delayedCall(5000, enablePlayers, [], this);
        
        //Set up user input
        cursors = this.input.keyboard.createCursorKeys();
@@ -98,10 +103,19 @@ function launchRunnerGame() {
        
        //Begins obstacle generation
        obstacles = this.physics.add.group();
-       spawnObstacles(this);
+       this.time.delayedCall(5000, spawnObstacles, [this], this);
     }
     
+    function enablePlayers() {
+        console.log("function called");
+        player1.enableBody();
+        player2.enableBody();
+        this.physics.add.collider(player1, obstacles);
+        this.physics.add.collider(player2, obstacles);
+    }
+
     function spawnObstacles(scene){
+        creatingObstacles = true;
         /*/
         ObjectHazard is a collidable obstacle 
         hazardType defines the type of obstacle that is generated
@@ -131,7 +145,7 @@ function launchRunnerGame() {
         objectHazard.setPushable(false);
         
         //Spawns a new obstacle every 1-3 seconds
-        scene.time.delayedCall(Phaser.Math.Between(1000 - (difficulty * 500), 2000 - (difficulty * 500)), spawnObstacles, [scene], scene);
+        scene.time.delayedCall(Phaser.Math.Between(1000 - (difficulty * 500), 2000 - (difficulty * 100)), spawnObstacles, [scene], scene);
     }
 
     
@@ -141,13 +155,15 @@ function launchRunnerGame() {
         player1.setDragX(1000 * difficulty);
         player2.setDragX(1000 * difficulty);
         if (difficultyEnabled === true) {
-            difficulty = difficulty + 0.0005;
+            difficulty = difficulty + 0.00005;
         }
         
         //Removes old obstacles
-        if (objectHazard.x < -100) {
-            console.log("Object Destroyed");
-            objectHazard.destroy();
+        if (creatingObstacles == true){
+            if (objectHazard.x < -100) {
+                console.log("Object Destroyed");
+                objectHazard.destroy();
+            }
         }
     }
     
