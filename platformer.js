@@ -1,7 +1,7 @@
 let player1
 let player2
 let playersDead=0
-let multiplier=0
+let multiplier=130
 let bees=[]
 let movingBees=[]
 let frames=0
@@ -11,16 +11,20 @@ let maxFall=600
 
 let obstacles=[
     [
-        3,
+        2,
         {x:100, y:450, scl:.5, type: 'platH'},
         {x:550, y:350, scl:.5, type: 'platH'},
-        {x:1000, y:250, scl:.5, type: 'platV'},
-        {x:1200, y:150, scl:.5, type: 'platV'}
+        {x:1200, y:250, scl:.5, type: 'platV'},
+        {x:1200, y:490, scl:.5, type: 'platV'},
+        {x:1075, y:250, scl:.5, type: 'platH'},
+        {x:1525, y:350, scl:.5, type: 'platH'},
+        {x:1976, y:250, scl:.5, type: 'platH'}
     ],  
     [
-        2,
-        {x:100, y:300, scl:.5, type: 'platV'},
-        {x:200, y:500, scl:.5, type: 'platH'}
+        1,
+        {x:100, y:400, scl:.5, type: 'platH'},
+        {x:100, y:150, scl:.5, type: 'platV'},
+        {x:600, y:300, scl:.5, type: 'platV'}
     ]
 ]
 
@@ -83,7 +87,7 @@ function create(){
     }
 
     platforms = this.physics.add.staticGroup()
-    createPlatforms(obstacles[0], 0)
+    createPlatforms([1])
 
     player1=new Player(this, 600, 400).setTint(0xaa3030)
     player2=new Player(this, 600, 400).setTint(0x5050ff)
@@ -111,21 +115,20 @@ function create(){
 function update(){
     frames++
 
-    let maxSpd=350
-    let accel=80
-    let decel=70
+    let maxSpd=900
+    let accel=160
+    let decel=250
 
-    //maybe sigmoid in the future
-    // camera.scrollX=2*(multiplier**1.1)
-    // multiplier++
-    camera.scrollX=player1.body.x-640
+    camera.scrollX+= 1.03**multiplier*Math.log(1.03)<9 ? 1.03**multiplier*Math.log(1.03) : 9
+    multiplier++
+    // camera.scrollX=player1.body.x-640
 
     if (player1.body.x-camera.scrollX<10) player1.killPlayer()
     if (player2.body.x-camera.scrollX<10) player2.killPlayer()
 
-    // if (camera.scrollX>1280*(nextX-1)){
-    //     createPlatforms(obstacles[Math.floor(2*Math.random())])
-    // }
+    if (camera.scrollX>640*(nextX-2)){
+        createPlatforms(obstacles[Math.floor(2*Math.random())])
+    }
 
     if (player1.canMove){
         if (cursors.left.isDown){
@@ -175,7 +178,7 @@ function createPlatforms(platformArray){
     for (let i=0; i<platformArray[0]; i++){
         platforms.create((nextX+i)*640, game.scale.height-45, 'platH').setOrigin(0).setScale(1, 1).refreshBody();
     }
-    nextX++
+    nextX+=platformArray[0]
 }
 
 function appr(inc, val, num){
