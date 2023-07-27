@@ -54,7 +54,7 @@ class MainScene extends Phaser.Scene {
 
     preload() {
         this.load.image('background', 'images/background.png');
-        this.load.image('bee', 'beeofalltrades-response/images/bee.png');
+        
     }
 
     create() {
