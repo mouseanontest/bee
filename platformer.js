@@ -51,6 +51,15 @@ let obstacles=[
         {x:350, y: -300, scl:1, type: 'platV'},
         {x:950, y:450, scl:1, type: 'platV'},
         {x:950, y: -300, scl:1, type: 'platV'}
+    ],
+    [
+        4,
+        {x:380, y:430, scl:1, type: 'platV'},
+        {x:100, y:430, scl:1, type: 'platH'},
+        {x:1020, y:300, scl:1, type: 'platV'},
+        {x:740, y:300, scl:1, type: 'platH'},
+        {x:1660, y:170, scl:1, type: 'platV'},
+        {x:1380, y:170, scl:1, type: 'platH'},
     ]
 ]
 
