@@ -250,7 +250,7 @@ function LaunchTagGame(){
         player1.onBasic = false
     }
 
-
+ 
     function createPlatforms(scene)
     {
         basicPlatforms = scene.physics.add.staticGroup();
@@ -289,6 +289,7 @@ function LaunchTagGame(){
 
         basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+50*2+25*2+87.5, game.scale.height, 'platform'));
         basicArray[1].setScale(0.35, 0.25).refreshBody();
+
 
 
 
@@ -337,8 +338,6 @@ function LaunchTagGame(){
         }
     }
 
-    basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+50*2+25, game.scale.height, 'platform'));
-    basicArray[1].setScale(0.1, 0.25).refreshBody();
     function help(){
         if(cooldown>0){
             cooldown--;
