@@ -383,7 +383,9 @@ function LaunchTagGame(){
 
         basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, game.scale.height-125, 'platform'));
         basicArray[11].setScale(0.1, 0.1).refreshBody();
-
+        
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200*2, game.scale.height-92.5, 'platform'));
+        basicArray[12].setScale(0.05, 0.35).refreshBody();
 
 
         speedPlatforms.setTint(0xeaa500);
