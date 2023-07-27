@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+      
 
 
         
@@ -14,18 +15,19 @@
         
     </head>
     <body>
-        <h1>Bee of All Trades</h1>
-        <button onclick="DestroyGame(); LaunchResponseGame()">Fast Bee</button>
-        <button onclick="DestroyGame(); runnerGame()">Bee Run</button>
-        <button onclick="DestroyGame(); tagGame()">Bee Tag</button>
-        <button onclick="DestroyGame(); LaunchTriviaGame()">Bee Questions</button>
-        <button onclick="DestroyGame(); platformerGame()">Bee Platformer</button>
+        <img src="images/beeofalltradeslogo.png" alt="Bee of All Trades" width="150" height="150">
+        <button onclick="fullZoom(); DestroyGame(); LaunchResponseGame()">Fast Bee</button>
+        <button onclick="eightyZoom(); DestroyGame(); runnerGame()">Bee Run</button>
+        <button onclick="eightyZoom(); DestroyGame(); tagGame()">Bee Tag</button>
+        <button onclick="fullZoom(); DestroyGame(); LaunchTriviaGame()">Bee Questions</button>
+        <button onclick="eightyZoom(); DestroyGame(); platformerGame()">Bee Platformer</button>
         
 
         <div id="gameContainer"></div>
 
         <style>
           body {
+            zoom: 100%;
               font-family: 'Arial', sans-serif;
               background-color: #ffe473;
               color: #000000;
@@ -41,7 +43,7 @@
           }
   
           button {
-              font-family: 'Arial', sans-serif;
+            font-family: "Comic Sans MS", "Comic Sans", cursive;
               font-size: 18px;
               font-weight: bold;
               color: #ffffff;
@@ -118,8 +120,14 @@ function responseGame() {
     document.body.appendChild(iframe);
   }
 }
-
-
+function eightyZoom()
+{
+  document.body.style.zoom = "75%";
+}
+function fullZoom()
+{
+  document.body.style.zoom = "90%";
+}
 function runnerGame() {
     
   const iframe = document.createElement("iframe");
