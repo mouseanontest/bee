@@ -3,7 +3,6 @@ let player2
 let playersDead=0
 let multiplier=130
 let oldMult=0
-let bees=[]
 let movingBees=[]
 let platforms
 let nextX=0
@@ -11,9 +10,6 @@ let maxFall=600
 let limit=6
 
 let obstacles=[
-    // [
-    //     1
-    // ],
     [
         2,
         {x:100, y:450, scl:.5, type: 'platH'},
@@ -152,8 +148,7 @@ function create(){
 
     platforms = this.physics.add.staticGroup()
     createPlatforms([1])
-    // createPlatforms(obstacles[4])
-
+    
     player1=new Player(this, 600, 400).setTint(0xaa3030)
     player2=new Player(this, 600, 400).setTint(0x5050ff)
 

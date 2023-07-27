@@ -1,37 +1,203 @@
 <!DOCTYPE html>
 <html>
     <head>
+      
+
+
+        
         <title>Bee of All Trades</title>
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
         <script src="triviagame.js"></script>
-        <script src="tag.js"></script>
+        
         <script src="runner.js"></script>
         <script src="responsetimegame.js"></script>
-        <script src="platformer.js"></script>
+        
     </head>
     <body>
-        <h1>Bee of All Trades</h1>
-        <button onclick="DestroyGame(); LaunchResponseGame()">Response Time Game</button>
-        <button onclick="DestroyGame(); LaunchRunnerGame()">Runner Game</button>
-        <button onclick="DestroyGame(); LaunchTagGame()">Tag Game</button>
-        <button onclick="DestroyGame(); LaunchTriviaGame()">Trivia Game</button>
-        <button onclick="DestroyGame(); LaunchPlatformerGame()">Platformer Game</button>
-
+        <img src="images/beeofalltradeslogo.png" alt="Bee of All Trades" width="150" height="150">
+        <button onclick="fullZoom(); DestroyGame(); LaunchResponseGame()">Fast Bee</button>
+        <button onclick="eightyZoom(); DestroyGame(); runnerGame()">Bee Run</button>
+        <button onclick="eightyZoom(); DestroyGame(); tagGame()">Bee Tag</button>
+        <button onclick="fullZoom(); DestroyGame(); LaunchTriviaGame()">Bee Questions</button>
+        <button onclick="eightyZoom(); DestroyGame(); platformerGame()">Bee Platformer</button>
+        
 
         <div id="gameContainer"></div>
 
-
+        <style>
+          body {
+            zoom: 100%;
+              font-family: 'Arial', sans-serif;
+              background-color: #ffe473;
+              color: #000000;
+              
+              margin: 20px;
+          }
+  
+          h1 {
+              font-family: 'Helvetica', sans-serif;
+              font-weight: bold;
+              color: #000000;
+              margin-bottom: 20px;
+          }
+  
+          button {
+            font-family: "Comic Sans MS", "Comic Sans", cursive;
+              font-size: 18px;
+              font-weight: bold;
+              color: #ffffff;
+              background-color: #fdcb00;
+              border: none;
+              border-radius: 10px;
+              padding: 10px 20px;
+              margin: 5px;
+              cursor: pointer;
+          }
+  
+          button:hover {
+              background-color: #ffd93e;
+          }
+  
+          #gameContainer {
+              display: inline-block;
+          }
+      </style>
         <script>
-window.addEventListener('load', function() {
+window.attachEvent && window.attachEvent( "load", DestroyGame());
     
+
+document.addEventListener('DOMContentLoaded', function() {
     const canvases = document.getElementsByTagName("canvas");
     while (canvases.length > 0) {
         canvases[0].parentNode.removeChild(canvases[0]);
     }
+}, false);
+
+  function tagGame() {
+  const iframe = document.createElement("iframe");
+  iframe.src = "http://127.0.0.1:8080/tag.html";
+  iframe.style.border = "0px #ffffff none";
+  iframe.name = "myiFrame";
+  iframe.scrolling = "no";
+  iframe.frameBorder = "1";
+  iframe.marginHeight = "0px";
+  iframe.marginWidth = "0px";
+  iframe.height = "5000px";
+  iframe.width = "5000px";
+  iframe.allowFullscreen = true;
+
+  // Replace the existing iframe, if any, with the new one
+  const existingIframe = document.querySelector("iframe[name='myiFrame']");
+  if (existingIframe) {
+    existingIframe.parentNode.replaceChild(iframe, existingIframe);
+  } else {
+    document.body.appendChild(iframe);
+  }
+}
+
+
+
+
+function responseGame() {
+  const iframe = document.createElement("iframe");
+  iframe.src = "http://127.0.0.1:8080/responsetimegame.html";
+  iframe.style.border = "0px #ffffff none";
+  iframe.name = "myiFrame";
+  iframe.scrolling = "no";
+  iframe.frameBorder = "1";
+  iframe.marginHeight = "0px";
+  iframe.marginWidth = "0px";
+  iframe.height = "5000px";
+  iframe.width = "5000px";
+  iframe.allowFullscreen = true;
+
+  // Replace the existing iframe, if any, with the new one
+  const existingIframe = document.querySelector("iframe[name='myiFrame']");
+  if (existingIframe) {
+    existingIframe.parentNode.replaceChild(iframe, existingIframe);
+  } else {
+    document.body.appendChild(iframe);
+  }
+}
+function eightyZoom()
+{
+  document.body.style.zoom = "75%";
+}
+function fullZoom()
+{
+  document.body.style.zoom = "90%";
+}
+function runnerGame() {
     
-});
+  const iframe = document.createElement("iframe");
+  iframe.src = "http://127.0.0.1:8080/runner.html";
+  iframe.style.border = "0px #ffffff none";
+  iframe.name = "myiFrame";
+  iframe.scrolling = "no";
+  iframe.frameBorder = "1";
+  iframe.marginHeight = "0px";
+  iframe.marginWidth = "0px";
+  iframe.height = "600px";
+  iframe.width = "5000px";
+  iframe.allowFullscreen = true;
+
+  
+
+  // Replace the existing iframe, if any, with the new one
+  const existingIframe = document.querySelector("iframe[name='myiFrame']");
+  if (existingIframe) {
+    existingIframe.parentNode.replaceChild(iframe, existingIframe);
+  } else {
+    document.body.appendChild(iframe);
+  }
+}
 
 
+function triviaGame() {
+  const iframe = document.createElement("iframe");
+  iframe.src = "http://127.0.0.1:8080/triviagame.html";
+  iframe.style.border = "0px #ffffff none";
+  iframe.name = "myiFrame";
+  iframe.scrolling = "no";
+  iframe.frameBorder = "1";
+  iframe.marginHeight = "0px";
+  iframe.marginWidth = "0px";
+  iframe.height = "5000px";
+  iframe.width = "5000px";
+  iframe.allowFullscreen = true;
+
+  // Replace the existing iframe, if any, with the new one
+  const existingIframe = document.querySelector("iframe[name='myiFrame']");
+  if (existingIframe) {
+    existingIframe.parentNode.replaceChild(iframe, existingIframe);
+  } else {
+    document.body.appendChild(iframe);
+  }
+}
+
+
+function platformerGame() {
+  const iframe = document.createElement("iframe");
+  iframe.src = "http://127.0.0.1:8080/platformer.html";
+  iframe.style.border = "0px #ffffff none";
+  iframe.name = "myiFrame";
+  iframe.scrolling = "no";
+  iframe.frameBorder = "1";
+  iframe.marginHeight = "0px";
+  iframe.marginWidth = "0px";
+  iframe.height = "5000px";
+  iframe.width = "5000px";
+  iframe.allowFullscreen = true;
+
+  // Replace the existing iframe, if any, with the new one
+  const existingIframe = document.querySelector("iframe[name='myiFrame']");
+  if (existingIframe) {
+    existingIframe.parentNode.replaceChild(iframe, existingIframe);
+  } else {
+    document.body.appendChild(iframe);
+  }
+}
 
 function DestroyGame() {
     
@@ -39,6 +205,12 @@ function DestroyGame() {
     while (canvases.length > 0) {
         canvases[0].parentNode.removeChild(canvases[0]);
     }
+
+    const iframes = document.getElementsByTagName("iframe");
+while (iframes.length > 0) {
+    iframes[0].parentNode.removeChild(iframes[0]);
+}
+
     
 }
 
@@ -46,6 +218,9 @@ function DestroyGame() {
 
 
         </script>
+
+        
     </body>
+    
 </html>
 
