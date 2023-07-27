@@ -1,4 +1,4 @@
-function LaunchTagGame(){
+// function LaunchTagGame(){
 
     var config = {
         type: Phaser.AUTO,
@@ -82,6 +82,12 @@ function LaunchTagGame(){
 
     var zoomControlX;
     var zoomControlY;
+
+    var trackerX
+    var trackerY
+
+    var go = true
+    var countdown;
     function preload()
     {
         this.load.image('background', 'images/honeycombBG.png');
@@ -137,142 +143,156 @@ function LaunchTagGame(){
     player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
     player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
 
+    this.cameras.main.setZoom(1)
+    countdown = this.add.text(10,10, "", {fill: '#000', font: "bold 56px Arial"})
+    // countdown.setScrollFactor(0,0)
+
     player1.arrow.setVisible(P1it);
     player2.arrow.setVisible(P2it);
+    gameEnd.call(this, 120);
     }
 
 
     function update()
-    {
-        frames++   
-        if(player1.onSpeed){
-            player1.speed = 150;
-        }else{
-            player1.speed = 0;
-        }
+    {   
+        if(go){
+            frames++   
+            if(player1.onSpeed){
+                player1.speed = 150;
+            }else{
+                player1.speed = 0;
+            }
 
-        if(player1.onJump){
-            player1.jump = -100;
-        }else{
-            player1.jump = 0
-        }
-
-
-        if(player2.onSpeed){
-            player2.speed = 150;
-        }else{
-            player2.speed = 0;
-        }
-
-        if(player2.onJump){
-            player2.jump = -100;
-        }else{
-            player2.jump = 0
-        }
-
-        player1.speed += 25*P1it
-        player2.speed += 25*P2it
-    //yes
-        //arrow upkeep
-        player1.arrow.setPosition(player1.body.x + player1.width / 8 - 15, player1.body.y - 10);
-        player2.arrow.setPosition(player2.body.x + player2.width / 8 - 15, player2.body.y - 10);
-        if(cooldown<1){
-            player1.gui.setVisible(false)
-            player2.gui.setVisible(false)
-
-            player1.arrow.setVisible(P1it);
-            player2.arrow.setVisible(P2it);
-        }else{
-            player1.arrow.setVisible(false);
-            player2.arrow.setVisible(false);
-
-        }
-        //gui upkeep
-        player1.gui.setPosition(player1.body.x + player1.width / 8 - 20, player1.body.y-18);
-        player2.gui.setPosition(player2.body.x + player2.width / 8 - 20, player2.body.y-18);
-        
-        //camera
-        this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
-        this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
-        
-        zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
-        zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
-        if(!zoomControlX){
-            zoomControlX = zoomControlY
-        }
-        if(!zoomControlY){
-            zoomControlY = zoomControlX
-        }
-        this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
-        if(this.cameras.main.zoom){
-            this.cameras.main.setZoom(1) 
-        }
-        if(this.cameras.main.zoom>3){
-            this.cameras.main.setZoom(3)
-        }
-        //player upkeep
-
-        player1.upkeep();
-        player2.upkeep();
-        
-        //player movement and direction
-        if (cursors.left.isDown)
-        {
-            player1.flipX = true
-            player1.setVelocityX(-300 - player1.speed);
-        }
-
-        if (keys.A.isDown)
-        {
-            player2.flipX = true
-            player2.setVelocityX(-300 - player2.speed);
-        }
-
-        
-        if (cursors.right.isDown)
-        {
-            player1.flipX = false
-            player1.setVelocityX(300 + player1.speed);
-        }
-
-        if (keys.D.isDown)
-        {
-            player2.flipX = false
-            player2.setVelocityX(300 + player2.speed);
-        }
-        
-        if(!player1.body.touching.down||player1.onBasic){
-            player1.onSpeed = false
-            player1.onJump = false
-        }
-        
-        if(player1.offSpeed){
-            player1.onSpeed = false;
-            player1.offJump = false;
-        }
-        if(player1.offJump){
-            player1.onJump = false
-        }
-
-        if(player2.offSpeed){
-            player2.onSpeed = false;
-            player2.offJump = false;
-        }
-        if(player2.offJump){
-            player2.onJump = false
-        }
-
-        if(!player2.body.touching.down||player2.onBasic){
-            player2.onSpeed = false
-            player2.onJump = false
-        }
+            if(player1.onJump){
+                player1.jump = -100;
+            }else{
+                player1.jump = 0
+            }
 
 
-        player1.offSpeed = false
-        player1.offJump = false
+            if(player2.onSpeed){
+                player2.speed = 150;
+            }else{
+                player2.speed = 0;
+            }
 
-        player1.onBasic = false
-        player2.onBasic = false
+            if(player2.onJump){
+                player2.jump = -100;
+            }else{
+                player2.jump = 0
+            }
+
+            player1.speed += 25*P1it
+            player2.speed += 25*P2it
+        //yes
+            //arrow upkeep
+            player1.arrow.setPosition(player1.body.x + player1.width / 8 - 15, player1.body.y - 10);
+            player2.arrow.setPosition(player2.body.x + player2.width / 8 - 15, player2.body.y - 10);
+            if(cooldown<1){
+                player1.gui.setVisible(false)
+                player2.gui.setVisible(false)
+
+                player1.arrow.setVisible(P1it);
+                player2.arrow.setVisible(P2it);
+            }else{
+                player1.arrow.setVisible(false);
+                player2.arrow.setVisible(false);
+
+            }
+            //gui upkeep
+            player1.gui.setPosition(player1.body.x + player1.width / 8 - 20, player1.body.y-18);
+            player2.gui.setPosition(player2.body.x + player2.width / 8 - 20, player2.body.y-18);
+            
+            //camera
+            this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
+            this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
+            
+            zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
+            zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
+            if(!zoomControlX){
+                zoomControlX = zoomControlY
+            }
+            if(!zoomControlY){
+                zoomControlY = zoomControlX
+            }
+            this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
+            if(this.cameras.main.zoom<1){
+                this.cameras.main.setZoom(1) 
+            }
+            if(this.cameras.main.zoom>3){
+                this.cameras.main.setZoom(3)
+            }
+            //countdown
+            
+            // countdown.setPosition((player1.x+player2.x)/2-countdown.width/2,
+            //                       (player1.y+player2.y)/2-countdown.height/2);
+            // console.log(countdown.x)
+
+            // console.log(countdown.y)
+            //player upkeep
+
+            player1.upkeep();
+            player2.upkeep();
+            
+            //player movement and direction
+            if (cursors.left.isDown)
+            {
+                player1.flipX = true
+                player1.setVelocityX(-300 - player1.speed);
+            }
+
+            if (keys.A.isDown)
+            {
+                player2.flipX = true
+                player2.setVelocityX(-300 - player2.speed);
+            }
+
+            
+            if (cursors.right.isDown)
+            {
+                player1.flipX = false
+                player1.setVelocityX(300 + player1.speed);
+            }
+
+            if (keys.D.isDown)
+            {
+                player2.flipX = false
+                player2.setVelocityX(300 + player2.speed);
+            }
+            
+            if(!player1.body.touching.down||player1.onBasic){
+                player1.onSpeed = false
+                player1.onJump = false
+            }
+            
+            if(player1.offSpeed){
+                player1.onSpeed = false;
+                player1.offJump = false;
+            }
+            if(player1.offJump){
+                player1.onJump = false
+            }
+
+            if(player2.offSpeed){
+                player2.onSpeed = false;
+                player2.offJump = false;
+            }
+            if(player2.offJump){
+                player2.onJump = false
+            }
+
+            if(!player2.body.touching.down||player2.onBasic){
+                player2.onSpeed = false
+                player2.onJump = false
+            }
+
+
+            player1.offSpeed = false
+            player1.offJump = false
+
+            player1.onBasic = false
+            player2.onBasic = false
+        }
     }
 
  
@@ -348,8 +368,19 @@ function LaunchTagGame(){
         
         basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-92.5, 'platform'));
         basicArray[7].setScale(0.05, 0.35).refreshBody();
-    
+
+        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, game.scale.height-280, 'platform'));
+        basicArray[8].setScale(0.2, 0.1).refreshBody();
         
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5, game.scale.height-245, 'platform'));
+        basicArray[9].setScale(0.05, 0.45).refreshBody();
+
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+50, game.scale.height-200, 'platform'));
+        jumpArray[9].setScale(0.3, 0.1).refreshBody();
+        
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, game.scale.height-250, 'platform'));
+        basicArray[10].setScale(0.05, 0.4).refreshBody();
+
 
 
 
@@ -399,6 +430,25 @@ function LaunchTagGame(){
         }
     }
 
+    function gameEnd(count){
+        console.log(count)
+        if(count === 0){
+            go = false;
+            player1.disableBody(true, false);
+            player2.disableBody(true, false);
+            this.cameras.main.setZoom(1);
+            if(P1it){
+                countdown.setText("Player 2 wins!")
+            }
+            if(P2it){
+                countdown.setText("Player 1 wins!")
+            }
+            this.time.delayedCall(5000, function(){}, null, this)
+        }else{
+            this.time.delayedCall(1000, gameEnd.bind(this, count-1), null, this);
+        }
+    }
+
     function help(){
         if(cooldown>0){
             cooldown--;
@@ -410,4 +460,4 @@ function LaunchTagGame(){
             player2.arrow.visible = P2it
         }
     }
-}
+// }
