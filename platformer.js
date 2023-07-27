@@ -2,14 +2,18 @@ let player1
 let player2
 let playersDead=0
 let multiplier=130
+let oldMult=0
 let bees=[]
 let movingBees=[]
-let frames=0
 let platforms
 let nextX=0
 let maxFall=600
+let limit=6
 
 let obstacles=[
+    [
+        1
+    ],
     [
         2,
         {x:100, y:450, scl:.5, type: 'platH'},
@@ -18,13 +22,17 @@ let obstacles=[
         {x:1200, y:490, scl:.5, type: 'platV'},
         {x:1075, y:250, scl:.5, type: 'platH'},
         {x:1525, y:350, scl:.5, type: 'platH'},
-        {x:1976, y:250, scl:.5, type: 'platH'}
+        {x:1976, y:450, scl:.5, type: 'platH'}
     ],  
     [
         1,
-        {x:100, y:400, scl:.5, type: 'platH'},
-        {x:100, y:150, scl:.5, type: 'platV'},
-        {x:600, y:300, scl:.5, type: 'platV'}
+        {x:700, y:160, scl:.5, type: 'platV'},
+        {x:700, y:-80, scl:.5, type: 'platV'},
+        {x:700, y:400, scl:.5, type: 'platH'},
+        {x:1200, y:300, scl:.5, type: 'platV'},
+    ],
+    [
+        2,
     ]
 ]
 
@@ -54,11 +62,35 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.score=0
         this.canMove=true
         this.setOrigin(0)
+        this.grace=0
+        this.jBuffer=0
     }
+
     killPlayer(){
         this.score=this.body.x
         this.canMove=false
         playersDead++
+    }
+
+    upKeep(){
+        if(this.grace>0){
+            this.grace--
+        }
+        if(this.jBuffer>0){
+            this.jBuffer--
+        }
+        if (this.body.touching.down){
+            this.grace=5
+        }
+    }
+
+    playerJump(){
+        this.jBuffer=5
+        if (this.grace>0 || (this.jBuffer>0 && this.body.touching.down)){
+            this.grace=0
+            this.jBuffer=0
+            this.setVelocityY(-1050)
+        }
     }
 }
 
@@ -83,7 +115,7 @@ function preload(){
 
 function create(){
     for (let i=0; i<20; i++){
-        this.add.image(-500+1146*i, -500, 'background').setOrigin(0).scrollFactorX=.5
+        this.add.image(-500+1146*i, -500, 'background').setOrigin(0).scrollFactorX=.33
     }
 
     platforms = this.physics.add.staticGroup()
@@ -113,13 +145,21 @@ function create(){
 }
 
 function update(){
-    frames++
+    player1.upKeep()
+    player2.upKeep()
+    
+    if (multiplier>700+oldMult){
+        let temp=multiplier
+        multiplier=700+oldMult
+        oldMult=temp
+        limit+=.8
+    }
 
     let maxSpd=900
     let accel=160
     let decel=250
 
-    camera.scrollX+= 1.03**multiplier*Math.log(1.03)<9 ? 1.03**multiplier*Math.log(1.03) : 9
+    camera.scrollX+=1.02**multiplier*Math.log(1.02)<limit ? 1.02**multiplier*Math.log(1.02) : limit
     multiplier++
     // camera.scrollX=player1.body.x-640
 
@@ -127,7 +167,7 @@ function update(){
     if (player2.body.x-camera.scrollX<10) player2.killPlayer()
 
     if (camera.scrollX>640*(nextX-2)){
-        createPlatforms(obstacles[Math.floor(2*Math.random())])
+        createPlatforms(obstacles[Math.floor(obstacles.length*Math.random())])
     }
 
     if (player1.canMove){
@@ -159,15 +199,15 @@ function update(){
     }
 
     for(let i=0; i<movingBees.length; i++){
-        movingBees[i].x+=(3*Math.sin((i+frames)%60*Math.PI/30))
+        movingBees[i].x+=(3*Math.sin((i+multiplier)%60*Math.PI/30))
     }
 }
 
-function jump(event){
-    if (cursors.up.isDown && player1.body.touching.down){
-        player1.setVelocityY(-1000)
-    } else if (keys.W.isDown && player2.body.touching.down){
-        player2.setVelocityY(-1000)
+function jump(){
+    if (cursors.up.isDown){
+        player1.playerJump()
+    } else if (keys.W.isDown){
+        player2.playerJump()
     }
 }
 
