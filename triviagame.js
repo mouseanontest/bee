@@ -54,7 +54,7 @@ class MainScene extends Phaser.Scene {
 
     preload() {
         this.load.image('background', 'images/background.png');
-        this.load.image('bee', 'images/bee.png');
+        this.load.image('bee', 'beeofalltrades-response/images/bee.png');
     }
 
     create() {
@@ -106,7 +106,7 @@ class Player2Scene extends Phaser.Scene{
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create(){
@@ -162,7 +162,7 @@ class NextMinigameScene extends Phaser.Scene{
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create() {
@@ -259,7 +259,7 @@ class NextMinigame2Scene extends Phaser.Scene{
 
   preload(){
       this.load.image('background','images/background.png');
-      this.load.image('bee','images/bee.png');
+      this.load.image('bee','beeofalltrades-response/images/bee.png');
   }
 
   create() {
@@ -354,7 +354,7 @@ class NextMinigame3Scene extends Phaser.Scene{
 
   preload(){
       this.load.image('background','images/background.png');
-      this.load.image('bee','images/bee.png');
+      this.load.image('bee','beeofalltrades-response/images/bee.png');
   }
 
   create() {
@@ -460,7 +460,7 @@ class NextMinigamePlayer2Scene1 extends Phaser.Scene {
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create() {
@@ -620,7 +620,7 @@ class NextMinigamePlayer2Scene2 extends Phaser.Scene {
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create() {
@@ -765,7 +765,7 @@ class NextMinigamePlayer2Scene3 extends Phaser.Scene {
 
     preload(){
         this.load.image('background','images/background.png');
-        this.load.image('bee','images/bee.png');
+        this.load.image('bee','beeofalltrades-response/images/bee.png');
     }
 
     create() {
