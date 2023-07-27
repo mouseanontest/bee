@@ -27,6 +27,9 @@ function LaunchTagGame(){
         onJump = false;
         onSpeed = false;
         onBasic = false;
+        offJump = true;
+        offSpeed = true;
+
         constructor(scene, x, y)
         {
             super(scene, x, y, 'player');
@@ -34,8 +37,9 @@ function LaunchTagGame(){
             scene.physics.add.existing(this);
             this.setScale(2);
             this.setCollideWorldBounds(true);
-            this.setGravityY(1500); //We will set gravity *per object* rather than for the scene!
+            this.setGravityY(1500);
         }
+
         upkeep(){
             //set gui
             this.gui.setText(cooldown);
@@ -91,7 +95,7 @@ function LaunchTagGame(){
         // this.cameras.main.startFollow(this.ship, true, 0.09, 0.09);
 
         //unused
-        graphics = this.add.graphics();
+    graphics = this.add.graphics();
         //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
     let background = this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0, 0);
 
@@ -102,15 +106,15 @@ function LaunchTagGame(){
     player1.setScale(0.1)
     player1.setTint(0xaa3030)
     this.physics.add.collider(player1, basicPlatforms, function(){player1.onBasic = true}, null, this);
-    this.physics.add.collider(player1, speedPlatforms, function(){player1.onSpeed = true}, null, this);
-    this.physics.add.collider(player1, jumpPlatforms, function(){player1.onJump = true}, null, this);
+    this.physics.add.collider(player1, speedPlatforms, function(){player1.onSpeed = true; player1.offJump = true}, null, this);
+    this.physics.add.collider(player1, jumpPlatforms, function(){player1.onJump = true; player1.offSpeed = true}, null, this);
 
     player2 = new Player(this, 700, 400);
     player2.setScale(0.1)
     player2.setTint(0x5050ff)
     this.physics.add.collider(player2, basicPlatforms, function(){player2.onBasic = true}, null, this);
-    this.physics.add.collider(player2, speedPlatforms, function(){player2.onSpeed = true}, null, this);
-    this.physics.add.collider(player2, jumpPlatforms, function(){player2.onJump = true}, null, this);
+    this.physics.add.collider(player2, speedPlatforms, function(){player2.onSpeed = true; player2.offSpeed = true}, null, this);
+    this.physics.add.collider(player2, jumpPlatforms, function(){player2.onJump = true; player2.offSpeed = true}, null, this);
 
     this.physics.add.collider(player1, player2, tag, null, this);
 
@@ -123,7 +127,6 @@ function LaunchTagGame(){
     //camera stuff
     this.cameras.main.setBounds(0, 0, 800, 600);
         
-
     //Set up user input
     cursors = this.input.keyboard.createCursorKeys();
     keys = this.input.keyboard.addKeys('A, D');
@@ -242,12 +245,34 @@ function LaunchTagGame(){
             player1.onSpeed = false
             player1.onJump = false
         }
+        
+        if(player1.offSpeed){
+            player1.onSpeed = false;
+            player1.offJump = false;
+        }
+        if(player1.offJump){
+            player1.onJump = false
+        }
+
+        if(player2.offSpeed){
+            player2.onSpeed = false;
+            player2.offJump = false;
+        }
+        if(player2.offJump){
+            player2.onJump = false
+        }
+
         if(!player2.body.touching.down||player2.onBasic){
             player2.onSpeed = false
             player2.onJump = false
-        }   
-        player2.onBasic = false
+        }
+
+
+        player1.offSpeed = false
+        player1.offJump = false
+
         player1.onBasic = false
+        player2.onBasic = false
     }
 
  
@@ -256,20 +281,6 @@ function LaunchTagGame(){
         basicPlatforms = scene.physics.add.staticGroup();
         speedPlatforms = scene.physics.add.staticGroup();
         jumpPlatforms = scene.physics.add.staticGroup();
-        //basePlatform is the floor of the game
-
-        /* basicArray.push(basicPlatforms.create(game.scale.width/2, game.scale.height, 'platform'));
-        basicArray[0].setScale(2, 0.25).refreshBody();
-
-        speedArray.push(speedPlatforms.create(800, 500, 'platform'))
-        jumpArray.push(jumpPlatforms.create(600, 600, 'platform'))
-
-        basicArray.push(basicPlatforms.create(300, 500, 'platform'))
-
-        jumpArray[0].setScale(0.25, 0.5).refreshBody();
-        speedArray[0].setScale(0.5).refreshBody();
-        basicArray[1].setScale(0.25, 0.5).refreshBody();
-        */
 
         //bottom ground
         jumpArray.push(jumpPlatforms.create(37.5, game.scale.height, 'platform'));
@@ -281,33 +292,83 @@ function LaunchTagGame(){
         jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5, game.scale.height, 'platform'));
         jumpArray[1].setScale(0.15, 0.25).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+50, game.scale.height, 'platform'));
-        basicArray[0].setScale(0.2, 0.25).refreshBody();
+        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+75, game.scale.height, 'platform'));
+        basicArray[0].setScale(0.3, 0.25).refreshBody();
 
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+50*2+25, game.scale.height, 'platform'));
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+75*2+25, game.scale.height, 'platform'));
         jumpArray[2].setScale(0.1, 0.25).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+50*2+25*2+87.5, game.scale.height, 'platform'));
+        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5, game.scale.height, 'platform'));
         basicArray[1].setScale(0.35, 0.25).refreshBody();
 
+        speedArray.push(speedPlatforms.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5*2+50, game.scale.height, 'platform'));
+        speedArray[1].setScale(0.2, 0.25).refreshBody();
+
+        //left half, left-right
+        
+        jumpArray.push(jumpPlatforms.create(37.5*2+25, game.scale.height-110, 'platform'));
+        jumpArray[3].setScale(0.1, 0.1).refreshBody();
+
+        jumpArray.push(jumpPlatforms.create(37.5*2-25, game.scale.height-205, 'platform'));
+        jumpArray[4].setScale(0.1, 0.1).refreshBody();
+
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+12.5, game.scale.height-200, 'platform'));
+        basicArray[2].setScale(0.05, 9/10).refreshBody();
+
+        basicArray.push(basicPlatforms.create(37.5*2+87.5*2-12.5*2, game.scale.height-90, 'platform'));
+        basicArray[3].setScale(0.05, 0.3).refreshBody();
+        
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+25, game.scale.height-105, 'platform'));
+        basicArray[4].setScale(0.1, 0.05).refreshBody();
+        
+        speedArray.push(speedPlatforms.create(37.5*2+25*2+12.5+62.5, game.scale.height-240, 'platform'));
+        speedArray[2].setScale(0.2, 0.1).refreshBody();
+
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5, game.scale.height-260, 'platform'));
+        basicArray[5].setScale(0.05, 0.3).refreshBody();
+
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5, game.scale.height-100, 'platform'));
+        jumpArray[5].setScale(0.15, 0.1).refreshBody();
+        
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, game.scale.height-190, 'platform'));
+        jumpArray[6].setScale(0.15, 0.1).refreshBody();
+        
+        jumpArray.push(jumpPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+37.5, game.scale.height-280, 'platform'));
+        jumpArray[7].setScale(0.15, 0.1).refreshBody();
+        
+
+
+        //right half, left-right
+
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*2, game.scale.height-280, 'platform'));
+        jumpArray[8].setScale(0.1, 0.1).refreshBody();
+        
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-225, 'platform'));
+        basicArray[6].setScale(0.05, 0.45).refreshBody();
+        
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-92.5, 'platform'));
+        basicArray[7].setScale(0.05, 0.35).refreshBody();
+    
+        
 
 
 
-        speedPlatforms.setTint(0xffa500);
-        basicPlatforms.setTint(0xf0f0f0);
-        jumpPlatforms.setTint(0xa0a0ff);
+        speedPlatforms.setTint(0xeaa500);
+        basicPlatforms.setTint(0xdadada);
+        jumpPlatforms.setTint(0xa0a0ea);
     }
+//please help me
 
     function jump1(event)
     {
         if (player1.body.touching.down) {
         //If the player is on the ground, the player can jump
         player1.setVelocityY(-400 + player1.jump);
-        player1.currentJumps++;
+        player1.currentJumps = 1;
         } else if (player1.currentJumps < player1.totalJumps) {
         //If the player is not on the ground but has an available air jump, use that jump
         player1.setVelocityY(-300);
-        player1.currentJumps++;
+        player1.currentJumps = 2;
         }
     }
     function jump2(event)
@@ -315,11 +376,11 @@ function LaunchTagGame(){
         if (player2.body.touching.down) {
         //If the player is on the ground, the player can jump
         player2.setVelocityY(-400 + player2.jump);
-        player2.currentJumps++;
+        player2.currentJumps = 1;
         } else if (player2.currentJumps < player2.totalJumps) {
         //If the player is not on the ground but has an available air jump, use that jump
         player2.setVelocityY(-300);
-        player2.currentJumps++;
+        player2.currentJumps = 2;
         }
     }
 
