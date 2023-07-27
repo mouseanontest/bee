@@ -11,10 +11,14 @@ let maxFall=600
 
 let obstacles=[
     [
+        3,
         {x:100, y:450, scl:.5, type: 'platH'},
-        {x:500, y:350, scl:.5, type: 'platH'}
+        {x:550, y:350, scl:.5, type: 'platH'},
+        {x:1000, y:250, scl:.5, type: 'platV'},
+        {x:1200, y:150, scl:.5, type: 'platV'}
     ],  
     [
+        2,
         {x:100, y:300, scl:.5, type: 'platV'},
         {x:200, y:500, scl:.5, type: 'platH'}
     ]
@@ -40,7 +44,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
     constructor(scene,x,y){
         super(scene,x,y,'bee')
         scene.add.existing(this)
-        this.setScale(.3)
+        this.setScale(.4)
         scene.physics.add.existing(this)
         this.setGravityY(3000)
         this.score=0
@@ -165,11 +169,12 @@ function jump(event){
 }
 
 function createPlatforms(platformArray){
-    platforms.create(nextX*1280, game.scale.height-45, 'platH').setOrigin(0).setScale(1, 1).refreshBody();
-    platforms.create(nextX*1280+640, game.scale.height-45, 'platH').setOrigin(0).setScale(1, 1).refreshBody();
-    platformArray.forEach(element => {
-        platforms.create(nextX*1280+element['x'], element['y'], element['type']).setOrigin(0).setScale(element['scl'], element['scl']).refreshBody();
-    });
+    for (let i=1; i<platformArray.length; i++){
+        platforms.create(nextX*1280+platformArray[i]['x'], platformArray[i]['y'], platformArray[i]['type']).setOrigin(0).setScale(platformArray[i]['scl'], platformArray[i]['scl']).refreshBody();
+    }
+    for (let i=0; i<platformArray[0]; i++){
+        platforms.create((nextX+i)*640, game.scale.height-45, 'platH').setOrigin(0).setScale(1, 1).refreshBody();
+    }
     nextX++
 }
 
