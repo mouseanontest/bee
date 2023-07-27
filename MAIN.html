@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bee of All Trades</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+        <script src="triviagame.js"></script>
+        <script src="tag.js"></script>
+        <script src="runner.js"></script>
+        <script src="responsetimegame.js"></script>
+        <script src="platformer.js"></script>
+    </head>
+    <body>
+        <h1>Bee of All Trades</h1>
+        <button onclick="DestroyGame(); LaunchResponseGame()">Response Time Game</button>
+        <button onclick="DestroyGame(); LaunchRunnerGame()">Runner Game</button>
+        <button onclick="DestroyGame(); LaunchTagGame()">Tag Game</button>
+        <button onclick="DestroyGame(); LaunchTriviaGame()">Trivia Game</button>
+        <button onclick="DestroyGame(); LaunchPlatformerGame()">Platformer Game</button>
+
+
+        <div id="gameContainer"></div>
+
+
+        <script>
+window.addEventListener('load', function() {
+    
+    const canvases = document.getElementsByTagName("canvas");
+    while (canvases.length > 0) {
+        canvases[0].parentNode.removeChild(canvases[0]);
+    }
+    
+});
+
+
+
+function DestroyGame() {
+    
+    const canvases = document.getElementsByTagName("canvas");
+    while (canvases.length > 0) {
+        canvases[0].parentNode.removeChild(canvases[0]);
+    }
+    
+}
+
+
+
+
+        </script>
+    </body>
+</html>
