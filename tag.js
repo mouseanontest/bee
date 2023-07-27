@@ -65,7 +65,6 @@ function LaunchTagGame(){
     var jumpPlatforms;
     var player1;
     var player2;
-    var Asta
 
     var P1it = true;
     var P2it = false;
@@ -83,15 +82,12 @@ function LaunchTagGame(){
     var zoomControlX;
     var zoomControlY;
 
-    var trackerX
-    var trackerY
-
 
     var go = null
     var countdown;
     function preload()
     {
-        this.load.image('Asta', 'images/atsa.png');
+        this.load.image('atsa', 'images/atsa.png');
         this.load.image('background', 'images/honeycombBG.png');
         this.load.image('platform', 'images/platform.png');
         this.load.image('player', 'images/playerBee.png');
@@ -101,8 +97,7 @@ function LaunchTagGame(){
 
     function create()
     {
-        this.load.image('Asta', 'images/atsa.png');
-        /*
+        
 
         //unused
     graphics = this.add.graphics();
@@ -153,8 +148,8 @@ function LaunchTagGame(){
 
     player1.arrow.setVisible(P1it);
     player2.arrow.setVisible(P2it);
-    */
-    Asta = this.add.image(this, game.scale.width/2, game.scale.height/2, "Asta");
+    
+    Atsa = this.add.image(game.scale.width/2, game.scale.height/2, "atsa");
     
     this.input.on('pointerdown', function (pointer)
     {
@@ -162,7 +157,7 @@ function LaunchTagGame(){
             console.log('down');
             go = true;
             gameEnd.call(this, 75);
-            Asta.destroy()
+            Atsa.destroy()
         }
     }, this);
     }
