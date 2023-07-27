@@ -99,9 +99,9 @@ function launchRunnerGame() {
        
        //Set up user input
        cursors = this.input.keyboard.createCursorKeys();
-       cursors.up.on('down', jumpP1); //calls p1Jump function when up key is pressed
-       p2Jump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-       p2Jump.on('down', jumpP2); //calls p2Jump function when W key is pressed
+       cursors.up.on('down', jumpP2); //calls p2Jump function when up key is pressed
+       p1Jump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+       p1Jump.on('down', jumpP2); //calls p1Jump function when W key is pressed
        
        gui = this.add.text(500, 100, '', {fontSize: '32px', fill: '#000'});
        
