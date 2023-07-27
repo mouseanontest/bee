@@ -275,7 +275,7 @@ function LaunchTagGame(){
         player2.onBasic = false
     }
 
-
+ 
     function createPlatforms(scene)
     {
         basicPlatforms = scene.physics.add.staticGroup();
@@ -303,7 +303,6 @@ function LaunchTagGame(){
 
         speedArray.push(speedPlatforms.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5*2+50, game.scale.height, 'platform'));
         speedArray[1].setScale(0.2, 0.25).refreshBody();
-
 
         //left half, left-right
         
@@ -358,6 +357,7 @@ function LaunchTagGame(){
         basicPlatforms.setTint(0xdadada);
         jumpPlatforms.setTint(0xa0a0ea);
     }
+//please help me
 
     function jump1(event)
     {
