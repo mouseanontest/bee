@@ -7,6 +7,7 @@ let movingBees=[]
 let frames=0
 let platforms
 let nextX=0
+let maxFall=600
 
 let obstacles=[
     [
@@ -119,7 +120,7 @@ function update(){
     if (player2.body.x-camera.scrollX<10) player2.killPlayer()
 
     // if (camera.scrollX>1280*(nextX-1)){
-    //     createPlatforms(obstacles[Math.floor(Math.random()+.5)])
+    //     createPlatforms(obstacles[Math.floor(2*Math.random())])
     // }
 
     if (player1.canMove){
@@ -129,6 +130,10 @@ function update(){
             player1.setVelocityX(appr(accel, maxSpd, player1.body.velocity.x))
         } else {
             player1.setVelocityX(appr(decel, 0, player1.body.velocity.x))
+        }
+
+        if (player1.body.velocity.y>=maxFall){
+            player1.body.velocity.y=maxFall
         }
     }
 
@@ -140,9 +145,12 @@ function update(){
         } else {
             player2.setVelocityX(appr(decel, 0, player2.body.velocity.x))
         }
+
+        if (player2.body.velocity.y>=maxFall){
+            player2.body.velocity.y=maxFall
+        }
     }
 
-    //bring bees in front of everything later
     for(let i=0; i<movingBees.length; i++){
         movingBees[i].x+=(3*Math.sin((i+frames)%60*Math.PI/30))
     }
