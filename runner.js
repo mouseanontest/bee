@@ -49,7 +49,9 @@ function launchRunnerGame() {
     var difficultyEnabled = true;
     var hazardType;
     var objectHazard;
+    var objectSkin;
     var creatingObstacles = false;
+    var objIteration = 0;
     
     function preload()
     {
@@ -69,12 +71,14 @@ function launchRunnerGame() {
         this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
         //Music
         this.load.audio('music', 'audio/runner.mp3');
+        //this.load.audio('jumpSFX', 'audio/jump.flac');
     }
     
     function create()
     {
         //Begin music
         music = this.sound.add('music');
+        //jumpSF = this.sound.add('jumpSFX');
         music.play({ loop: true });
 
         //Set the background image
@@ -125,7 +129,11 @@ function launchRunnerGame() {
         It is possible for an unavoidable obstacle to be generated at higher difficulties as a result of top and bottom pillars generating in quick succession
         but I'm lazy and it's not something that would be super noticable to the average player.
         /*/
-        let hazardType = Phaser.Math.Between(1, 3);
+        if(objIteration < 0) {
+            hazardType = 3;
+        } else {
+            hazardType = Phaser.Math.Between(1, 3);
+        }
         if (hazardType === 1) {
             objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(100, 150), 'obstacle1');
             objectHazard.setScale(Phaser.Math.Between(4, 6) * 0.1).refreshBody();
@@ -133,7 +141,11 @@ function launchRunnerGame() {
             objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(600, 650), 'obstacle2');
             objectHazard.setScale(Phaser.Math.Between(5, 7) * 0.1).refreshBody();
         } else {
-            let objectSkin = Phaser.Math.Between(3, 5);
+            if (objIteration > 0){
+                objectSkin = Phaser.Math.Between(3, 5);
+            } else {
+                objectSkin = 4;
+            }
             objectHazard = obstacles.create(game.scale.width+500, Phaser.Math.Between(200, 500), 'obstacle'+objectSkin);
             if (objectSkin < 5) {
                 objectHazard.setScale(Phaser.Math.Between(35, 50) * 0.01).refreshBody();
@@ -146,6 +158,8 @@ function launchRunnerGame() {
         
         //Spawns a new obstacle every 1-3 seconds
         scene.time.delayedCall(Phaser.Math.Between(1000 - (difficulty * 500), 2000 - (difficulty * 100)), spawnObstacles, [scene], scene);
+
+        objIteration++;
     }
 
     
@@ -171,10 +185,12 @@ function launchRunnerGame() {
     function jumpP1(event)
     {
         player1.setVelocityY(-800);
+        //jumpSF.play();
     }
     
     function jumpP2(event)
     {
         player2.setVelocityY(-800);
+        //jumpSF.play();
     }
 }
