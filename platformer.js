@@ -49,7 +49,7 @@ let obstacles=[
         {x:950, y: -300, scl:1, type: 'platV'}
     ],
     [
-        4,
+        3,
         {x:380, y:430, scl:1, type: 'platV'},
         {x:100, y:430, scl:1, type: 'platH'},
         {x:1020, y:300, scl:1, type: 'platV'},
