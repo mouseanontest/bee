@@ -1,3 +1,5 @@
+function LaunchMemory(){
+
 const config = {
     type: Phaser.AUTO,
     width: 400,
@@ -92,4 +94,5 @@ function handleClick() {
             }
         }
     }
+}
 }
