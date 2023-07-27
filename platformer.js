@@ -25,11 +25,13 @@ let obstacles=[
         {x:1976, y:450, scl:.5, type: 'platH'}
     ],  
     [
-        1,
-        {x:700, y:160, scl:.5, type: 'platV'},
-        {x:700, y:-80, scl:.5, type: 'platV'},
-        {x:700, y:400, scl:.5, type: 'platH'},
-        {x:1200, y:300, scl:.5, type: 'platV'},
+        3,
+        {x:500, y:160, scl:.5, type: 'platV'},
+        {x:500, y:-80, scl:.5, type: 'platV'},
+        {x:500, y:400, scl:.5, type: 'platH'},
+        {x:1000, y:300, scl:.5, type: 'platH'},
+        {x:1500, y:250, scl:.5, type: 'platV'},
+        {x:1500, y:490, scl:.5, type: 'platV'},
     ],
     [
         2,
@@ -80,13 +82,17 @@ class Player extends Phaser.Physics.Arcade.Sprite{
             this.jBuffer--
         }
         if (this.body.touching.down){
-            this.grace=5
+            if (this.jBuffer>0){
+                this.setVelocityY(-1050)
+            } else {
+                this.grace=5
+            }
         }
     }
 
     playerJump(){
         this.jBuffer=5
-        if (this.grace>0 || (this.jBuffer>0 && this.body.touching.down)){
+        if (this.grace>0){
             this.grace=0
             this.jBuffer=0
             this.setVelocityY(-1050)
@@ -119,7 +125,8 @@ function create(){
     }
 
     platforms = this.physics.add.staticGroup()
-    createPlatforms([1])
+    // createPlatforms([1])
+    createPlatforms(obstacles[3])
 
     player1=new Player(this, 600, 400).setTint(0xaa3030)
     player2=new Player(this, 600, 400).setTint(0x5050ff)
@@ -131,8 +138,8 @@ function create(){
 
     cursors = this.input.keyboard.createCursorKeys()
     keys = this.input.keyboard.addKeys('W, A, D')
-    keys.W.on('down', jump)
-    cursors.up.on('down', jump)
+    keys.W.on('down', p2jump)
+    cursors.up.on('down', p1jump)
 
     //make bees
     for (let i=0; i<10; i++){
@@ -159,16 +166,16 @@ function update(){
     let accel=160
     let decel=250
 
-    camera.scrollX+=1.02**multiplier*Math.log(1.02)<limit ? 1.02**multiplier*Math.log(1.02) : limit
+    // camera.scrollX+=1.02**multiplier*Math.log(1.02)<limit ? 1.02**multiplier*Math.log(1.02) : limit
     multiplier++
-    // camera.scrollX=player1.body.x-640
+    camera.scrollX=player1.body.x-640
 
     if (player1.body.x-camera.scrollX<10) player1.killPlayer()
     if (player2.body.x-camera.scrollX<10) player2.killPlayer()
 
-    if (camera.scrollX>640*(nextX-2)){
-        createPlatforms(obstacles[Math.floor(obstacles.length*Math.random())])
-    }
+    // if (camera.scrollX>640*(nextX-2)){
+    //     createPlatforms(obstacles[Math.floor(obstacles.length*Math.random())])
+    // }
 
     if (player1.canMove){
         if (cursors.left.isDown){
@@ -203,12 +210,12 @@ function update(){
     }
 }
 
-function jump(){
-    if (cursors.up.isDown){
-        player1.playerJump()
-    } else if (keys.W.isDown){
-        player2.playerJump()
-    }
+function p1jump(){
+    player1.playerJump()
+}
+
+function p2jump(){
+    player2.playerJump()
 }
 
 function createPlatforms(platformArray){
