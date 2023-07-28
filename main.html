@@ -9,23 +9,28 @@
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
         <script src="triviagame.js"></script>
-        
+        <script src="mg.js"></script>
         <script src="runner.js"></script>
         <script src="responsetimegame.js"></script>
         
     </head>
     <body>
         <img src="images/beeofalltradeslogo.png" alt="Bee of All Trades" width="150" height="150">
-        <button onclick="fullZoom(); DestroyGame(); LaunchResponseGame()">Fast Bee</button>
+        <button onclick="fullZoom(); DestroyGame(); LaunchResponseGame()">Speedy Bee</button>
         <button onclick="eightyZoom(); DestroyGame(); runnerGame()">Flappy Bee</button>
         <button onclick="eightyZoom(); DestroyGame(); tagGame()">Bee Tag</button>
-        <button onclick="fullZoom(); DestroyGame(); LaunchTriviaGame()">Bee Questions</button>
+        <button onclick="fullZoom(); DestroyGame(); LaunchMemoryGame()">Memory Bee</button>
+        <button onclick="fullZoom(); DestroyGame(); LaunchTriviaGame()">Bee Trivia</button>
         <button onclick="eightyZoom(); DestroyGame(); platformerGame()">Bee Platformer</button>
         
 
         <div id="gameContainer"></div>
 
         <style>
+        html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
           body {
             zoom: 100%;
               font-family: 'Arial', sans-serif;
