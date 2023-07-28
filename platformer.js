@@ -61,7 +61,7 @@ let obstacles=[
 
 var config = {
     type: Phaser.AUTO,
-    width: 800,
+    width: 1500,
     height: 600,
     physics: {
         default: 'arcade',
@@ -186,12 +186,11 @@ function update(){
 
     camera.scrollX+=1.02**multiplier*Math.log(1.02)<limit ? 1.02**multiplier*Math.log(1.02) : limit
     multiplier++
-    // camera.scrollX=player1.body.x-640
 
     if (player1.body.x-camera.scrollX<10) player1.killPlayer()
     if (player2.body.x-camera.scrollX<10) player2.killPlayer()
 
-    if (camera.scrollX>640*(nextX-2)){
+    if (camera.scrollX>640*(nextX-4)){
         createPlatforms(obstacles[Math.floor(obstacles.length*Math.random())])
     }
 

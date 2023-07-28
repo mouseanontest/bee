@@ -32,6 +32,8 @@ function launchRunnerGame() {
     
     //Game Objects
     var obstacles;
+    var victoryImage;
+    var vicIm;
     var player1;
     var player2;
     
@@ -52,12 +54,16 @@ function launchRunnerGame() {
     var objectSkin;
     var creatingObstacles = false;
     var objIteration = 0;
+    var bobScene;
     
     function preload()
     {
         //Player and sky
         this.load.image('sky', 'images/honeycombBG.png');
         this.load.image('player', 'images/playerBee.png');
+        //Victory
+        this.load.image('p1v', 'images/player1V.png');
+        this.load.image('p2v', 'images/player2V.png');
         //Obstacles
         this.load.image('obstacle1', 'images/runnerAssets/obstacles/obstacle1.png');
         this.load.image('obstacle2', 'images/runnerAssets/obstacles/obstacle2.png');
@@ -71,14 +77,15 @@ function launchRunnerGame() {
         this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
         //Music
         this.load.audio('music', 'audio/runner.mp3');
-        //this.load.audio('jumpSFX', 'audio/jump.flac');
+        this.load.audio('jumpSFX', 'audio/jump.mp3');
     }
     
     function create()
     {
+
         //Begin music
         music = this.sound.add('music');
-        //jumpSF = this.sound.add('jumpSFX');
+        jumpSFX = this.sound.add('jumpSFX');
         music.play({ loop: true });
 
         //Set the background image
@@ -101,7 +108,7 @@ function launchRunnerGame() {
        cursors = this.input.keyboard.createCursorKeys();
        cursors.up.on('down', jumpP2); //calls p2Jump function when up key is pressed
        p1Jump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-       p1Jump.on('down', jumpP2); //calls p1Jump function when W key is pressed
+       p1Jump.on('down', jumpP1); //calls p1Jump function when W key is pressed
        
        gui = this.add.text(500, 100, '', {fontSize: '32px', fill: '#000'});
        
@@ -162,14 +169,37 @@ function launchRunnerGame() {
         objIteration++;
     }
 
+    function checkPlayerStates(refFrame) {
+        if (player1.y > 700 || player1.x < 0) {
+            gameOver(1, refFrame);
+            console.log("detected");
+        } else if (player2.y > 700 || player2.x < 0) {
+            gameOver(2, refFrame);
+            console.log("detected");
+        }
+    }
+
+    function gameOver(winner, refFrame) {
+        if (winner === 1) {
+            console.log("Player 1 wins!");
+            victoryImage = refFrame.add.image(600, 350, 'p1v');
+        } else if (winner === 2) {
+            console.log("Player 2 wins!");
+            victoryImage = refFrame.add.image(600, 350, 'p2v');
+        }
+        refFrame.scene.pause();
+    }
+
     
     function update()
     {
+        checkPlayerStates(this);
+
         //Adds player drag
         player1.setDragX(1000 * difficulty);
         player2.setDragX(1000 * difficulty);
         if (difficultyEnabled === true) {
-            difficulty = difficulty + 0.00005;
+            difficulty = difficulty + 0.000075;
         }
         
         //Removes old obstacles
@@ -179,18 +209,24 @@ function launchRunnerGame() {
                 objectHazard.destroy();
             }
         }
+
     }
     
     //Jump events for players
     function jumpP1(event)
     {
-        player1.setVelocityY(-800);
-        //jumpSF.play();
+        if (player1.y > 0){
+          player1.setVelocityY(-800);
+          jumpSFX.play();  
+        }
+        
     }
     
     function jumpP2(event)
     {
-        player2.setVelocityY(-800);
-        //jumpSF.play();
+        if (player2.y > 0){
+            player2.setVelocityY(-800);
+            jumpSFX.play();
+        }
     }
 }
