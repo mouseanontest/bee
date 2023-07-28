@@ -50,7 +50,7 @@ function shuffleArray(array) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
-}f
+}
 
 function preload() {
   this.load.image('background', 'images/background.png');
