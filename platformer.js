@@ -199,7 +199,7 @@ function update(){
         createPlatforms(obstacles[Math.floor(obstacles.length*Math.random())])
     }
 
-    if (player1.canMove){
+    if (player1.canMove && player1.x<camera.scrollX+1440){
         if (cursors.left.isDown){
             player1.setVelocityX(appr(accel, -1*maxSpd, player1.body.velocity.x))
         } else if (cursors.right.isDown){
@@ -213,7 +213,7 @@ function update(){
         }
     }
 
-    if (player2.canMove){
+    if (player2.canMove && player2.x<camera.scrollX+1440){
         if (keys.A.isDown){
             player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
         } else if (keys.D.isDown){
