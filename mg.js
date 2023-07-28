@@ -24,6 +24,8 @@ let scoreTextPlayer1;
 let scoreTextPlayer2;
 let winText; 
 
+
+
 const cardImages = [
   'card1',
   'card1', 
@@ -150,6 +152,19 @@ function checkMatch() {
   }
 }
 
+function update() {
+  
+
+  if (player1Score + player2Score === 8) {
+    if (player1Score > player2Score) {
+      return 1;
+    } else if (player2Score > player1Score) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+}
 function updateScoreTextPlayer1(text) {
   scoreTextPlayer1.setText(text);
 }
