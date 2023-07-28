@@ -1,4 +1,5 @@
 function launchRunnerGame() {
+    //Whatever you do, DO NOT DELETE THE LAUNCH FUNCTION FROM THE .JS OR THE .HTML FILES!! THIS WILL BREAK THE GAME!
     var config = {
         type: Phaser.AUTO,
         width: 1200,
@@ -19,6 +20,7 @@ function launchRunnerGame() {
     {
         constructor(scene, x, y)
         {
+            //Constructs player object
             super(scene, x, y, 'player');
             scene.add.existing(this);
             scene.physics.add.existing(this);
@@ -33,7 +35,6 @@ function launchRunnerGame() {
     //Game Objects
     var obstacles;
     var victoryImage;
-    var vicIm;
     var player1;
     var player2;
     
@@ -58,9 +59,10 @@ function launchRunnerGame() {
     
     function preload()
     {
-        //Player and sky
+        //Player, title, and sky
         this.load.image('sky', 'images/honeycombBG.png');
         this.load.image('player', 'images/playerBee.png');
+        this.load.image('title', 'images/runnerAssets/flappyBeeTitle.png');
         //Victory
         this.load.image('p1v', 'images/player1V.png');
         this.load.image('p2v', 'images/player2V.png');
@@ -71,10 +73,10 @@ function launchRunnerGame() {
         this.load.image('obstacle4', 'images/runnerAssets/obstacles/obstacle3var2.png');
         this.load.image('obstacle5', 'images/runnerAssets/obstacles/obstacle3var3.png');
         //Countdown (scrapped until further notice)
-        this.load.image('countdown1', 'images/runnerAssets/.countdown/countdown3.png');
-        this.load.image('countdown2', 'images/runnerAssets/.countdown/countdown2.png');
-        this.load.image('countdown3', 'images/runnerAssets/.countdown/countdown1.png');
-        this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
+        // this.load.image('countdown1', 'images/runnerAssets/.countdown/countdown3.png');
+        // this.load.image('countdown2', 'images/runnerAssets/.countdown/countdown2.png');
+        // this.load.image('countdown3', 'images/runnerAssets/.countdown/countdown1.png');
+        // this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
         //Music
         this.load.audio('music', 'audio/runner.mp3');
         this.load.audio('jumpSFX', 'audio/jump.mp3');
@@ -110,6 +112,7 @@ function launchRunnerGame() {
        p1Jump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
        p1Jump.on('down', jumpP1); //calls p1Jump function when W key is pressed
        
+       //Useless gui text feature that I left in because screw optimization
        gui = this.add.text(500, 100, '', {fontSize: '32px', fill: '#000'});
        
        //Begins obstacle generation
@@ -118,7 +121,8 @@ function launchRunnerGame() {
     }
     
     function enablePlayers() {
-        console.log("function called");
+        //Enables players
+        console.log("Players have been enabled");
         player1.enableBody();
         player2.enableBody();
         this.physics.add.collider(player1, obstacles);
@@ -170,6 +174,7 @@ function launchRunnerGame() {
     }
 
     function checkPlayerStates(refFrame) {
+        //Checks to see if players have exited level bounds
         if (player1.y > 700 || player1.x < 0) {
             gameOver(1, refFrame);
             console.log("detected");
@@ -180,6 +185,7 @@ function launchRunnerGame() {
     }
 
     function gameOver(winner, refFrame) {
+        //Stops game and displays win screen
         if (winner === 1) {
             console.log("Player 1 wins!");
             victoryImage = refFrame.add.image(600, 350, 'p1v');
@@ -193,6 +199,7 @@ function launchRunnerGame() {
     
     function update()
     {
+        //Checks player position every frame
         checkPlayerStates(this);
 
         //Adds player drag
@@ -213,11 +220,12 @@ function launchRunnerGame() {
     }
     
     //Jump events for players
+    //(Uncomment jumpSFX for horribly annoying jumping sound effects)
     function jumpP1(event)
     {
         if (player1.y > 0){
           player1.setVelocityY(-800);
-          jumpSFX.play();  
+          //jumpSFX.play();  
         }
         
     }
@@ -226,7 +234,7 @@ function launchRunnerGame() {
     {
         if (player2.y > 0){
             player2.setVelocityY(-800);
-            jumpSFX.play();
+            //jumpSFX.play();
         }
     }
 }
