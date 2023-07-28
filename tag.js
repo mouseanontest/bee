@@ -380,7 +380,7 @@
         basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-225, 'platform'));
         basicArray[6].setScale(0.05, 0.45).refreshBody();
         
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-92.5, 'platform'));
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-87.5, 'platform'));
         basicArray[7].setScale(0.05, 0.35).refreshBody();
 
         basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, game.scale.height-280, 'platform'));
@@ -395,11 +395,28 @@
         basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, game.scale.height-250, 'platform'));
         basicArray[10].setScale(0.05, 0.4).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, game.scale.height-125, 'platform'));
+        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, game.scale.height-120, 'platform'));
         basicArray[11].setScale(0.1, 0.1).refreshBody();
         
         basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200*2, game.scale.height-92.5, 'platform'));
         basicArray[12].setScale(0.05, 0.35).refreshBody();
+
+        basicArray.push(basicPlatforms.create(game.scale.width-10, game.scale.height-25, 'platform'));
+        basicArray[13].setScale(0.05, 0.35).refreshBody();
+        
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, game.scale.height-150, 'platform'));
+        jumpArray[10].setScale(0.05, 0.1).refreshBody();
+        
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, game.scale.height-225, 'platform'));
+        jumpArray[11].setScale(0.05, 0.1).refreshBody();
+        
+        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, game.scale.height-340, 'platform'));
+        jumpArray[12].setScale(0.05, 0.1).refreshBody();
+
+        jumpArray.push(jumpPlatforms.create(37.5*2-25, game.scale.height-340, 'platform'));
+        jumpArray[13].setScale(0.1, 0.1).refreshBody();
+
+
 
 
         speedPlatforms.setTint(0xeaa500);
