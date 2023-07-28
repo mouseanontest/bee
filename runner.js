@@ -55,7 +55,8 @@ function launchRunnerGame() {
     var objectSkin;
     var creatingObstacles = false;
     var objIteration = 0;
-    var bobScene;
+    var player1super;
+    var player2super;
     
     function preload()
     {
@@ -72,15 +73,8 @@ function launchRunnerGame() {
         this.load.image('obstacle3', 'images/runnerAssets/obstacles/obstacle3var1.png');
         this.load.image('obstacle4', 'images/runnerAssets/obstacles/obstacle3var2.png');
         this.load.image('obstacle5', 'images/runnerAssets/obstacles/obstacle3var3.png');
-        //Countdown (scrapped until further notice)
-        // this.load.image('countdown1', 'images/runnerAssets/.countdown/countdown3.png');
-        // this.load.image('countdown2', 'images/runnerAssets/.countdown/countdown2.png');
-        // this.load.image('countdown3', 'images/runnerAssets/.countdown/countdown1.png');
-        // this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
         //Music
         this.load.audio('music', 'audio/runner.mp3');
-        //REMOVE JUMPSFX!!!
-        //this.load.audio('jumpSFX', 'audio/jump.mp3');
     }
     
     function create()
@@ -88,9 +82,8 @@ function launchRunnerGame() {
 
         //Begin music
         music = this.sound.add('music');
-        //jumpSFX = this.sound.add('jumpSFX');
         music.play({ loop: true });
-
+        
         //Set the background image
         let bgImage = this.add.image(600, 350, 'sky');
         bgImage.setScale(1);
@@ -113,12 +106,22 @@ function launchRunnerGame() {
        p1Jump = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
        p1Jump.on('down', jumpP1); //calls p1Jump function when W key is pressed
        
-       //Useless gui text feature that I left in because screw optimization
-       gui = this.add.text(500, 100, '', {fontSize: '32px', fill: '#000'});
+       //Starting countdown timer
+       gui = this.add.text(500, 100, 'Get ready...', {fontSize: '32px', fill: '#000'});
+       this.time.delayedCall(2000, setStartText, ['     3'], this);
+       this.time.delayedCall(3000, setStartText, ['     2'], this);
+       this.time.delayedCall(4000, setStartText, ['     1'], this);
+       this.time.delayedCall(5000, setStartText, [' Flap!'], this);
+       this.time.delayedCall(6000, setStartText, [''], this);
        
        //Begins obstacle generation
        obstacles = this.physics.add.group();
        this.time.delayedCall(5000, spawnObstacles, [this], this);
+    }
+
+    function setStartText(text) {
+        //Bypasses a stupid function scope restriction
+        gui.setText(text);
     }
     
     function enablePlayers() {
@@ -201,7 +204,15 @@ function launchRunnerGame() {
     function update()
     {
         //Checks player position every frame
-        checkPlayerStates(this);
+        //checkPlayerStates(this);
+
+        //Checks to see if players should get a super jump
+        if (player1.body.touching.down && player1super === 0){
+            player1super = 1;
+        }
+        if (player2.body.touching.down && player2super === 0){
+            player2super = 1;
+        }
 
         //Adds player drag
         player1.setDragX(1000 * difficulty);
@@ -221,21 +232,27 @@ function launchRunnerGame() {
     }
     
     //Jump events for players
-    //(Uncomment jumpSFX for horribly annoying jumping sound effects)
     function jumpP1(event)
     {
         if (player1.y > 0){
-          player1.setVelocityY(-800);
-          //jumpSFX.play();  
+            if (player1super === 1) {
+                player1.setVelocityY(-1500);
+                player1super = 0;
+            } else {
+                player1.setVelocityY(-800);
+          }
         }
-        
+        //Adds jump boost for bouncing off of obstacles
     }
     
     function jumpP2(event)
     {
-        if (player2.y > 0){
+        if (player2super === 1) {
+            player2.setVelocityY(-1500);
+            player2super = 0;
+        } else {
             player2.setVelocityY(-800);
-            //jumpSFX.play();
         }
+        //Adds jump boost for bouncing off of obstacles
     }
 }
