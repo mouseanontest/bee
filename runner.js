@@ -170,22 +170,22 @@ function launchRunnerGame() {
     }
 
     function checkPlayerStates(refFrame) {
-        if (player1.y > 700 || player1.y < 0 || player1.x < 0) {
+        if (player1.y > 700 || player1.x < 0) {
             gameOver(1, refFrame);
             console.log("detected");
-        } else if (player2.y > 700 || player2.y < 0 || player2.x < 0) {
+        } else if (player2.y > 700 || player2.x < 0) {
             gameOver(2, refFrame);
             console.log("detected");
         }
     }
 
-    function gameOver(loser, refFrame) {
-        if (loser === 1) {
-            console.log("Player 2 wins!");
-            victoryImage = refFrame.create(600, 350, 'p2v');
-        } else if (loser === 2) {
+    function gameOver(winner, refFrame) {
+        if (winner === 1) {
             console.log("Player 1 wins!");
-            victoryImage = refFrame.create(600, 350, 'p1v');
+            victoryImage = refFrame.add.image(600, 350, 'p1v');
+        } else if (winner === 2) {
+            console.log("Player 2 wins!");
+            victoryImage = refFrame.add.image(600, 350, 'p2v');
         }
         refFrame.scene.pause();
     }
@@ -215,13 +215,18 @@ function launchRunnerGame() {
     //Jump events for players
     function jumpP1(event)
     {
-        player1.setVelocityY(-800);
-        jumpSFX.play();
+        if (player1.y > 0){
+          player1.setVelocityY(-800);
+          jumpSFX.play();  
+        }
+        
     }
     
     function jumpP2(event)
     {
-        player2.setVelocityY(-800);
-        jumpSFX.play();
+        if (player2.y > 0){
+            player2.setVelocityY(-800);
+            jumpSFX.play();
+        }
     }
 }
