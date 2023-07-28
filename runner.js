@@ -80,7 +80,7 @@ function launchRunnerGame() {
         //Music
         this.load.audio('music', 'audio/runner.mp3');
         //REMOVE JUMPSFX!!!
-        this.load.audio('jumpSFX', 'audio/jump.mp3');
+        //this.load.audio('jumpSFX', 'audio/jump.mp3');
     }
     
     function create()
@@ -88,7 +88,7 @@ function launchRunnerGame() {
 
         //Begin music
         music = this.sound.add('music');
-        jumpSFX = this.sound.add('jumpSFX');
+        //jumpSFX = this.sound.add('jumpSFX');
         music.play({ loop: true });
 
         //Set the background image
