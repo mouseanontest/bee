@@ -157,14 +157,14 @@ function update() {
 
   if (player1Score + player2Score === 8) {
     if (player1Score > player2Score) {
-      console.log("player1 wins");
+      alert.log("player1 wins");
       return 1;
     } else if (player2Score > player1Score) {
       return 2;
-      console.log("player2 wins");
+      alert.log("player2 wins");
     } else {
       return 3;
-      console.log("player none wins");
+      alert.log("player none wins");
     }
   }
 }
