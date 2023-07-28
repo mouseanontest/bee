@@ -29,9 +29,9 @@ let obstacles=[
         {x:1550, y:150, scl:.5, type: 'platV'},
         {x:1550, y:390, scl:.5, type: 'platV'},
         {x:1425, y:150, scl:.5, type: 'platH'},
-        {x:1950, y: -70, scl:.5, type: 'platV'},
-        {x:1950, y: 170, scl:.5, type: 'platV'},
-        {x:1825, y: 410, scl:.5, type: 'platH'},
+        {x:1950, y:-70, scl:.5, type: 'platV'},
+        {x:1950, y:170, scl:.5, type: 'platV'},
+        {x:1825, y:410, scl:.5, type: 'platH'},
     ],
     [
         2,
@@ -45,17 +45,16 @@ let obstacles=[
     [
         2,
         {x:350, y:450, scl:1, type: 'platV'},
-        {x:350, y: -300, scl:1, type: 'platV'},
+        {x:350, y:-300, scl:1, type: 'platV'},
         {x:950, y:450, scl:1, type: 'platV'},
-        {x:950, y: -300, scl:1, type: 'platV'}
+        {x:950, y:-300, scl:1, type: 'platV'}
     ],
     [
         3,
-        {x:380, y:430, scl:1, type: 'platV'},
         {x:100, y:430, scl:1, type: 'platH'},
-        {x:1020, y:300, scl:1, type: 'platV'},
+        {x:980, y:300, scl:1, type: 'platV'},
         {x:740, y:300, scl:1, type: 'platH'},
-        {x:1660, y:170, scl:1, type: 'platV'},
+        {x:1620, y:170, scl:1, type: 'platV'},
         {x:1380, y:170, scl:1, type: 'platH'},
     ]
 ]
