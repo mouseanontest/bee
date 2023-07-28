@@ -87,6 +87,11 @@
     var countdown;
 
     var maxCount = 75
+
+    var jumpSound
+    var alarmSound
+
+    //sounds
     function preload()
     {
         this.load.image('atsa', 'images/atsa.png');
@@ -94,11 +99,14 @@
         this.load.image('platform', 'images/platform.png');
         this.load.image('player', 'images/playerBee.png');
         this.load.image('arrow', 'images/tagArrow.png');
+        this.load.audio('jumpSound', 'audio/jump.ogg');
+        this.load.audio('alarmSound', 'audio/alarm.wav')
     }
 
     function create()
     {
-        
+        jumpSound=this.sound.add('jumpSound')
+        alarmSound=this.sound.add('alarmSound')
 
         //unused
         graphics = this.add.graphics();
@@ -380,7 +388,7 @@
         basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-225, 'platform'));
         basicArray[6].setScale(0.05, 0.45).refreshBody();
         
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-87.5, 'platform'));
+        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-92.5, 'platform'));
         basicArray[7].setScale(0.05, 0.35).refreshBody();
 
         basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, game.scale.height-280, 'platform'));
@@ -395,7 +403,7 @@
         basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, game.scale.height-250, 'platform'));
         basicArray[10].setScale(0.05, 0.4).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, game.scale.height-120, 'platform'));
+        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, game.scale.height-125, 'platform'));
         basicArray[11].setScale(0.1, 0.1).refreshBody();
         
         basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200*2, game.scale.height-92.5, 'platform'));
@@ -431,10 +439,12 @@
         //If the player is on the ground, the player can jump
         player1.setVelocityY(-400 + player1.jump);
         player1.currentJumps = 1;
+        jumpSound.play()
         } else if (player1.currentJumps < player1.totalJumps) {
         //If the player is not on the ground but has an available air jump, use that jump
         player1.setVelocityY(-300);
         player1.currentJumps = 2;
+        jumpSound.play()
         }
     }
     function jump2(event)
@@ -443,10 +453,12 @@
         //If the player is on the ground, the player can jump
         player2.setVelocityY(-400 + player2.jump);
         player2.currentJumps = 1;
+        jumpSound.play()
         } else if (player2.currentJumps < player2.totalJumps) {
         //If the player is not on the ground but has an available air jump, use that jump
         player2.setVelocityY(-300);
         player2.currentJumps = 2;
+        jumpSound.play()
         }
     }
 
@@ -475,6 +487,7 @@
         }
         document.getElementById("timer").innerHTML = "Time Left: " + count
         if(count === 0){
+            alarmSound.play()
             go = false;
             player1.disableBody(true, false);
             player2.disableBody(true, false);
