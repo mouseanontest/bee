@@ -79,6 +79,7 @@ function launchRunnerGame() {
         // this.load.image('countdown4', 'images/runnerAssets/.countdown/countdownFlap.png');
         //Music
         this.load.audio('music', 'audio/runner.mp3');
+        //REMOVE JUMPSFX!!!
         this.load.audio('jumpSFX', 'audio/jump.mp3');
     }
     
