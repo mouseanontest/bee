@@ -1,4 +1,4 @@
-function LaunchTagGame(){
+// function LaunchTagGame(){
 
     var config = {
         type: Phaser.AUTO,
@@ -85,6 +85,8 @@ function LaunchTagGame(){
 
     var go = null
     var countdown;
+
+    var maxCount = 75
     function preload()
     {
         this.load.image('atsa', 'images/atsa.png');
@@ -92,7 +94,6 @@ function LaunchTagGame(){
         this.load.image('platform', 'images/platform.png');
         this.load.image('player', 'images/playerBee.png');
         this.load.image('arrow', 'images/tagArrow.png');
-        console.log("XD")
     }
 
     function create()
@@ -100,66 +101,68 @@ function LaunchTagGame(){
         
 
         //unused
-    graphics = this.add.graphics();
+        graphics = this.add.graphics();
+
         //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
-    let background = this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0, 0);
+        let background = this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0, 0);
     
-    //Create the platforms and the player character set to collide with the platforms
-    createPlatforms(this);
+        //Create the platforms and the player character set to collide with the platforms
+        createPlatforms(this);
 
-    player1 = new Player(this, 300, 400);
-    player1.setScale(0.1)
-    player1.setTint(0xaa3030)
-    this.physics.add.collider(player1, basicPlatforms, function(){player1.onBasic = true}, null, this);
-    this.physics.add.collider(player1, speedPlatforms, function(){player1.onSpeed = true; player1.offJump = true}, null, this);
-    this.physics.add.collider(player1, jumpPlatforms, function(){player1.onJump = true; player1.offSpeed = true}, null, this);
+        player1 = new Player(this, 300, 400);
+        player1.setScale(0.1)
+        player1.setTint(0xaa3030)
+        this.physics.add.collider(player1, basicPlatforms, function(){player1.onBasic = true}, null, this);
+        this.physics.add.collider(player1, speedPlatforms, function(){player1.onSpeed = true; player1.offJump = true}, null, this);
+        this.physics.add.collider(player1, jumpPlatforms, function(){player1.onJump = true; player1.offSpeed = true}, null, this);
 
-    player2 = new Player(this, 700, 400);
-    player2.setScale(0.1)
-    player2.setTint(0x5050ff)
-    this.physics.add.collider(player2, basicPlatforms, function(){player2.onBasic = true}, null, this);
-    this.physics.add.collider(player2, speedPlatforms, function(){player2.onSpeed = true; player2.offSpeed = true}, null, this);
-    this.physics.add.collider(player2, jumpPlatforms, function(){player2.onJump = true; player2.offSpeed = true}, null, this);
+        player2 = new Player(this, 700, 400);
+        player2.setScale(0.1)
+        player2.setTint(0x5050ff)
+        this.physics.add.collider(player2, basicPlatforms, function(){player2.onBasic = true}, null, this);
+        this.physics.add.collider(player2, speedPlatforms, function(){player2.onSpeed = true; player2.offSpeed = true}, null, this);
+        this.physics.add.collider(player2, jumpPlatforms, function(){player2.onJump = true; player2.offSpeed = true}, null, this);
 
-    this.physics.add.collider(player1, player2, tag, null, this);
+        this.physics.add.collider(player1, player2, tag, null, this);
 
-    player1.arrow = this.physics.add.image(0, 0, 'arrow');
-    player1.arrow.setScale(0.1)
+        player1.arrow = this.physics.add.image(0, 0, 'arrow');
+        player1.arrow.setScale(0.1)
 
-    player2.arrow = this.physics.add.image(0, 0, 'arrow');
-    player2.arrow.setScale(0.1);
-    
-    //camera stuff
-    this.cameras.main.setBounds(0, 0, 800, 600);
+        player2.arrow = this.physics.add.image(0, 0, 'arrow');
+        player2.arrow.setScale(0.1);
         
-    //Set up user input
-    cursors = this.input.keyboard.createCursorKeys();
-    keys = this.input.keyboard.addKeys('A, D');
-    wRizz = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    cursors.up.on('down', jump1); //calls jump function when space is pressed
-    wRizz.on('down', jump2); 
+        //camera stuff
+        this.cameras.main.setBounds(0, 0, 800, 600);
+            
+        //Set up user input
+        cursors = this.input.keyboard.createCursorKeys();
+        keys = this.input.keyboard.addKeys('A, D');
+        wRizz = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        cursors.up.on('down', jump1); //calls jump function when space is pressed
+        wRizz.on('down', jump2); 
 
-    player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
-    player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
+        player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
+        player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
 
-    this.cameras.main.setZoom(1)
-    countdown = this.add.text(10,10, "", {fill: '#000', font: "bold 56px Arial"})
-    // countdown.setScrollFactor(0,0)
 
-    player1.arrow.setVisible(P1it);
-    player2.arrow.setVisible(P2it);
-    
-    Atsa = this.add.image(game.scale.width/2, game.scale.height/2, "atsa");
-    
-    this.input.on('pointerdown', function (pointer)
-    {
-        if(go === null){
-            console.log('down');
-            go = true;
-            gameEnd.call(this, 75);
-            Atsa.destroy()
-        }
-    }, this);
+        player1.arrow.setVisible(P1it);
+        player2.arrow.setVisible(P2it);
+        
+        Atsa = this.add.image(game.scale.width/2, game.scale.height/2, "atsa");
+        
+        this.input.on('pointerdown', function (pointer)
+        {
+            if(go === null){
+                go = true;
+                gameEnd.call(this, maxCount);
+                Atsa.destroy()
+            }
+        }, this);
+        
+        this.cameras.main.setZoom(1)
+        countdown = this.add.text(10,10, "", {fill: '#000', font: "bold 56px Arial"})
+        // countdown.setOrigin(countdown.width/2, countdown.height/2)
+        // countdown.setScrollFactor(0,0)
     }
 
 
@@ -194,7 +197,7 @@ function LaunchTagGame(){
 
             player1.speed += 25*P1it
             player2.speed += 25*P2it
-        //yes
+
             //arrow upkeep
             player1.arrow.setPosition(player1.body.x + player1.width / 8 - 15, player1.body.y - 10);
             player2.arrow.setPosition(player2.body.x + player2.width / 8 - 15, player2.body.y - 10);
@@ -220,26 +223,27 @@ function LaunchTagGame(){
             zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
             zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
             if(!zoomControlX){
-                zoomControlX = zoomControlY
+                zoomControlX = zoomControlY;
             }
             if(!zoomControlY){
-                zoomControlY = zoomControlX
+                zoomControlY = zoomControlX;
             }
             this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
             if(this.cameras.main.zoom){
-                this.cameras.main.setZoom(1) 
+                this.cameras.main.setZoom(1);
             }
             if(this.cameras.main.zoom>3){
-                this.cameras.main.setZoom(3)
+                this.cameras.main.setZoom(3);
             }
             //countdown
             
-            // countdown.setPosition((player1.x+player2.x)/2-countdown.width/2,
-            //                       (player1.y+player2.y)/2-countdown.height/2);
+            // countdown.setPosition((player1.x+player2.x)/2 - this.cameras.main.displayWidth/2,
+            //                       (player1.y+player2.y)/2 - countdown.height/2);
             // console.log(countdown.x)
 
             // console.log(countdown.y)
-            //player upkeep
+
+            // player upkeep
 
             player1.upkeep();
             player2.upkeep();
@@ -429,7 +433,6 @@ function LaunchTagGame(){
         }
     }
 
-
     function tag(){
         if(cooldown<1){
             P1it = !P1it;
@@ -445,7 +448,15 @@ function LaunchTagGame(){
     }
 
     function gameEnd(count){
-        console.log(count)
+        // console.log(count)
+        if(count>maxCount/3*2){
+            document.getElementById("timer").style.color = "green"
+        }else if(count>maxCount/3){
+            document.getElementById("timer").style.color = "orange"
+        }else{
+            document.getElementById("timer").style.color = "red"
+        }
+        document.getElementById("timer").innerHTML = "Time Left: " + count
         if(count === 0){
             go = false;
             player1.disableBody(true, false);
@@ -457,7 +468,7 @@ function LaunchTagGame(){
             if(P2it){
                 countdown.setText("Player 1 wins!")
             }
-            this.time.delayedCall(5000, function(){}, null, this)
+            document.getElementById("timer").innerHTML = "Game End"
         }else{
             this.time.delayedCall(1000, gameEnd.bind(this, count-1), null, this);
         }
@@ -474,4 +485,4 @@ function LaunchTagGame(){
             player2.arrow.visible = P2it
         }
     }
-}
+// }
