@@ -8,6 +8,7 @@ let platforms
 let nextX=0
 let maxFall=600
 let limit=6
+let bgCount=2
 
 let obstacles=[
     [
@@ -28,9 +29,9 @@ let obstacles=[
         {x:1550, y:150, scl:.5, type: 'platV'},
         {x:1550, y:390, scl:.5, type: 'platV'},
         {x:1425, y:150, scl:.5, type: 'platH'},
-        {x:1950, y: -70, scl:.5, type: 'platV'},
-        {x:1950, y: 170, scl:.5, type: 'platV'},
-        {x:1825, y: 410, scl:.5, type: 'platH'},
+        {x:1950, y:-70, scl:.5, type: 'platV'},
+        {x:1950, y:170, scl:.5, type: 'platV'},
+        {x:1825, y:410, scl:.5, type: 'platH'},
     ],
     [
         2,
@@ -44,17 +45,16 @@ let obstacles=[
     [
         2,
         {x:350, y:450, scl:1, type: 'platV'},
-        {x:350, y: -300, scl:1, type: 'platV'},
+        {x:350, y:-300, scl:1, type: 'platV'},
         {x:950, y:450, scl:1, type: 'platV'},
-        {x:950, y: -300, scl:1, type: 'platV'}
+        {x:950, y:-300, scl:1, type: 'platV'}
     ],
     [
         3,
-        {x:380, y:430, scl:1, type: 'platV'},
         {x:100, y:430, scl:1, type: 'platH'},
-        {x:1020, y:300, scl:1, type: 'platV'},
+        {x:980, y:300, scl:1, type: 'platV'},
         {x:740, y:300, scl:1, type: 'platH'},
-        {x:1660, y:170, scl:1, type: 'platV'},
+        {x:1620, y:170, scl:1, type: 'platV'},
         {x:1380, y:170, scl:1, type: 'platH'},
     ]
 ]
@@ -72,7 +72,6 @@ var config = {
         create: create,
         update: update,
     }
-
 };
 
 class Player extends Phaser.Physics.Arcade.Sprite{
@@ -93,6 +92,7 @@ class Player extends Phaser.Physics.Arcade.Sprite{
         this.score=this.body.x
         this.canMove=false
         playersDead++
+        console.log(playersDead)
     }
 
     upKeep(){
@@ -142,7 +142,7 @@ function preload(){
 }
 
 function create(){
-    for (let i=0; i<20; i++){
+    for (let i=0; i<2; i++){
         this.add.image(-500+1146*i, -500, 'background').setOrigin(0).scrollFactorX=.33
     }
 
@@ -187,14 +187,19 @@ function update(){
     camera.scrollX+=1.02**multiplier*Math.log(1.02)<limit ? 1.02**multiplier*Math.log(1.02) : limit
     multiplier++
 
-    if (player1.body.x-camera.scrollX<10) player1.killPlayer()
-    if (player2.body.x-camera.scrollX<10) player2.killPlayer()
+    if (camera.scrollX>(bgCount-2)*1146){
+        this.add.image(-500+1146*bgCount, -500, 'background').setOrigin(0).setDepth(-1).scrollFactorX=.33
+        bgCount++
+    }
+
+    if (player1.body.x-camera.scrollX<10 && player1.canMove) player1.killPlayer()
+    if (player2.body.x-camera.scrollX<10 && player2.canMove) player2.killPlayer()
 
     if (camera.scrollX>640*(nextX-4)){
         createPlatforms(obstacles[Math.floor(obstacles.length*Math.random())])
     }
 
-    if (player1.canMove){
+    if (player1.canMove && player1.x<camera.scrollX+1440){
         if (cursors.left.isDown){
             player1.setVelocityX(appr(accel, -1*maxSpd, player1.body.velocity.x))
         } else if (cursors.right.isDown){
@@ -208,7 +213,7 @@ function update(){
         }
     }
 
-    if (player2.canMove){
+    if (player2.canMove && player2.x<camera.scrollX+1440){
         if (keys.A.isDown){
             player2.setVelocityX(appr(accel, -1*maxSpd, player2.body.velocity.x))
         } else if (keys.D.isDown){
@@ -224,6 +229,12 @@ function update(){
 
     for(let i=0; i<movingBees.length; i++){
         movingBees[i].x+=(3*Math.sin((i+multiplier)%60*Math.PI/30))
+    }
+
+    if(playersDead==2){
+        winner = player1.score>player2.score ? 'Player 1' : 'Player 2'
+        this.add.text(game.scale.width/2, game.scale.height/2, winner+" Wins", {fill: '#000', font: "bold 56px Arial"}).setOrigin(.5).scrollFactorX=0
+        playersDead++
     }
 }
 
