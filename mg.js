@@ -152,22 +152,7 @@ function checkMatch() {
   }
 }
 
-function update() {
-  
 
-  if (player1Score + player2Score === 8) {
-    if (player1Score > player2Score) {
-      alert.log("player1 wins");
-      return 1;
-    } else if (player2Score > player1Score) {
-      return 2;
-      alert.log("player2 wins");
-    } else {
-      return 3;
-      alert.log("player none wins");
-    }
-  }
-}
 function updateScoreTextPlayer1(text) {
   scoreTextPlayer1.setText(text);
 }
