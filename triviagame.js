@@ -6,7 +6,7 @@ let endTime;
 let reactionTime;
 let player1Score = 0;
 let player2Score = 0;
-let music;
+
 let player1_temp_score = 0;
 let player2_temp_score = 0;
 
@@ -18,7 +18,7 @@ class StartScene extends Phaser.Scene {
     preload() {
         this.load.image('background', 'images/background.png');
         this.load.image('pentagon', 'images/circle.png');
-        this.load.audio('music', 'audio/music.mp3');
+        
     }
 
     create() {
@@ -28,8 +28,7 @@ class StartScene extends Phaser.Scene {
         pentagon.on('pointerdown', () => {
             this.scene.start('NextMinigameReadyScene');
         });
-        music = this.sound.add('music');
-        music.play({ loop: true });
+        
     }
 }
 
@@ -844,7 +843,7 @@ class EndScene extends Phaser.Scene {
     preload() {
         this.load.image('background', 'images/background.png');
         this.load.image('pentagon', 'images/circle.png');
-        this.load.audio('music', 'audio/music.mp3');
+        
     }
 
     create() {
