@@ -204,7 +204,7 @@ function launchRunnerGame() {
     function update()
     {
         //Checks player position every frame
-        //checkPlayerStates(this);
+        checkPlayerStates(this);
 
         //Checks to see if players should get a super jump
         if (player1.body.touching.down && player1super === 0){
@@ -242,7 +242,6 @@ function launchRunnerGame() {
                 player1.setVelocityY(-800);
           }
         }
-        //Adds jump boost for bouncing off of obstacles
     }
     
     function jumpP2(event)
@@ -253,6 +252,5 @@ function launchRunnerGame() {
         } else {
             player2.setVelocityY(-800);
         }
-        //Adds jump boost for bouncing off of obstacles
     }
 }
