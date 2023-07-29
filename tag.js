@@ -111,7 +111,7 @@
 
 
         //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
-        let background = this.add.tileSprite(0, 0, uwu.scale.width, uwu.scale.height, 'background').setOrigin(0, 0);
+        let background = this.add.tileSprite(0, 0, uwu.scale.width, uwu.scale.height, 'background').setOrigin(0, 0).setScale(1);
     
         //Create the platforms and the player character set to collide with the platforms
         createPlatforms(this);

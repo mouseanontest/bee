@@ -70,7 +70,7 @@ function preload() {
 }
 
 function create() {
-  this.add.image(0, 0, 'background').setScale(1.1);
+  this.add.image(0, 0, 'background').setScale(3.3);
 
   shuffleArray(cardImages);
 

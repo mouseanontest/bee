@@ -22,7 +22,7 @@ class StartScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(400, 300, 'background').setScale(0.8);
+        this.add.image(400, 300, 'background').setScale(0.8*3);
         const pentagon = this.add.image(400, 300, 'pentagon').setInteractive().setScale(0.23);
         this.add.text(400, 293, 'Bee of all trades', { color: '#000000' }).setOrigin(0.5).setScale(0.8);
         pentagon.on('pointerdown', () => {
@@ -38,7 +38,7 @@ class Player1ReadyScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(400, 300, 'background').setScale(0.8);
+        this.add.image(400, 300, 'background').setScale(0.8*3);
         this.add.text(400, 300, 'Get ready Player 1', { color: '#000000' }).setOrigin(0.5);
         this.time.delayedCall(3000, () => {
             this.scene.start('MainScene');
@@ -57,7 +57,7 @@ class MainScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(400, 300, 'background').setScale(0.8);
+        this.add.image(400, 300, 'background').setScale(0.8*3);
         this.add.text(400, 50, 'Player 1', { color: '#000000' }).setOrigin(0.5);
         const bee = this.add.image(400, 300, 'bee').setInteractive().setScale(0.8);
         bee.visible = false;
@@ -86,7 +86,7 @@ class Player2ReadyScene extends Phaser.Scene{
     }
 
     create(){
-        this.add.image(400,300,'background').setScale(.8);
+        this.add.image(400,300,'background').setScale(.8*3);
         this.add.text(400,300,'Get ready Player 2',{color:'#000000'}).setOrigin(.5);
         this.time.delayedCall(3000,()=>{
             this.scene.start('Player2Scene',{player1ReactionTime:this.player1ReactionTime});
@@ -109,7 +109,7 @@ class Player2Scene extends Phaser.Scene{
     }
 
     create(){
-        this.add.image(400,300,'background').setScale(.8);
+        this.add.image(400,300,'background').setScale(.8*3);
         this.add.text(400,50,'Player 2',{color:'#000000'}).setOrigin(.5);
         const bee=this.add.image(400,300,'bee').setInteractive().setScale(.8);
         
@@ -147,7 +147,7 @@ class NextMinigameReadyScene extends Phaser.Scene{
     }
 
     create(){
-        this.add.image(400,300,'background').setScale(.8);
+        this.add.image(400,300,'background').setScale(.8*3);
         this.add.text(400,300,'Get ready Player 1',{color:'#000000'}).setOrigin(.5);
         this.time.delayedCall(3000,()=>{
             this.scene.start('NextMinigameScene');
@@ -166,7 +166,7 @@ class NextMinigameScene extends Phaser.Scene{
     }
 
     create() {
-      this.add.image(400, 300, 'background').setScale(0.8);
+      this.add.image(400, 300, 'background').setScale(0.8*3);
       this.add.text(400, 50, 'Player 1', { color: '#000000' }).setOrigin(0.5);
 
       
@@ -264,7 +264,7 @@ class NextMinigame2Scene extends Phaser.Scene{
   }
 
   create() {
-    this.add.image(400, 300, 'background').setScale(0.8);
+    this.add.image(400, 300, 'background').setScale(0.8*3);
     this.add.text(400, 50, 'Player 1', { color: '#000000' }).setOrigin(0.5);
 
     
@@ -359,7 +359,7 @@ class NextMinigame3Scene extends Phaser.Scene{
   }
 
   create() {
-      this.add.image(400, 300, 'background').setScale(0.8);
+      this.add.image(400, 300, 'background').setScale(0.8*3);
       this.add.text(400, 50, 'Player 1', { color: '#000000' }).setOrigin(0.5);
 
       
@@ -447,7 +447,7 @@ class Player2ReadySceneCopy extends Phaser.Scene {
   }
 
   create() {
-      this.add.image(400, 300, 'background').setScale(0.8);
+      this.add.image(400, 300, 'background').setScale(0.8*3);
       this.add.text(400, 300, 'Get ready Player 2', { color: '#000000' }).setOrigin(0.5);
       this.time.delayedCall(3000, () => {
         this.scene.start('NextMinigamePlayer2Scene1');
@@ -465,7 +465,7 @@ class NextMinigamePlayer2Scene1 extends Phaser.Scene {
     }
 
     create() {
-      this.add.image(400, 300, 'background').setScale(0.8);
+      this.add.image(400, 300, 'background').setScale(0.8*3);
       this.add.text(400, 50, 'Player 2', { color: '#000000' }).setOrigin(0.5);
 
       
@@ -583,7 +583,7 @@ class NextMinigamePlayer2Scene2 extends Phaser.Scene {
     }
 
     create() {
-      this.add.image(400, 300, 'background').setScale(0.8);
+      this.add.image(400, 300, 'background').setScale(0.8*3);
       this.add.text(400, 50, 'Player 2', { color: '#000000' }).setOrigin(0.5);
 
       
@@ -686,7 +686,7 @@ class NextMinigamePlayer2Scene3 extends Phaser.Scene {
     }
 
     create() {
-      this.add.image(400, 300, 'background').setScale(0.8);
+      this.add.image(400, 300, 'background').setScale(0.8*3);
       this.add.text(400, 50, 'Player 2', { color: '#000000' }).setOrigin(0.5);
 
       
@@ -848,7 +848,7 @@ class EndScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(400, 300, 'background').setScale(0.8);
+        this.add.image(400, 300, 'background').setScale(0.8*3);
         const pentagon = this.add.image(400, 300, 'pentagon').setInteractive().setScale(0.23);
         if (player1Score > player2Score){
             this.add.text(400, 293, 'Player 1 wins!', { color: '#000000' }).setOrigin(0.5).setScale(0.8);
