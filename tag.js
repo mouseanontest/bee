@@ -61,9 +61,9 @@
     var uwu = new Phaser.Game(config);
 
     //Game Objects
-    var LnormalThing;
-    var GOTTAGOFAST;
-    var NYOOOOOOOOM;
+    var basicSprites;
+    var speedSprites;
+    var jumpSprites;
     var earwax;
     var nosehairs;
 
@@ -76,9 +76,9 @@
 
     var cooldown = 0;
 
-    var definitelyMaybe = [];
-    var abstractionsosinsoinso = [];
-    var youcant = [];
+    var basicArray = [];
+    var jumpArray = [];
+    var speedArray = [];
 
     var zoomControlX;
     var zoomControlY;
@@ -100,8 +100,8 @@
         this.load.image('platform', 'images/platform.png');
         this.load.image('player', 'images/playerBee.png');
         this.load.image('sagitariusFemale', 'images/tagArrow.png');
-        this.load.audio('jumpSound', 'audio/jump.ogg');
-        this.load.audio('alarmSound', 'audio/alarm.wav')
+        this.load.audio('jumpSound', 'audio/jump.mp3');
+        this.load.audio('alarmSound', 'audio/alarm.mp3')
     }
 
     function create()
@@ -119,16 +119,16 @@
         earwax = new XD(this, 300, 400);
         earwax.setScale(0.1)
         earwax.setTint(0xaa3030)
-        this.physics.add.collider(earwax, LnormalThing, function(){earwax.onBasic = true}, null, this);
-        this.physics.add.collider(earwax, GOTTAGOFAST, function(){earwax.Asta = true; earwax.offJump = true}, null, this);
-        this.physics.add.collider(earwax, NYOOOOOOOOM, function(){earwax.atsaButSpelledCorrectly = true; earwax.offSpeed = true}, null, this);
+        this.physics.add.collider(earwax, basicSprites, function(){earwax.onBasic = true}, null, this);
+        this.physics.add.collider(earwax, speedSprites, function(){earwax.Asta = true; earwax.offJump = true}, null, this);
+        this.physics.add.collider(earwax, jumpSprites, function(){earwax.atsaButSpelledCorrectly = true; earwax.offSpeed = true}, null, this);
 
         nosehairs = new XD(this, 700, 400);
         nosehairs.setScale(0.1)
         nosehairs.setTint(0x5050ff)
-        this.physics.add.collider(nosehairs, LnormalThing, function(){nosehairs.onBasic = true}, null, this);
-        this.physics.add.collider(nosehairs, GOTTAGOFAST, function(){nosehairs.Asta = true; nosehairs.offSpeed = true}, null, this);
-        this.physics.add.collider(nosehairs, NYOOOOOOOOM, function(){nosehairs.atsaButSpelledCorrectly = true; nosehairs.offSpeed = true}, null, this);
+        this.physics.add.collider(nosehairs, basicSprites, function(){nosehairs.onBasic = true}, null, this);
+        this.physics.add.collider(nosehairs, speedSprites, function(){nosehairs.Asta = true; nosehairs.offSpeed = true}, null, this);
+        this.physics.add.collider(nosehairs, jumpSprites, function(){nosehairs.atsaButSpelledCorrectly = true; nosehairs.offSpeed = true}, null, this);
 
         this.physics.add.collider(earwax, nosehairs, tag, null, this);
 
@@ -236,7 +236,7 @@
                 zoomControlY = zoomControlX;
             }
             this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
-            if(this.cameras.main.zoom<1){
+            if(this.cameras.main.zoom){
                 this.cameras.main.setZoom(1);
             }
             if(this.cameras.main.zoom>3){
@@ -319,116 +319,126 @@
  
     function createPlatforms(scene)
     {
-        LnormalThing = scene.physics.add.staticGroup();
-        GOTTAGOFAST = scene.physics.add.staticGroup();
-        NYOOOOOOOOM = scene.physics.add.staticGroup();
+        basicSprites = scene.physics.add.staticGroup();
+        speedSprites = scene.physics.add.staticGroup();
+        jumpSprites = scene.physics.add.staticGroup();
 
         //bottom ground
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5, uwu.scale.height, 'platform'));
-        abstractionsosinsoinso[0].setScale(0.15, 0.25).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5, uwu.scale.height, 'platform'));
+        jumpArray[0].setScale(0.15, 0.25).refreshBody();
 
-        youcant.push(GOTTAGOFAST.create(37.5*2+87.5, uwu.scale.height, 'platform'));
-        youcant[0].setScale(0.35, 0.25).refreshBody();
+        speedArray.push(speedSprites.create(37.5*2+87.5, uwu.scale.height, 'platform'));
+        speedArray[0].setScale(0.35, 0.25).refreshBody();
 
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5, uwu.scale.height, 'platform'));
-        abstractionsosinsoinso[1].setScale(0.15, 0.25).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5, uwu.scale.height, 'platform'));
+        jumpArray[1].setScale(0.15, 0.25).refreshBody();
 
-        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2+37.5*2+75, uwu.scale.height, 'platform'));
-        definitelyMaybe[0].setScale(0.3, 0.25).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+87.5*2+37.5*2+75, uwu.scale.height, 'platform'));
+        basicArray[0].setScale(0.3, 0.25).refreshBody();
 
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+75*2+25, uwu.scale.height, 'platform'));
-        abstractionsosinsoinso[2].setScale(0.1, 0.25).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+75*2+25, uwu.scale.height, 'platform'));
+        jumpArray[2].setScale(0.1, 0.25).refreshBody();
 
-        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5, uwu.scale.height, 'platform'));
-        definitelyMaybe[1].setScale(0.35, 0.25).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5, uwu.scale.height, 'platform'));
+        basicArray[1].setScale(0.35, 0.25).refreshBody();
 
-        youcant.push(GOTTAGOFAST.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5*2+50, uwu.scale.height, 'platform'));
-        youcant[1].setScale(0.2, 0.25).refreshBody();
+        speedArray.push(speedSprites.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5*2+50, uwu.scale.height, 'platform'));
+        speedArray[1].setScale(0.2, 0.25).refreshBody();
 
         //left half, left-right
         
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+25, uwu.scale.height-110, 'platform'));
-        abstractionsosinsoinso[3].setScale(0.1, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+25, uwu.scale.height-110, 'platform'));
+        jumpArray[3].setScale(0.1, 0.1).refreshBody();
 
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2-25, uwu.scale.height-205, 'platform'));
-        abstractionsosinsoinso[4].setScale(0.1, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2-25, uwu.scale.height-205, 'platform'));
+        jumpArray[4].setScale(0.1, 0.1).refreshBody();
 
-        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+12.5, uwu.scale.height-200, 'platform'));
-        definitelyMaybe[2].setScale(0.05, 9/10).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+25*2+12.5, uwu.scale.height-200, 'platform'));
+        basicArray[2].setScale(0.05, 9/10).refreshBody();
 
-        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2-12.5*2, uwu.scale.height-90, 'platform'));
-        definitelyMaybe[3].setScale(0.05, 0.3).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+87.5*2-12.5*2, uwu.scale.height-90, 'platform'));
+        basicArray[3].setScale(0.05, 0.3).refreshBody();
         
-        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+25, uwu.scale.height-105, 'platform'));
-        definitelyMaybe[4].setScale(0.1, 0.05).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+25*2+25, uwu.scale.height-105, 'platform'));
+        basicArray[4].setScale(0.1, 0.05).refreshBody();
         
-        youcant.push(GOTTAGOFAST.create(37.5*2+25*2+12.5+62.5, uwu.scale.height-240, 'platform'));
-        youcant[2].setScale(0.2, 0.1).refreshBody();
+        speedArray.push(speedSprites.create(37.5*2+25*2+12.5+62.5, uwu.scale.height-240, 'platform'));
+        speedArray[2].setScale(0.2, 0.1).refreshBody();
 
-        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5, uwu.scale.height-260, 'platform'));
-        definitelyMaybe[5].setScale(0.05, 0.3).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5, uwu.scale.height-260, 'platform'));
+        basicArray[5].setScale(0.05, 0.3).refreshBody();
 
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5, uwu.scale.height-100, 'platform'));
-        abstractionsosinsoinso[5].setScale(0.15, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5, uwu.scale.height-100, 'platform'));
+        jumpArray[5].setScale(0.15, 0.1).refreshBody();
         
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, uwu.scale.height-190, 'platform'));
-        abstractionsosinsoinso[6].setScale(0.15, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, uwu.scale.height-190, 'platform'));
+        jumpArray[6].setScale(0.15, 0.1).refreshBody();
         
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-280, 'platform'));
-        abstractionsosinsoinso[7].setScale(0.15, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-280, 'platform'));
+        jumpArray[7].setScale(0.15, 0.1).refreshBody();
         
 
 
         //right half, left-right
 
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*2, uwu.scale.height-280, 'platform'));
-        abstractionsosinsoinso[8].setScale(0.1, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*2, uwu.scale.height-280, 'platform'));
+        jumpArray[8].setScale(0.1, 0.1).refreshBody();
         
-        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-225, 'platform'));
-        definitelyMaybe[6].setScale(0.05, 0.45).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-225, 'platform'));
+        basicArray[6].setScale(0.05, 0.45).refreshBody();
         
-        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-92.5, 'platform'));
-        definitelyMaybe[7].setScale(0.05, 0.35).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-92.5, 'platform'));
+        basicArray[7].setScale(0.05, 0.35).refreshBody();
 
-        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, uwu.scale.height-280, 'platform'));
-        definitelyMaybe[8].setScale(0.2, 0.1).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, uwu.scale.height-280, 'platform'));
+        basicArray[8].setScale(0.2, 0.1).refreshBody();
         
-        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5, uwu.scale.height-245, 'platform'));
-        definitelyMaybe[9].setScale(0.05, 0.45).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5, uwu.scale.height-245, 'platform'));
+        basicArray[9].setScale(0.05, 0.45).refreshBody();
 
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+50, uwu.scale.height-200, 'platform'));
-        abstractionsosinsoinso[9].setScale(0.3, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+50, uwu.scale.height-200, 'platform'));
+        jumpArray[9].setScale(0.3, 0.1).refreshBody();
         
-        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, uwu.scale.height-250, 'platform'));
-        definitelyMaybe[10].setScale(0.05, 0.4).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, uwu.scale.height-250, 'platform'));
+        basicArray[10].setScale(0.05, 0.4).refreshBody();
 
-        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, uwu.scale.height-125, 'platform'));
-        definitelyMaybe[11].setScale(0.1, 0.1).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, uwu.scale.height-125, 'platform'));
+        basicArray[11].setScale(0.1, 0.1).refreshBody();
         
-        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5+200*2, uwu.scale.height-92.5, 'platform'));
-        definitelyMaybe[12].setScale(0.05, 0.35).refreshBody();
+        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5+200*2, uwu.scale.height-92.5, 'platform'));
+        basicArray[12].setScale(0.05, 0.35).refreshBody();
 
-        definitelyMaybe.push(LnormalThing.create(uwu.scale.width-10, uwu.scale.height-25, 'platform'));
-        definitelyMaybe[13].setScale(0.05, 0.35).refreshBody();
+        basicArray.push(basicSprites.create(uwu.scale.width-10, uwu.scale.height-25, 'platform'));
+        basicArray[13].setScale(0.05, 0.35).refreshBody();
         
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-150, 'platform'));
-        abstractionsosinsoinso[10].setScale(0.05, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-150, 'platform'));
+        jumpArray[10].setScale(0.05, 0.1).refreshBody();
         
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-225, 'platform'));
-        abstractionsosinsoinso[11].setScale(0.05, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-225, 'platform'));
+        jumpArray[11].setScale(0.05, 0.1).refreshBody();
         
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-340, 'platform'));
-        abstractionsosinsoinso[12].setScale(0.05, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-340, 'platform'));
+        jumpArray[12].setScale(0.05, 0.1).refreshBody();
 
-        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2-25, uwu.scale.height-340, 'platform'));
-        abstractionsosinsoinso[13].setScale(0.1, 0.1).refreshBody();
+        jumpArray.push(jumpSprites.create(37.5*2-25, uwu.scale.height-340, 'platform'));
+        jumpArray[13].setScale(0.1, 0.1).refreshBody();
+//skyting
+
+        speedArray.push(speedSprites.create(37.5*2+25*2+12.5+62.5, uwu.scale.height-400, 'platform'));
+        speedArray[3].setScale(0.2, 0.1).refreshBody();
+
+        jumpArray.push(jumpSprites.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-440, 'platform'));
+        jumpArray[14].setScale(0.15, 0.1).refreshBody();
+        
+        speedArray.push(speedSprites.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-525, 'platform'));
+        speedArray[4].setScale(0.15, 0.1).refreshBody();
 
 
 
 
-        GOTTAGOFAST.setTint(0xeaa500);
-        LnormalThing.setTint(0xdadada);
-        NYOOOOOOOOM.setTint(0xa0a0ea);
+        speedSprites.setTint(0xeaa500);
+        basicSprites.setTint(0xdadada);
+        jumpSprites.setTint(0xa0a0ea);
     }
 //please help me
 
@@ -486,7 +496,6 @@
         }
         document.getElementById("timer").innerHTML = "Time Left: " + count
         if(count === 0){
-            alarmSound.play()
             go = false;
             earwax.disableBody(true, false);
             nosehairs.disableBody(true, false);
@@ -497,9 +506,11 @@
             if(JustDoIt){
                 countdown.setText("Player 1 wins!")
             }
-            changeScore(Nike, JustDoIt)
             document.getElementById("timer").innerHTML = "Game End"
         }else{
+            if(count===5){
+                alarmSound.play()
+            }
             this.time.delayedCall(1000, uwuEnd.bind(this, count-1), null, this);
         }
     }
