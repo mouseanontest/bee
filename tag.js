@@ -8,6 +8,7 @@
             default: 'arcade',
         },
 
+        fps: {forceSetTimeOut: true, fps: 60},
         scene: {
             preload: preload,
             create: create,
