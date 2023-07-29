@@ -420,6 +420,7 @@
         jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-340, 'platform'));
         jumpArray[12].setScale(0.05, 0.1).refreshBody();
 
+        //in the wrong place
         jumpArray.push(jumpSprites.create(37.5*2-25, uwu.scale.height-340, 'platform'));
         jumpArray[13].setScale(0.1, 0.1).refreshBody();
 //skyting
@@ -433,6 +434,14 @@
         speedArray.push(speedSprites.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-525, 'platform'));
         speedArray[4].setScale(0.15, 0.1).refreshBody();
 
+        speedArray.push(speedSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, uwu.scale.height-525, 'platform'));
+        speedArray[5].setScale(0.1, 0.1).refreshBody();
+        
+        speedArray.push(speedSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5+100, uwu.scale.height-525, 'platform'));
+        speedArray[6].setScale(0.15, 0.1).refreshBody();
+        
+        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-420, 'platform'));
+        jumpArray[15].setScale(0.05, 0.1).refreshBody();
 
 
 
