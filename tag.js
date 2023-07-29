@@ -17,16 +17,16 @@
 
     };
 
-    class Player extends Phaser.Physics.Arcade.Sprite
+    class XD extends Phaser.Physics.Arcade.Sprite
     {
-        totalJumps = 2;
+        Beans = 2;
         currentJumps = 0;
         gui;
-        arrow;
+        sagitariusFemale;
         speed = 0;
         jump = 0;
-        onJump = false;
-        onSpeed = false;
+        atsaButSpelledCorrectly = false;
+        Asta = false;
         onBasic = false;
         offJump = true;
         offSpeed = true;
@@ -58,27 +58,27 @@
     }
 
 
-    var game = new Phaser.Game(config);
+    var uwu = new Phaser.Game(config);
 
     //Game Objects
-    var basicPlatforms;
-    var speedPlatforms;
-    var jumpPlatforms;
-    var player1;
-    var player2;
+    var LnormalThing;
+    var GOTTAGOFAST;
+    var NYOOOOOOOOM;
+    var earwax;
+    var nosehairs;
 
-    var P1it = true;
-    var P2it = false;
+    var Nike = true;
+    var JustDoIt = false;
 
     //Keyboard controls
-    var cursors;
+    var CussWords;
     var keys;
 
     var cooldown = 0;
 
-    var basicArray = [];
-    var jumpArray = [];
-    var speedArray = [];
+    var definitelyMaybe = [];
+    var abstractionsosinsoinso = [];
+    var youcant = [];
 
     var zoomControlX;
     var zoomControlY;
@@ -99,7 +99,7 @@
         this.load.image('background', 'images/honeycombBG.png');
         this.load.image('platform', 'images/platform.png');
         this.load.image('player', 'images/playerBee.png');
-        this.load.image('arrow', 'images/tagArrow.png');
+        this.load.image('sagitariusFemale', 'images/tagArrow.png');
         this.load.audio('jumpSound', 'audio/jump.ogg');
         this.load.audio('alarmSound', 'audio/alarm.wav')
     }
@@ -109,61 +109,59 @@
         jumpSound=this.sound.add('jumpSound')
         alarmSound=this.sound.add('alarmSound')
 
-        //unused
-        graphics = this.add.graphics();
 
         //Set the background origin to be at (0, 0) or top left corner of the image rather than the center of the image asset
-        let background = this.add.tileSprite(0, 0, game.scale.width, game.scale.height, 'background').setOrigin(0, 0);
+        let background = this.add.tileSprite(0, 0, uwu.scale.width, uwu.scale.height, 'background').setOrigin(0, 0);
     
         //Create the platforms and the player character set to collide with the platforms
         createPlatforms(this);
 
-        player1 = new Player(this, 300, 400);
-        player1.setScale(0.1)
-        player1.setTint(0xaa3030)
-        this.physics.add.collider(player1, basicPlatforms, function(){player1.onBasic = true}, null, this);
-        this.physics.add.collider(player1, speedPlatforms, function(){player1.onSpeed = true; player1.offJump = true}, null, this);
-        this.physics.add.collider(player1, jumpPlatforms, function(){player1.onJump = true; player1.offSpeed = true}, null, this);
+        earwax = new XD(this, 300, 400);
+        earwax.setScale(0.1)
+        earwax.setTint(0xaa3030)
+        this.physics.add.collider(earwax, LnormalThing, function(){earwax.onBasic = true}, null, this);
+        this.physics.add.collider(earwax, GOTTAGOFAST, function(){earwax.Asta = true; earwax.offJump = true}, null, this);
+        this.physics.add.collider(earwax, NYOOOOOOOOM, function(){earwax.atsaButSpelledCorrectly = true; earwax.offSpeed = true}, null, this);
 
-        player2 = new Player(this, 700, 400);
-        player2.setScale(0.1)
-        player2.setTint(0x5050ff)
-        this.physics.add.collider(player2, basicPlatforms, function(){player2.onBasic = true}, null, this);
-        this.physics.add.collider(player2, speedPlatforms, function(){player2.onSpeed = true; player2.offSpeed = true}, null, this);
-        this.physics.add.collider(player2, jumpPlatforms, function(){player2.onJump = true; player2.offSpeed = true}, null, this);
+        nosehairs = new XD(this, 700, 400);
+        nosehairs.setScale(0.1)
+        nosehairs.setTint(0x5050ff)
+        this.physics.add.collider(nosehairs, LnormalThing, function(){nosehairs.onBasic = true}, null, this);
+        this.physics.add.collider(nosehairs, GOTTAGOFAST, function(){nosehairs.Asta = true; nosehairs.offSpeed = true}, null, this);
+        this.physics.add.collider(nosehairs, NYOOOOOOOOM, function(){nosehairs.atsaButSpelledCorrectly = true; nosehairs.offSpeed = true}, null, this);
 
-        this.physics.add.collider(player1, player2, tag, null, this);
+        this.physics.add.collider(earwax, nosehairs, tag, null, this);
 
-        player1.arrow = this.physics.add.image(0, 0, 'arrow');
-        player1.arrow.setScale(0.1)
+        earwax.sagitariusFemale = this.physics.add.image(0, 0, 'sagitariusFemale');
+        earwax.sagitariusFemale.setScale(0.1)
 
-        player2.arrow = this.physics.add.image(0, 0, 'arrow');
-        player2.arrow.setScale(0.1);
+        nosehairs.sagitariusFemale = this.physics.add.image(0, 0, 'sagitariusFemale');
+        nosehairs.sagitariusFemale.setScale(0.1);
         
         //camera stuff
         this.cameras.main.setBounds(0, 0, 800, 600);
             
         //Set up user input
-        cursors = this.input.keyboard.createCursorKeys();
+        CussWords = this.input.keyboard.createCursorKeys();
         keys = this.input.keyboard.addKeys('A, D');
         wRizz = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        cursors.up.on('down', jump1); //calls jump function when space is pressed
+        CussWords.up.on('down', jump1); //calls jump function when space is pressed
         wRizz.on('down', jump2); 
 
-        player1.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
-        player2.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
+        earwax.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
+        nosehairs.gui = this.add.text(16, 16, '1', {fill: '#000', font:"bold 16px Arial"});
 
 
-        player1.arrow.setVisible(P1it);
-        player2.arrow.setVisible(P2it);
+        earwax.sagitariusFemale.setVisible(Nike);
+        nosehairs.sagitariusFemale.setVisible(JustDoIt);
         
-        Atsa = this.add.image(game.scale.width/2, game.scale.height/2, "atsa");
+        Atsa = this.add.image(uwu.scale.width/2, uwu.scale.height/2, "atsa");
         
         this.input.on('pointerdown', function (pointer)
         {
             if(go === null){
                 go = true;
-                gameEnd.call(this, maxCount);
+                uwuEnd.call(this, maxCount);
                 Atsa.destroy()
             }
         }, this);
@@ -179,58 +177,58 @@
     {  
         if(go){
             frames++   
-            if(player1.onSpeed){
-                player1.speed = 150;
+            if(earwax.Asta){
+                earwax.speed = 150;
             }else{
-                player1.speed = 0;
+                earwax.speed = 0;
             }
 
-            if(player1.onJump){
-                player1.jump = -100;
+            if(earwax.atsaButSpelledCorrectly){
+                earwax.jump = -100;
             }else{
-                player1.jump = 0
+                earwax.jump = 0
             }
 
 
-            if(player2.onSpeed){
-                player2.speed = 150;
+            if(nosehairs.Asta){
+                nosehairs.speed = 150;
             }else{
-                player2.speed = 0;
+                nosehairs.speed = 0;
             }
 
-            if(player2.onJump){
-                player2.jump = -100;
+            if(nosehairs.atsaButSpelledCorrectly){
+                nosehairs.jump = -100;
             }else{
-                player2.jump = 0
+                nosehairs.jump = 0
             }
 
-            player1.speed += 25*P1it
-            player2.speed += 25*P2it
+            earwax.speed += 25*Nike
+            nosehairs.speed += 25*JustDoIt
 
-            //arrow upkeep
-            player1.arrow.setPosition(player1.body.x + player1.width / 8 - 15, player1.body.y - 10);
-            player2.arrow.setPosition(player2.body.x + player2.width / 8 - 15, player2.body.y - 10);
+            //sagitariusFemale upkeep
+            earwax.sagitariusFemale.setPosition(earwax.body.x + earwax.width / 8 - 15, earwax.body.y - 10);
+            nosehairs.sagitariusFemale.setPosition(nosehairs.body.x + nosehairs.width / 8 - 15, nosehairs.body.y - 10);
             if(cooldown<1){
-                player1.gui.setVisible(false)
-                player2.gui.setVisible(false)
+                earwax.gui.setVisible(false)
+                nosehairs.gui.setVisible(false)
 
-                player1.arrow.setVisible(P1it);
-                player2.arrow.setVisible(P2it);
+                earwax.sagitariusFemale.setVisible(Nike);
+                nosehairs.sagitariusFemale.setVisible(JustDoIt);
             }else{
-                player1.arrow.setVisible(false);
-                player2.arrow.setVisible(false);
+                earwax.sagitariusFemale.setVisible(false);
+                nosehairs.sagitariusFemale.setVisible(false);
 
             }
             //gui upkeep
-            player1.gui.setPosition(player1.body.x + player1.width / 8 - 20, player1.body.y-18);
-            player2.gui.setPosition(player2.body.x + player2.width / 8 - 20, player2.body.y-18);
+            earwax.gui.setPosition(earwax.body.x + earwax.width / 8 - 20, earwax.body.y-18);
+            nosehairs.gui.setPosition(nosehairs.body.x + nosehairs.width / 8 - 20, nosehairs.body.y-18);
             
             //camera
-            this.cameras.main.scrollX = (player1.x+player2.x)/2-this.cameras.main.width/2;
-            this.cameras.main.scrollY = (player1.y+player2.y)/2-this.cameras.main.height/2;
+            this.cameras.main.scrollX = (earwax.x+nosehairs.x)/2-this.cameras.main.width/2;
+            this.cameras.main.scrollY = (earwax.y+nosehairs.y)/2-this.cameras.main.height/2;
             
-            zoomControlX = game.scale.width/Math.abs(player1.x-player2.x);
-            zoomControlY = game.scale.height/Math.abs(player1.y-player2.y);
+            zoomControlX = uwu.scale.width/Math.abs(earwax.x-nosehairs.x);
+            zoomControlY = uwu.scale.height/Math.abs(earwax.y-nosehairs.y);
             if(!zoomControlX){
                 zoomControlX = zoomControlY;
             }
@@ -238,7 +236,7 @@
                 zoomControlY = zoomControlX;
             }
             this.cameras.main.setZoom(Math.min(zoomControlX, zoomControlY)*0.7);
-            if(this.cameras.main.zoom){
+            if(this.cameras.main.zoom<1){
                 this.cameras.main.setZoom(1);
             }
             if(this.cameras.main.zoom>3){
@@ -246,229 +244,229 @@
             }
             //countdown
             
-            // countdown.setPosition((player1.x+player2.x)/2 - this.cameras.main.displayWidth/2,
-            //                       (player1.y+player2.y)/2 - countdown.height/2);
+            // countdown.setPosition((earwax.x+nosehairs.x)/2 - this.cameras.main.displayWidth/2,
+            //                       (earwax.y+nosehairs.y)/2 - countdown.height/2);
             // console.log(countdown.x)
 
             // console.log(countdown.y)
 
             // player upkeep
 
-            player1.upkeep();
-            player2.upkeep();
+            earwax.upkeep();
+            nosehairs.upkeep();
             
             //player movement and direction
-            if (cursors.left.isDown)
+            if (CussWords.left.isDown)
             {
-                player1.flipX = true
-                player1.setVelocityX(-300 - player1.speed);
+                earwax.flipX = true
+                earwax.setVelocityX(-300 - earwax.speed);
             }
 
             if (keys.A.isDown)
             {
-                player2.flipX = true
-                player2.setVelocityX(-300 - player2.speed);
+                nosehairs.flipX = true
+                nosehairs.setVelocityX(-300 - nosehairs.speed);
             }
 
             
-            if (cursors.right.isDown)
+            if (CussWords.right.isDown)
             {
-                player1.flipX = false
-                player1.setVelocityX(300 + player1.speed);
+                earwax.flipX = false
+                earwax.setVelocityX(300 + earwax.speed);
             }
 
             if (keys.D.isDown)
             {
-                player2.flipX = false
-                player2.setVelocityX(300 + player2.speed);
+                nosehairs.flipX = false
+                nosehairs.setVelocityX(300 + nosehairs.speed);
             }
             
-            if(!player1.body.touching.down||player1.onBasic){
-                player1.onSpeed = false
-                player1.onJump = false
+            if(!earwax.body.touching.down||earwax.onBasic){
+                earwax.Asta = false
+                earwax.atsaButSpelledCorrectly = false
             }
             
-            if(player1.offSpeed){
-                player1.onSpeed = false;
-                player1.offJump = false;
+            if(earwax.offSpeed){
+                earwax.Asta = false;
+                earwax.offJump = false;
             }
-            if(player1.offJump){
-                player1.onJump = false
-            }
-
-            if(player2.offSpeed){
-                player2.onSpeed = false;
-                player2.offJump = false;
-            }
-            if(player2.offJump){
-                player2.onJump = false
+            if(earwax.offJump){
+                earwax.atsaButSpelledCorrectly = false
             }
 
-            if(!player2.body.touching.down||player2.onBasic){
-                player2.onSpeed = false
-                player2.onJump = false
+            if(nosehairs.offSpeed){
+                nosehairs.Asta = false;
+                nosehairs.offJump = false;
+            }
+            if(nosehairs.offJump){
+                nosehairs.atsaButSpelledCorrectly = false
+            }
+
+            if(!nosehairs.body.touching.down||nosehairs.onBasic){
+                nosehairs.Asta = false
+                nosehairs.atsaButSpelledCorrectly = false
             }
 
 
-            player1.offSpeed = false
-            player1.offJump = false
+            earwax.offSpeed = false
+            earwax.offJump = false
 
-            player1.onBasic = false
-            player2.onBasic = false
+            earwax.onBasic = false
+            nosehairs.onBasic = false
         }
     }
 
  
     function createPlatforms(scene)
     {
-        basicPlatforms = scene.physics.add.staticGroup();
-        speedPlatforms = scene.physics.add.staticGroup();
-        jumpPlatforms = scene.physics.add.staticGroup();
+        LnormalThing = scene.physics.add.staticGroup();
+        GOTTAGOFAST = scene.physics.add.staticGroup();
+        NYOOOOOOOOM = scene.physics.add.staticGroup();
 
         //bottom ground
-        jumpArray.push(jumpPlatforms.create(37.5, game.scale.height, 'platform'));
-        jumpArray[0].setScale(0.15, 0.25).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5, uwu.scale.height, 'platform'));
+        abstractionsosinsoinso[0].setScale(0.15, 0.25).refreshBody();
 
-        speedArray.push(speedPlatforms.create(37.5*2+87.5, game.scale.height, 'platform'));
-        speedArray[0].setScale(0.35, 0.25).refreshBody();
+        youcant.push(GOTTAGOFAST.create(37.5*2+87.5, uwu.scale.height, 'platform'));
+        youcant[0].setScale(0.35, 0.25).refreshBody();
 
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5, game.scale.height, 'platform'));
-        jumpArray[1].setScale(0.15, 0.25).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5, uwu.scale.height, 'platform'));
+        abstractionsosinsoinso[1].setScale(0.15, 0.25).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+75, game.scale.height, 'platform'));
-        basicArray[0].setScale(0.3, 0.25).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2+37.5*2+75, uwu.scale.height, 'platform'));
+        definitelyMaybe[0].setScale(0.3, 0.25).refreshBody();
 
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+75*2+25, game.scale.height, 'platform'));
-        jumpArray[2].setScale(0.1, 0.25).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+75*2+25, uwu.scale.height, 'platform'));
+        abstractionsosinsoinso[2].setScale(0.1, 0.25).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5, game.scale.height, 'platform'));
-        basicArray[1].setScale(0.35, 0.25).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5, uwu.scale.height, 'platform'));
+        definitelyMaybe[1].setScale(0.35, 0.25).refreshBody();
 
-        speedArray.push(speedPlatforms.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5*2+50, game.scale.height, 'platform'));
-        speedArray[1].setScale(0.2, 0.25).refreshBody();
+        youcant.push(GOTTAGOFAST.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5*2+50, uwu.scale.height, 'platform'));
+        youcant[1].setScale(0.2, 0.25).refreshBody();
 
         //left half, left-right
         
-        jumpArray.push(jumpPlatforms.create(37.5*2+25, game.scale.height-110, 'platform'));
-        jumpArray[3].setScale(0.1, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+25, uwu.scale.height-110, 'platform'));
+        abstractionsosinsoinso[3].setScale(0.1, 0.1).refreshBody();
 
-        jumpArray.push(jumpPlatforms.create(37.5*2-25, game.scale.height-205, 'platform'));
-        jumpArray[4].setScale(0.1, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2-25, uwu.scale.height-205, 'platform'));
+        abstractionsosinsoinso[4].setScale(0.1, 0.1).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+12.5, game.scale.height-200, 'platform'));
-        basicArray[2].setScale(0.05, 9/10).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+12.5, uwu.scale.height-200, 'platform'));
+        definitelyMaybe[2].setScale(0.05, 9/10).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2-12.5*2, game.scale.height-90, 'platform'));
-        basicArray[3].setScale(0.05, 0.3).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2-12.5*2, uwu.scale.height-90, 'platform'));
+        definitelyMaybe[3].setScale(0.05, 0.3).refreshBody();
         
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+25, game.scale.height-105, 'platform'));
-        basicArray[4].setScale(0.1, 0.05).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+25, uwu.scale.height-105, 'platform'));
+        definitelyMaybe[4].setScale(0.1, 0.05).refreshBody();
         
-        speedArray.push(speedPlatforms.create(37.5*2+25*2+12.5+62.5, game.scale.height-240, 'platform'));
-        speedArray[2].setScale(0.2, 0.1).refreshBody();
+        youcant.push(GOTTAGOFAST.create(37.5*2+25*2+12.5+62.5, uwu.scale.height-240, 'platform'));
+        youcant[2].setScale(0.2, 0.1).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5, game.scale.height-260, 'platform'));
-        basicArray[5].setScale(0.05, 0.3).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5, uwu.scale.height-260, 'platform'));
+        definitelyMaybe[5].setScale(0.05, 0.3).refreshBody();
 
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5, game.scale.height-100, 'platform'));
-        jumpArray[5].setScale(0.15, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5, uwu.scale.height-100, 'platform'));
+        abstractionsosinsoinso[5].setScale(0.15, 0.1).refreshBody();
         
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, game.scale.height-190, 'platform'));
-        jumpArray[6].setScale(0.15, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, uwu.scale.height-190, 'platform'));
+        abstractionsosinsoinso[6].setScale(0.15, 0.1).refreshBody();
         
-        jumpArray.push(jumpPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+37.5, game.scale.height-280, 'platform'));
-        jumpArray[7].setScale(0.15, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-280, 'platform'));
+        abstractionsosinsoinso[7].setScale(0.15, 0.1).refreshBody();
         
 
 
         //right half, left-right
 
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*2, game.scale.height-280, 'platform'));
-        jumpArray[8].setScale(0.1, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*2, uwu.scale.height-280, 'platform'));
+        abstractionsosinsoinso[8].setScale(0.1, 0.1).refreshBody();
         
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-225, 'platform'));
-        basicArray[6].setScale(0.05, 0.45).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-225, 'platform'));
+        definitelyMaybe[6].setScale(0.05, 0.45).refreshBody();
         
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200, game.scale.height-92.5, 'platform'));
-        basicArray[7].setScale(0.05, 0.35).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-92.5, 'platform'));
+        definitelyMaybe[7].setScale(0.05, 0.35).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, game.scale.height-280, 'platform'));
-        basicArray[8].setScale(0.2, 0.1).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, uwu.scale.height-280, 'platform'));
+        definitelyMaybe[8].setScale(0.2, 0.1).refreshBody();
         
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5, game.scale.height-245, 'platform'));
-        basicArray[9].setScale(0.05, 0.45).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5, uwu.scale.height-245, 'platform'));
+        definitelyMaybe[9].setScale(0.05, 0.45).refreshBody();
 
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+50, game.scale.height-200, 'platform'));
-        jumpArray[9].setScale(0.3, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+50, uwu.scale.height-200, 'platform'));
+        abstractionsosinsoinso[9].setScale(0.3, 0.1).refreshBody();
         
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, game.scale.height-250, 'platform'));
-        basicArray[10].setScale(0.05, 0.4).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, uwu.scale.height-250, 'platform'));
+        definitelyMaybe[10].setScale(0.05, 0.4).refreshBody();
 
-        basicArray.push(basicPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, game.scale.height-125, 'platform'));
-        basicArray[11].setScale(0.1, 0.1).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, uwu.scale.height-125, 'platform'));
+        definitelyMaybe[11].setScale(0.1, 0.1).refreshBody();
         
-        basicArray.push(basicPlatforms.create(37.5*2+25*2+62.5*2+12.5+200*2, game.scale.height-92.5, 'platform'));
-        basicArray[12].setScale(0.05, 0.35).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(37.5*2+25*2+62.5*2+12.5+200*2, uwu.scale.height-92.5, 'platform'));
+        definitelyMaybe[12].setScale(0.05, 0.35).refreshBody();
 
-        basicArray.push(basicPlatforms.create(game.scale.width-10, game.scale.height-25, 'platform'));
-        basicArray[13].setScale(0.05, 0.35).refreshBody();
+        definitelyMaybe.push(LnormalThing.create(uwu.scale.width-10, uwu.scale.height-25, 'platform'));
+        definitelyMaybe[13].setScale(0.05, 0.35).refreshBody();
         
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, game.scale.height-150, 'platform'));
-        jumpArray[10].setScale(0.05, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-150, 'platform'));
+        abstractionsosinsoinso[10].setScale(0.05, 0.1).refreshBody();
         
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, game.scale.height-225, 'platform'));
-        jumpArray[11].setScale(0.05, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-225, 'platform'));
+        abstractionsosinsoinso[11].setScale(0.05, 0.1).refreshBody();
         
-        jumpArray.push(jumpPlatforms.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, game.scale.height-340, 'platform'));
-        jumpArray[12].setScale(0.05, 0.1).refreshBody();
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-340, 'platform'));
+        abstractionsosinsoinso[12].setScale(0.05, 0.1).refreshBody();
 
-        jumpArray.push(jumpPlatforms.create(37.5*2-25, game.scale.height-340, 'platform'));
-        jumpArray[13].setScale(0.1, 0.1).refreshBody();
-
-
+        abstractionsosinsoinso.push(NYOOOOOOOOM.create(37.5*2-25, uwu.scale.height-340, 'platform'));
+        abstractionsosinsoinso[13].setScale(0.1, 0.1).refreshBody();
 
 
-        speedPlatforms.setTint(0xeaa500);
-        basicPlatforms.setTint(0xdadada);
-        jumpPlatforms.setTint(0xa0a0ea);
+
+
+        GOTTAGOFAST.setTint(0xeaa500);
+        LnormalThing.setTint(0xdadada);
+        NYOOOOOOOOM.setTint(0xa0a0ea);
     }
 //please help me
 
     function jump1(event)
     {
-        if (player1.body.touching.down) {
+        if (earwax.body.touching.down) {
         //If the player is on the ground, the player can jump
-        player1.setVelocityY(-400 + player1.jump);
-        player1.currentJumps = 1;
+        earwax.setVelocityY(-400 + earwax.jump);
+        earwax.currentJumps = 1;
         jumpSound.play()
-        } else if (player1.currentJumps < player1.totalJumps) {
+        } else if (earwax.currentJumps < earwax.Beans) {
         //If the player is not on the ground but has an available air jump, use that jump
-        player1.setVelocityY(-300);
-        player1.currentJumps = 2;
+        earwax.setVelocityY(-300);
+        earwax.currentJumps = 2;
         jumpSound.play()
         }
     }
     function jump2(event)
     {
-        if (player2.body.touching.down) {
+        if (nosehairs.body.touching.down) {
         //If the player is on the ground, the player can jump
-        player2.setVelocityY(-400 + player2.jump);
-        player2.currentJumps = 1;
+        nosehairs.setVelocityY(-400 + nosehairs.jump);
+        nosehairs.currentJumps = 1;
         jumpSound.play()
-        } else if (player2.currentJumps < player2.totalJumps) {
+        } else if (nosehairs.currentJumps < nosehairs.Beans) {
         //If the player is not on the ground but has an available air jump, use that jump
-        player2.setVelocityY(-300);
-        player2.currentJumps = 2;
+        nosehairs.setVelocityY(-300);
+        nosehairs.currentJumps = 2;
         jumpSound.play()
         }
     }
 
     function tag(){
         if(cooldown<1){
-            P1it = !P1it;
-            P2it = !P2it;
-            player1.gui.setVisible(P1it)
-            player2.gui.setVisible(P2it)
+            Nike = !Nike;
+            JustDoIt = !JustDoIt;
+            earwax.gui.setVisible(Nike)
+            nosehairs.gui.setVisible(JustDoIt)
             cooldown = 3;
             for(let i = 1;i < 4;i++){
                 temp = this.time.delayedCall(i*1000, help, null, this);
@@ -477,7 +475,7 @@
         }
     }
 
-    function gameEnd(count){
+    function uwuEnd(count){
         // console.log(count)
         if(count>maxCount/3*2){
             document.getElementById("timer").style.color = "green"
@@ -490,19 +488,19 @@
         if(count === 0){
             alarmSound.play()
             go = false;
-            player1.disableBody(true, false);
-            player2.disableBody(true, false);
+            earwax.disableBody(true, false);
+            nosehairs.disableBody(true, false);
             this.cameras.main.setZoom(1);
-            if(P1it){
+            if(Nike){
                 countdown.setText("Player 2 wins!")
             }
-            if(P2it){
+            if(JustDoIt){
                 countdown.setText("Player 1 wins!")
             }
-            changeScore(P1it, P2it)
+            changeScore(Nike, JustDoIt)
             document.getElementById("timer").innerHTML = "Game End"
         }else{
-            this.time.delayedCall(1000, gameEnd.bind(this, count-1), null, this);
+            this.time.delayedCall(1000, uwuEnd.bind(this, count-1), null, this);
         }
     }
 
@@ -511,10 +509,10 @@
             cooldown--;
         }else{
             cooldown = 0;
-            player1.gui.setVisible(false)
-            player2.gui.setVisible(false)
-            player1.arrow.visible = P1it
-            player2.arrow.visible = P2it
+            earwax.gui.setVisible(false)
+            nosehairs.gui.setVisible(false)
+            earwax.sagitariusFemale.visible = Nike
+            nosehairs.sagitariusFemale.visible = JustDoIt
         }
     }
 // }
