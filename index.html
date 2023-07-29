@@ -17,11 +17,11 @@
     <body>
         <img src="images/beeofalltradeslogo.png" alt="Bee of All Trades" width="150" height="150">
         
-        <button onclick="eightyZoom(); DestroyGame(); runnerGame()">Flappy Bee</button>
-        <button onclick="eightyZoom(); DestroyGame(); tagGame()">Bee Tag</button>
-        <button onclick="fullZoom(); DestroyGame(); LaunchMemoryGame()">Memory Bee</button>
-        <button onclick="fullZoom(); DestroyGame(); LaunchTriviaGame()">Bee Trivia</button>
         <button onclick="eightyZoom(); DestroyGame(); platformerGame()">Bee Platformer</button>
+        <button onclick="eightyZoom(); DestroyGame(); runnerGame()">Flappy Bee</button>
+        <button onclick="fullZoom(); DestroyGame(); LaunchTriviaGame()">Bee Trivia</button>
+        <button onclick="fullZoom(); DestroyGame(); LaunchMemoryGame()">Memory Bee</button>
+        <button onclick="eightyZoom(); DestroyGame(); tagGame()">Bee Tag</button>
         
         <br>
         <div id="gameContainer"></div>
@@ -215,12 +215,6 @@ function DestroyGame() {
 while (iframes.length > 0) {
     iframes[0].parentNode.removeChild(iframes[0]);
 }
-
-    
-}
-
-
-
 
         </script>
 
