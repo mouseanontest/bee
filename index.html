@@ -103,51 +103,9 @@
             }
         }
 
-        function responseGame() {
-            const iframe = document.createElement("iframe");
-            iframe.src = "responsetimegame.html";
-            iframe.style.border = "0px #ffffff none";
-            iframe.name = "myiFrame";
-            iframe.scrolling = "no";
-            iframe.frameBorder = "1";
-            iframe.marginHeight = "0px";
-            iframe.marginWidth = "0px";
-            iframe.height = "5000px";
-            iframe.width = "5000px";
-            iframe.allowFullscreen = true;
-            // Replace the existing iframe, if any, with the new one
-            const existingIframe = document.querySelector("iframe[name='myiFrame']");
-            if (existingIframe) {
-                existingIframe.parentNode.replaceChild(iframe, existingIframe);
-            } else {
-                document.body.appendChild(iframe);
-            }
-        }
-
         function runnerGame() {
             const iframe = document.createElement("iframe");
             iframe.src = "runner.html";
-            iframe.style.border = "0px #ffffff none";
-            iframe.name = "myiFrame";
-            iframe.scrolling = "no";
-            iframe.frameBorder = "1";
-            iframe.marginHeight = "0px";
-            iframe.marginWidth = "0px";
-            iframe.height = "5000px";
-            iframe.width = "5000px";
-            iframe.allowFullscreen = true;
-            // Replace the existing iframe, if any, with the new one
-            const existingIframe = document.querySelector("iframe[name='myiFrame']");
-            if (existingIframe) {
-                existingIframe.parentNode.replaceChild(iframe, existingIframe);
-            } else {
-                document.body.appendChild(iframe);
-            }
-        }
-
-        function triviaGame() {
-            const iframe = document.createElement("iframe");
-            iframe.src = "triviagame.html";
             iframe.style.border = "0px #ffffff none";
             iframe.name = "myiFrame";
             iframe.scrolling = "no";
