@@ -498,6 +498,7 @@
             if(P2it){
                 countdown.setText("Player 1 wins!")
             }
+            changeScore(P1it, P2it)
             document.getElementById("timer").innerHTML = "Game End"
         }else{
             this.time.delayedCall(1000, gameEnd.bind(this, count-1), null, this);

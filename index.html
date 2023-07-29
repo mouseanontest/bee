@@ -6,7 +6,7 @@
 
         
         <title>Bee of All Trades</title>
-        
+        </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
         <script src="triviagame.js"></script>
         <script src="mg.js"></script>
@@ -17,15 +17,14 @@
     <body>
         <img src="images/beeofalltradeslogo.png" alt="Bee of All Trades" width="150" height="150">
         
-        <button onclick="eightyZoom(); DestroyGame(); runnerGame()">Flappy Bee</button>
-        <button onclick="eightyZoom(); DestroyGame(); tagGame()">Bee Tag</button>
-        <button onclick="fullZoom(); DestroyGame(); LaunchMemoryGame()">Memory Bee</button>
-        <button onclick="fullZoom(); DestroyGame(); LaunchTriviaGame()">Bee Trivia</button>
-        <button onclick="eightyZoom(); DestroyGame(); platformerGame()">Bee Platformer</button>
+        <button onclick="DestroyGame(); runnerGame()">Flappy Bee</button>
+        <button onclick="DestroyGame(); tagGame()">Bee Tag</button>
+        <button onclick="DestroyGame(); LaunchMemoryGame()">Memory Bee</button>
+        <button onclick="DestroyGame(); LaunchTriviaGame()">Bee Trivia</button>
+        <button onclick="DestroyGame(); platformerGame()">Bee Platformer</button>
         
         <br>
         <div id="gameContainer"></div>
-
         <style>
         html, body {
     max-width: 100%;
@@ -125,14 +124,7 @@ function responseGame() {
     document.body.appendChild(iframe);
   }
 }
-function eightyZoom()
-{
-  document.body.style.zoom = "75%";
-}
-function fullZoom()
-{
-  document.body.style.zoom = "90%";
-}
+
 function runnerGame() {
     
   const iframe = document.createElement("iframe");
