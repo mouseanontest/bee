@@ -8,6 +8,7 @@ function launchRunnerGame() {
             default: 'arcade',
         },
     
+        fps: {forceSetTimeOut: true, fps: 60},
         scene: {
             preload: preload,
             create: create,
@@ -55,8 +56,8 @@ function launchRunnerGame() {
     var objectSkin;
     var creatingObstacles = false;
     var objIteration = 0;
-    var player1super = 0;
-    var player2super = 0;
+    var player1super;
+    var player2super;
     
     function preload()
     {
@@ -236,7 +237,7 @@ function launchRunnerGame() {
     {
         if (player1.y > 0){
             if (player1super === 1) {
-                player1.setVelocityY(-1000);
+                player1.setVelocityY(-1500);
                 player1super = 0;
             } else {
                 player1.setVelocityY(-800);
@@ -247,7 +248,7 @@ function launchRunnerGame() {
     function jumpP2(event)
     {
         if (player2super === 1) {
-            player2.setVelocityY(-1000);
+            player2.setVelocityY(-1500);
             player2super = 0;
         } else {
             player2.setVelocityY(-800);
