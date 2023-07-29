@@ -176,8 +176,6 @@
 
     function update()
     {  
-        console.log("teset")
-        se("be")
         if(go){
             frames++   
             if(player1.onSpeed){
