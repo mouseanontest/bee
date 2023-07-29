@@ -62,7 +62,7 @@ function launchRunnerGame() {
     function preload()
     {
         //Player, title, and sky
-        this.load.image('sky', 'images/background.png');
+        this.load.image('sky', 'images/honeycombBG.png');
         this.load.image('player', 'images/playerBee.png');
         this.load.image('title', 'images/runnerAssets/flappyBeeTitle.png');
         //Victory
