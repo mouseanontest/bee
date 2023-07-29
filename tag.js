@@ -1,6 +1,6 @@
 // function LaunchTagGame(){
 
-    var config = {
+    var randomText = {
         type: Phaser.AUTO,
         width: 800,
         height: 600,
@@ -10,9 +10,9 @@
 
         fps: {forceSetTimeOut: true, fps: 60},
         scene: {
-            preload: preload,
-            create: create,
-            update: update,
+            preload: dnd,
+            create: dnf,
+            update: fnf,
         }
 
     };
@@ -20,7 +20,7 @@
     class XD extends Phaser.Physics.Arcade.Sprite
     {
         Beans = 2;
-        currentJumps = 0;
+        doNotDisturb = 0;
         gui;
         sagitariusFemale;
         speed = 0;
@@ -52,18 +52,18 @@
 
             //This will reset the number of jumps available to the player whenever the player lands
             if (this.body.touching.down) {
-                this.currentJumps = 0;
+                this.doNotDisturb = 0;
             }
         }
     }
 
 
-    var uwu = new Phaser.Game(config);
+    var uwu = new Phaser.Game(randomText);
 
     //Game Objects
-    var basicSprites;
-    var speedSprites;
-    var jumpSprites;
+    var tapPlainsFor1White;
+    var NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM;
+    var overused;
     var earwax;
     var nosehairs;
 
@@ -72,20 +72,20 @@
 
     //Keyboard controls
     var CussWords;
-    var keys;
+    var synthPlayerForAltPopBandddd;
 
     var cooldown = 0;
 
-    var basicArray = [];
-    var jumpArray = [];
-    var speedArray = [];
+    var banananananananananananananaWuNana = [];
+    var jumptyDumptyGO = [];
+    var nya = [];
 
     var zoomControlX;
     var zoomControlY;
 
 
     var go = null
-    var countdown;
+    var whereforeArtThouMyRomeo;
 
     var maxCount = 75
 
@@ -93,7 +93,7 @@
     var alarmSound
 
     //sounds
-    function preload()
+    function dnd()
     {
         this.load.image('atsa', 'images/atsa.png');
         this.load.image('background', 'images/honeycombBG.png');
@@ -104,7 +104,7 @@
         this.load.audio('alarmSound', 'audio/alarm.mp3')
     }
 
-    function create()
+    function dnf()
     {
         jumpSound=this.sound.add('jumpSound')
         alarmSound=this.sound.add('alarmSound')
@@ -119,16 +119,16 @@
         earwax = new XD(this, 300, 400);
         earwax.setScale(0.1)
         earwax.setTint(0xaa3030)
-        this.physics.add.collider(earwax, basicSprites, function(){earwax.onBasic = true}, null, this);
-        this.physics.add.collider(earwax, speedSprites, function(){earwax.Asta = true; earwax.offJump = true}, null, this);
-        this.physics.add.collider(earwax, jumpSprites, function(){earwax.atsaButSpelledCorrectly = true; earwax.offSpeed = true}, null, this);
+        this.physics.add.collider(earwax, tapPlainsFor1White, function(){earwax.onBasic = true}, null, this);
+        this.physics.add.collider(earwax, NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM, function(){earwax.Asta = true; earwax.offJump = true}, null, this);
+        this.physics.add.collider(earwax, overused, function(){earwax.atsaButSpelledCorrectly = true; earwax.offSpeed = true}, null, this);
 
         nosehairs = new XD(this, 700, 400);
         nosehairs.setScale(0.1)
         nosehairs.setTint(0x5050ff)
-        this.physics.add.collider(nosehairs, basicSprites, function(){nosehairs.onBasic = true}, null, this);
-        this.physics.add.collider(nosehairs, speedSprites, function(){nosehairs.Asta = true; nosehairs.offSpeed = true}, null, this);
-        this.physics.add.collider(nosehairs, jumpSprites, function(){nosehairs.atsaButSpelledCorrectly = true; nosehairs.offSpeed = true}, null, this);
+        this.physics.add.collider(nosehairs, tapPlainsFor1White, function(){nosehairs.onBasic = true}, null, this);
+        this.physics.add.collider(nosehairs, NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM, function(){nosehairs.Asta = true; nosehairs.offSpeed = true}, null, this);
+        this.physics.add.collider(nosehairs, overused, function(){nosehairs.atsaButSpelledCorrectly = true; nosehairs.offSpeed = true}, null, this);
 
         this.physics.add.collider(earwax, nosehairs, tag, null, this);
 
@@ -143,7 +143,7 @@
             
         //Set up user input
         CussWords = this.input.keyboard.createCursorKeys();
-        keys = this.input.keyboard.addKeys('A, D');
+        synthPlayerForAltPopBandddd = this.input.keyboard.addKeys('A, D');
         wRizz = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         CussWords.up.on('down', jump1); //calls jump function when space is pressed
         wRizz.on('down', jump2); 
@@ -167,13 +167,13 @@
         }, this);
         
         this.cameras.main.setZoom(1)
-        countdown = this.add.text(10,10, "", {fill: '#000', font: "bold 56px Arial"})
-        // countdown.setOrigin(countdown.width/2, countdown.height/2)
-        // countdown.setScrollFactor(0,0)
+        whereforeArtThouMyRomeo = this.add.text(10,10, "", {fill: '#000', font: "bold 56px Arial"})
+        // whereforeArtThouMyRomeo.setOrigin(whereforeArtThouMyRomeo.width/2, whereforeArtThouMyRomeo.height/2)
+        // whereforeArtThouMyRomeo.setScrollFactor(0,0)
     }
 
 
-    function update()
+    function fnf()
     {  
         if(go){
             frames++   
@@ -242,13 +242,13 @@
             if(this.cameras.main.zoom>3){
                 this.cameras.main.setZoom(3);
             }
-            //countdown
+            //whereforeArtThouMyRomeo
             
-            // countdown.setPosition((earwax.x+nosehairs.x)/2 - this.cameras.main.displayWidth/2,
-            //                       (earwax.y+nosehairs.y)/2 - countdown.height/2);
-            // console.log(countdown.x)
+            // whereforeArtThouMyRomeo.setPosition((earwax.x+nosehairs.x)/2 - this.cameras.main.displayWidth/2,
+            //                       (earwax.y+nosehairs.y)/2 - whereforeArtThouMyRomeo.height/2);
+            // console.log(whereforeArtThouMyRomeo.x)
 
-            // console.log(countdown.y)
+            // console.log(whereforeArtThouMyRomeo.y)
 
             // player upkeep
 
@@ -262,7 +262,7 @@
                 earwax.setVelocityX(-300 - earwax.speed);
             }
 
-            if (keys.A.isDown)
+            if (synthPlayerForAltPopBandddd.A.isDown)
             {
                 nosehairs.flipX = true
                 nosehairs.setVelocityX(-300 - nosehairs.speed);
@@ -275,7 +275,7 @@
                 earwax.setVelocityX(300 + earwax.speed);
             }
 
-            if (keys.D.isDown)
+            if (synthPlayerForAltPopBandddd.D.isDown)
             {
                 nosehairs.flipX = false
                 nosehairs.setVelocityX(300 + nosehairs.speed);
@@ -319,135 +319,137 @@
  
     function createPlatforms(scene)
     {
-        basicSprites = scene.physics.add.staticGroup();
-        speedSprites = scene.physics.add.staticGroup();
-        jumpSprites = scene.physics.add.staticGroup();
+        tapPlainsFor1White = scene.physics.add.staticGroup();
+        NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM = scene.physics.add.staticGroup();
+        overused = scene.physics.add.staticGroup();
 
         //bottom ground
-        jumpArray.push(jumpSprites.create(37.5, uwu.scale.height, 'platform'));
-        jumpArray[0].setScale(0.15, 0.25).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5, uwu.scale.height, 'platform'));
+        jumptyDumptyGO[0].setScale(0.15, 0.25).refreshBody();
 
-        speedArray.push(speedSprites.create(37.5*2+87.5, uwu.scale.height, 'platform'));
-        speedArray[0].setScale(0.35, 0.25).refreshBody();
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+87.5, uwu.scale.height, 'platform'));
+        nya[0].setScale(0.35, 0.25).refreshBody();
 
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5, uwu.scale.height, 'platform'));
-        jumpArray[1].setScale(0.15, 0.25).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5, uwu.scale.height, 'platform'));
+        jumptyDumptyGO[1].setScale(0.15, 0.25).refreshBody();
 
-        basicArray.push(basicSprites.create(37.5*2+87.5*2+37.5*2+75, uwu.scale.height, 'platform'));
-        basicArray[0].setScale(0.3, 0.25).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+87.5*2+37.5*2+75, uwu.scale.height, 'platform'));
+        banananananananananananananaWuNana[0].setScale(0.3, 0.25).refreshBody();
 
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+75*2+25, uwu.scale.height, 'platform'));
-        jumpArray[2].setScale(0.1, 0.25).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5*2+75*2+25, uwu.scale.height, 'platform'));
+        jumptyDumptyGO[2].setScale(0.1, 0.25).refreshBody();
 
-        basicArray.push(basicSprites.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5, uwu.scale.height, 'platform'));
-        basicArray[1].setScale(0.35, 0.25).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5, uwu.scale.height, 'platform'));
+        banananananananananananananaWuNana[1].setScale(0.35, 0.25).refreshBody();
 
-        speedArray.push(speedSprites.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5*2+50, uwu.scale.height, 'platform'));
-        speedArray[1].setScale(0.2, 0.25).refreshBody();
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+75*2+25*2+87.5*2+50, uwu.scale.height, 'platform'));
+        nya[1].setScale(0.2, 0.25).refreshBody();
 
         //left half, left-right
         
-        jumpArray.push(jumpSprites.create(37.5*2+25, uwu.scale.height-110, 'platform'));
-        jumpArray[3].setScale(0.1, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+25, uwu.scale.height-110, 'platform'));
+        jumptyDumptyGO[3].setScale(0.1, 0.1).refreshBody();
 
-        jumpArray.push(jumpSprites.create(37.5*2-25, uwu.scale.height-205, 'platform'));
-        jumpArray[4].setScale(0.1, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2-25, uwu.scale.height-205, 'platform'));
+        jumptyDumptyGO[4].setScale(0.1, 0.1).refreshBody();
 
-        basicArray.push(basicSprites.create(37.5*2+25*2+12.5, uwu.scale.height-200, 'platform'));
-        basicArray[2].setScale(0.05, 9/10).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+25*2+12.5, uwu.scale.height-200, 'platform'));
+        banananananananananananananaWuNana[2].setScale(0.05, 9/10).refreshBody();
 
-        basicArray.push(basicSprites.create(37.5*2+87.5*2-12.5*2, uwu.scale.height-90, 'platform'));
-        basicArray[3].setScale(0.05, 0.3).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+87.5*2-12.5*2, uwu.scale.height-90, 'platform'));
+        banananananananananananananaWuNana[3].setScale(0.05, 0.3).refreshBody();
         
-        basicArray.push(basicSprites.create(37.5*2+25*2+25, uwu.scale.height-105, 'platform'));
-        basicArray[4].setScale(0.1, 0.05).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+25*2+25, uwu.scale.height-105, 'platform'));
+        banananananananananananananaWuNana[4].setScale(0.1, 0.05).refreshBody();
         
-        speedArray.push(speedSprites.create(37.5*2+25*2+12.5+62.5, uwu.scale.height-240, 'platform'));
-        speedArray[2].setScale(0.2, 0.1).refreshBody();
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+25*2+12.5+62.5, uwu.scale.height-240, 'platform'));
+        nya[2].setScale(0.2, 0.1).refreshBody();
 
-        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5, uwu.scale.height-260, 'platform'));
-        basicArray[5].setScale(0.05, 0.3).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+25*2+62.5*2+12.5, uwu.scale.height-260, 'platform'));
+        banananananananananananananaWuNana[5].setScale(0.05, 0.3).refreshBody();
 
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5, uwu.scale.height-100, 'platform'));
-        jumpArray[5].setScale(0.15, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5*2+37.5, uwu.scale.height-100, 'platform'));
+        jumptyDumptyGO[5].setScale(0.15, 0.1).refreshBody();
         
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, uwu.scale.height-190, 'platform'));
-        jumpArray[6].setScale(0.15, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, uwu.scale.height-190, 'platform'));
+        jumptyDumptyGO[6].setScale(0.15, 0.1).refreshBody();
         
-        jumpArray.push(jumpSprites.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-280, 'platform'));
-        jumpArray[7].setScale(0.15, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-280, 'platform'));
+        jumptyDumptyGO[7].setScale(0.15, 0.1).refreshBody();
         
 
 
         //right half, left-right
 
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*2, uwu.scale.height-280, 'platform'));
-        jumpArray[8].setScale(0.1, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5*2+37.5*2+25*2, uwu.scale.height-280, 'platform'));
+        jumptyDumptyGO[8].setScale(0.1, 0.1).refreshBody();
         
-        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-225, 'platform'));
-        basicArray[6].setScale(0.05, 0.45).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-225, 'platform'));
+        banananananananananananananaWuNana[6].setScale(0.05, 0.45).refreshBody();
         
-        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-92.5, 'platform'));
-        basicArray[7].setScale(0.05, 0.35).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+25*2+62.5*2+12.5+200, uwu.scale.height-92.5, 'platform'));
+        banananananananananananananaWuNana[7].setScale(0.05, 0.35).refreshBody();
 
-        basicArray.push(basicSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, uwu.scale.height-280, 'platform'));
-        basicArray[8].setScale(0.2, 0.1).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50, uwu.scale.height-280, 'platform'));
+        banananananananananananananaWuNana[8].setScale(0.2, 0.1).refreshBody();
         
-        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5, uwu.scale.height-245, 'platform'));
-        basicArray[9].setScale(0.05, 0.45).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5, uwu.scale.height-245, 'platform'));
+        banananananananananananananaWuNana[9].setScale(0.05, 0.45).refreshBody();
 
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+50, uwu.scale.height-200, 'platform'));
-        jumpArray[9].setScale(0.3, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+50, uwu.scale.height-200, 'platform'));
+        jumptyDumptyGO[9].setScale(0.3, 0.1).refreshBody();
         
-        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, uwu.scale.height-250, 'platform'));
-        basicArray[10].setScale(0.05, 0.4).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+25*2+62.5*2+12.5*2+200+112.5+125, uwu.scale.height-250, 'platform'));
+        banananananananananananananaWuNana[10].setScale(0.05, 0.4).refreshBody();
 
-        basicArray.push(basicSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, uwu.scale.height-125, 'platform'));
-        basicArray[11].setScale(0.1, 0.1).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+50+25, uwu.scale.height-125, 'platform'));
+        banananananananananananananaWuNana[11].setScale(0.1, 0.1).refreshBody();
         
-        basicArray.push(basicSprites.create(37.5*2+25*2+62.5*2+12.5+200*2, uwu.scale.height-92.5, 'platform'));
-        basicArray[12].setScale(0.05, 0.35).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(37.5*2+25*2+62.5*2+12.5+200*2, uwu.scale.height-92.5, 'platform'));
+        banananananananananananananaWuNana[12].setScale(0.05, 0.35).refreshBody();
 
-        basicArray.push(basicSprites.create(uwu.scale.width-10, uwu.scale.height-25, 'platform'));
-        basicArray[13].setScale(0.05, 0.35).refreshBody();
+        banananananananananananananaWuNana.push(tapPlainsFor1White.create(uwu.scale.width-10, uwu.scale.height-25, 'platform'));
+        banananananananananananananaWuNana[13].setScale(0.05, 0.35).refreshBody();
         
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-150, 'platform'));
-        jumpArray[10].setScale(0.05, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-150, 'platform'));
+        jumptyDumptyGO[10].setScale(0.05, 0.1).refreshBody();
         
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-225, 'platform'));
-        jumpArray[11].setScale(0.05, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-225, 'platform'));
+        jumptyDumptyGO[11].setScale(0.05, 0.1).refreshBody();
         
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-340, 'platform'));
-        jumpArray[12].setScale(0.05, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-340, 'platform'));
+        jumptyDumptyGO[12].setScale(0.05, 0.1).refreshBody();
 
         //in the wrong place
-        jumpArray.push(jumpSprites.create(37.5*2-25, uwu.scale.height-340, 'platform'));
-        jumpArray[13].setScale(0.1, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2-25, uwu.scale.height-340, 'platform'));
+        jumptyDumptyGO[13].setScale(0.1, 0.1).refreshBody();
 //skyting
 
-        speedArray.push(speedSprites.create(37.5*2+25*2+12.5+62.5, uwu.scale.height-400, 'platform'));
-        speedArray[3].setScale(0.2, 0.1).refreshBody();
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+25*2+12.5+62.5, uwu.scale.height-400, 'platform'));
+        nya[3].setScale(0.2, 0.1).refreshBody();
 
-        jumpArray.push(jumpSprites.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-440, 'platform'));
-        jumpArray[14].setScale(0.15, 0.1).refreshBody();
+        jumptyDumptyGO.push(overused.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-440, 'platform'));
+        jumptyDumptyGO[14].setScale(0.1, 0.1).refreshBody();
         
-        speedArray.push(speedSprites.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-525, 'platform'));
-        speedArray[4].setScale(0.15, 0.1).refreshBody();
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+25*2+62.5*2+12.5*2+37.5, uwu.scale.height-525, 'platform'));
+        nya[4].setScale(0.1, 0.1).refreshBody();
 
-        speedArray.push(speedSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, uwu.scale.height-525, 'platform'));
-        speedArray[5].setScale(0.1, 0.1).refreshBody();
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5, uwu.scale.height-525, 'platform'));
+        nya[5].setScale(0.1, 0.1).refreshBody();
         
-        speedArray.push(speedSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5+100, uwu.scale.height-525, 'platform'));
-        speedArray[6].setScale(0.15, 0.1).refreshBody();
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+12.5+100, uwu.scale.height-525, 'platform'));
+        nya[6].setScale(0.1, 0.1).refreshBody();
         
-        jumpArray.push(jumpSprites.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-420, 'platform'));
-        jumpArray[15].setScale(0.05, 0.1).refreshBody();
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+100*2-10, uwu.scale.height-420, 'platform'));
+        nya[7].setScale(0.05, 0.1).refreshBody();
+
+        nya.push(NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.create(37.5*2+87.5*2+37.5*2+37.5*2+25*3+62.5*2+50+12.5, uwu.scale.height-475, 'platform'));
+        nya[8].setScale(0.15, 0.1).refreshBody();
 
 
-
-        speedSprites.setTint(0xeaa500);
-        basicSprites.setTint(0xdadada);
-        jumpSprites.setTint(0xa0a0ea);
+        NYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM.setTint(0xfaa500);
+        tapPlainsFor1White.setTint(0xdadada);
+        overused.setTint(0xa0a0ea);
     }
 //please help me
 
@@ -456,12 +458,12 @@
         if (earwax.body.touching.down) {
         //If the player is on the ground, the player can jump
         earwax.setVelocityY(-400 + earwax.jump);
-        earwax.currentJumps = 1;
+        earwax.doNotDisturb = 1;
         jumpSound.play()
-        } else if (earwax.currentJumps < earwax.Beans) {
+        } else if (earwax.doNotDisturb < earwax.Beans) {
         //If the player is not on the ground but has an available air jump, use that jump
         earwax.setVelocityY(-300);
-        earwax.currentJumps = 2;
+        earwax.doNotDisturb = 2;
         jumpSound.play()
         }
     }
@@ -470,12 +472,12 @@
         if (nosehairs.body.touching.down) {
         //If the player is on the ground, the player can jump
         nosehairs.setVelocityY(-400 + nosehairs.jump);
-        nosehairs.currentJumps = 1;
+        nosehairs.doNotDisturb = 1;
         jumpSound.play()
-        } else if (nosehairs.currentJumps < nosehairs.Beans) {
+        } else if (nosehairs.doNotDisturb < nosehairs.Beans) {
         //If the player is not on the ground but has an available air jump, use that jump
         nosehairs.setVelocityY(-300);
-        nosehairs.currentJumps = 2;
+        nosehairs.doNotDisturb = 2;
         jumpSound.play()
         }
     }
@@ -510,14 +512,14 @@
             nosehairs.disableBody(true, false);
             this.cameras.main.setZoom(1);
             if(Nike){
-                countdown.setText("Player 2 wins!")
+                whereforeArtThouMyRomeo.setText("Player 2 wins!")
             }
             if(JustDoIt){
-                countdown.setText("Player 1 wins!")
+                whereforeArtThouMyRomeo.setText("Player 1 wins!")
             }
             document.getElementById("timer").innerHTML = "Game End"
         }else{
-            if(count===5){
+            if(count===4){
                 alarmSound.play()
             }
             this.time.delayedCall(1000, uwuEnd.bind(this, count-1), null, this);
